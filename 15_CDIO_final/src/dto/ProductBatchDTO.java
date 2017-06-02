@@ -1,6 +1,12 @@
 package dto;
 
-public class ProductBatchDTO {
+import java.io.Serializable;
+
+public class ProductBatchDTO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2239800485607431112L;
 	private int productBatchID;
 	private String recipeID;
 	private String createdDate;

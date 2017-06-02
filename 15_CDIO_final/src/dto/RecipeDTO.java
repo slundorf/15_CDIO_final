@@ -1,8 +1,13 @@
 package dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RecipeDTO {
+public class RecipeDTO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2838706327250754989L;
 	private int recipeID;
 	private String recipeName;
 	private List<RecipeComponentDTO> components;
