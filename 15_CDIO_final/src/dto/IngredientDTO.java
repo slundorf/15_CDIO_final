@@ -1,6 +1,12 @@
 package dto;
 
-public class IngredientDTO {
+import java.io.Serializable;
+
+public class IngredientDTO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5595492191741566407L;
 	private int ingredientID;
 	private String ingredientName;
 	private String supplier;
