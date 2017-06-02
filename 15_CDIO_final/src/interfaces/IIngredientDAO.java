@@ -4,9 +4,7 @@ import java.util.List;
 
 import dto.IngredientDTO;
 
-
-
-public interface IIngridientDAO {
+public interface IIngredientDAO {
 
 	    IngredientDTO getIngredient(int ingredientID) throws DALException;
 	    List<IngredientDTO> getIngredientList() throws DALException;
@@ -14,3 +12,4 @@ public interface IIngridientDAO {
 	    void updateIngredient(IngredientDTO ingredient) throws DALException;
 
 }
+
