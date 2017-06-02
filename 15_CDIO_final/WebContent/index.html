@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hello Test</title>
+<script src="jquery-3.2.1.js"></script>
+<script>
+$(document).ready(function() {
+	$('#button').click(function() {
+		$.ajax({
+			url : 'rest/hello',
+			type : 'GET',
+			success : function(data){
+				$('#mydiv').html(data);
+			}
+		});
+		return false;
+	});
+});
+</script>
+</head>
+<body>
+
+<input type="button" id="button" value="Klik her">
+<div id="mydiv">Tryk på knappen for at skifte teksten</div>
+
+</body>
+</html>
