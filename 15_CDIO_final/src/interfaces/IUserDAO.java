@@ -7,8 +7,29 @@ import exceptions.DALException;
 
 
 public interface IUserDAO {
-	UserDTO getUser(int oprId) throws DALException;
+	/**
+	 * 
+	 * @param userID
+	 * @return user with specified userID
+	 * @throws DALException
+	 */
+	UserDTO getUser(int userID) throws DALException;
+	/**
+	 * 
+	 * @return list of all users
+	 * @throws DALException
+	 */
 	List<UserDTO> getUserList() throws DALException;
-	void createUser(UserDTO opr) throws DALException;
-	void updateUser(UserDTO opr) throws DALException;
+	/**
+	 * 
+	 * @param user
+	 * @throws DALException
+	 */
+	void createUser(UserDTO user) throws DALException;
+	/**
+	 * 
+	 * @param user
+	 * @throws DALException
+	 */
+	void updateUser(UserDTO user) throws DALException;
 }

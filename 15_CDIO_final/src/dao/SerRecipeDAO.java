@@ -1,87 +1,51 @@
 package dao;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.StreamCorruptedException;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
 import dto.RecipeDTO;
 import exceptions.DALException;
 import interfaces.IRecipeDAO;
 
-public class SerRecipeDAO implements IRecipeDAO{
+public class SerRecipeDAO extends SerDAO<RecipeDTO> implements IRecipeDAO{ 
 	
-	private List<RecipeDTO> recepies = new ArrayList<RecipeDTO>();
-	private final String pathName;
-
 	public SerRecipeDAO(){
-		pathName="RecipeDB.ser";
+		super("SerFiles/RecipeDB.ser");
 	}
-	/**
-	 * 
-	 * @param recipeID
-	 * @return Recipe with specified recipeID
-	 * @throws DALException
-	 */
+	
 	@Override
 	public RecipeDTO getRecipe(int recipeID) throws DALException {
 		loadInfo();
-		if(recepies.size() == 0)
+		if(list.size() == 0)
 			throw new DALException("The database is empty.");
-		for(int i = 0; i < recepies.size(); i++) {
-			if (recepies.get(i).getRecipeID() == recipeID) {
-				return recepies.get(i);
+		for(int i = 0; i < list.size(); i++) {
+			if (list.get(i).getRecipeID() == recipeID) {
+				return list.get(i);
 			}
 		}
 		throw new DALException("No recipe has been found with id: " + recipeID);
 	}
-	/**
-	 * 
-	 * @return A list of all recepies
-	 * @throws DALException
-	 */
+
 	@Override
 	public List<RecipeDTO> getRecipeList() throws DALException {
 		loadInfo();
-		if(recepies.size() == 0)
+		if(list.size() == 0)
 			throw new DALException("There are no recepies in this database");
-		return recepies;
+		return list;
 	}
-	/**
-	 * Creates the recipe given as parameter.
-	 * @param recipe
-	 * @throws DALException
-	 */
-	
+
 	@Override
 	public void createRecipe(RecipeDTO recipe) throws DALException {
 		loadInfo();
-		recepies.add(recipe);
+		list.add(recipe);
 		saveInfo();
 	}
-	/**
-	 * Updates the recipe, given as parameter.
-	 * @param recipe
-	 * @throws DALException
-	 */
+
 	@Override
 	public void updateRecipe(RecipeDTO recipe) throws DALException {
 		loadInfo();
-		for(int i = 0; i< recepies.size(); i++) {
-			if(recipe.getRecipeID() == recepies.get(i).getRecipeID()) {
-				recepies.remove(i);
-				recepies.add(recipe);
+		for(int i = 0; i< list.size(); i++) {
+			if(recipe.getRecipeID() == list.get(i).getRecipeID()) {
+				list.remove(i);
+				list.add(recipe);
 			}
 		}
 	}
