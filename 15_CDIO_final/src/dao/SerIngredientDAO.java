@@ -1,146 +1,54 @@
 package dao;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.StreamCorruptedException;
-import java.util.ArrayList;
 import java.util.List;
-
 import dto.IngredientDTO;
 import exceptions.DALException;
 import interfaces.IIngredientDAO;
 
-public class SerIngredientDAO implements IIngredientDAO {
+public class SerIngredientDAO extends SerDAO<IngredientDTO> implements IIngredientDAO {
 	
-	private List<IngredientDTO> ingredients = new ArrayList<IngredientDTO>();
-	private final String pathName;
+	
 	
 	public SerIngredientDAO(){
-		pathName="IngredientDB.ser";
+		super("IngredientDB.ser");
 	}
-	
-	/**
-	 * 
-	 * @param ingredientID
-	 * @return Ingredient with specified id
-	 * @throws DALException
-	 */
 	@Override
 	public IngredientDTO getIngredient(int ingredientID) throws DALException {
 			loadInfo();
-			if (ingredients.size() == 0)
+			if (list.size() == 0)
 				throw new DALException("The database is empty.");
-			for (int i = 0; i < ingredients.size(); i++) {
-				if (ingredients.get(i).getIngredientID() == ingredientID) {
-					return ingredients.get(i);
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).getIngredientID() == ingredientID) {
+					return list.get(i);
 				}
 			}
 			throw new DALException("No ingredient has been found with id: " + ingredientID);
 		}
 
-	
-	/**
-	 * 
-	 * @return A list of all ingredients
-	 * @throws DALException
-	 */
 	@Override
 	public List<IngredientDTO> getIngredientList() throws DALException {
 		loadInfo();
-		if (ingredients.size() == 0)
+		if (list.size() == 0)
 			throw new DALException("There are no ingredients in the database.");
-		return ingredients;
+		return list;
 	}
 	
-	/**
-	 * Creates the Ingredient given as parameter.
-	 * @param ingredient
-	 * @throws DALException
-	 */
 	@Override
 	public void createIngredient(IngredientDTO ingredient) throws DALException {
 		loadInfo();
-		ingredients.add(ingredient);
+		list.add(ingredient);
 		saveInfo();
 	}
 
-	/**
-	 * Updates the ingredient given as parameter.
-	 * @param ingredient
-	 * @throws DALException
-	 */
 	@Override
 	public void updateIngredient(IngredientDTO ingredient) throws DALException {
 		loadInfo();
-		for (int i = 0; i < ingredients.size(); i++) {
-			if (ingredient.getIngredientID() == ingredients.get(i).getIngredientID()) {
-				ingredients.remove(i);
-				ingredients.add(ingredient);
+		for (int i = 0; i < list.size(); i++) {
+			if (ingredient.getIngredientID() == list.get(i).getIngredientID()) {
+				list.remove(i);
+				list.add(ingredient);
 			}
 		}
 		saveInfo();
 	}
-		
-	/**
-	 * Loads the ingredients arraylist
-	 */
-	@SuppressWarnings("unchecked")
-	public void loadInfo() {
-
-		try {
-			InputStream file = new FileInputStream(pathName);
-			InputStream buffer = new BufferedInputStream(file);
-			ObjectInput input = new ObjectInputStream(buffer);
-			ingredients = (ArrayList<IngredientDTO>) input.readObject();
-			if (ingredients.equals(null))
-				ingredients = new ArrayList<IngredientDTO>();
-			input.close();
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (EOFException e) {
-			ingredients = new ArrayList<IngredientDTO>();
-		} catch (StreamCorruptedException e) {
-			System.out.println("The file is currupted.");
-			e.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * saves the ingredient arraylist to the .ser file.
-	 */
-	public void saveInfo() {
-		try {
-			OutputStream file = new FileOutputStream(pathName);
-			OutputStream buffer = new BufferedOutputStream(file);
-			ObjectOutput output = new ObjectOutputStream(buffer);
-			// ObjectOutputStream oos = new ObjectOutputStream(new
-			// FileOutputStream(new File("UserInfo.ser")));
-			output.writeObject(ingredients);
-			// close the writing.
-			output.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-
 }
