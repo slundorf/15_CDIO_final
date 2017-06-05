@@ -31,6 +31,12 @@ public class SerProductBatchDAO implements IProductBatchDAO {
 		pathName="productBatchDB.ser";
 	}
 
+	/**
+	 * 
+	 * @param pbId (productBatch id)
+	 * @return Product Batch with specified id
+	 * @throws DALException
+	 */
 	@Override
 	public ProductBatchDTO getProductBatch(int pbId) throws DALException {
 		loadInfo();
@@ -44,6 +50,11 @@ public class SerProductBatchDAO implements IProductBatchDAO {
 		throw new DALException("No product batch has been found with id: " + pbId);
 	}
 
+	/**
+	 * 
+	 * @return A list of all product batches
+	 * @throws DALException
+	 */
 	@Override
 	public List<ProductBatchDTO> getProductBatchList() throws DALException {
 		loadInfo();
@@ -52,14 +63,24 @@ public class SerProductBatchDAO implements IProductBatchDAO {
 		return pbs;
 	}
 
+	/**
+	 * Creates the Product Batch given as parameter.
+	 * @param productbatch
+	 * @throws DALException
+	 */
 	@Override
 	public void createProductBatch(ProductBatchDTO productbatch) throws DALException {
 		loadInfo();
 		pbs.add(productbatch);
-		saveInfo();// TODO Auto-generated method stub
+		saveInfo();
 		
 	}
 
+	/**
+	 * Updates the product batch, given as parameter.
+	 * @param productbatch
+	 * @throws DALException
+	 */
 	@Override
 	public void updateProductBatch(ProductBatchDTO productbatch) throws DALException {
 		loadInfo();
@@ -72,6 +93,9 @@ public class SerProductBatchDAO implements IProductBatchDAO {
 		saveInfo();
 	}
 	
+	/**
+	 * Loads the product batch arraylist
+	 */
 	@SuppressWarnings("unchecked")
 	public void loadInfo() {
 
@@ -99,6 +123,10 @@ public class SerProductBatchDAO implements IProductBatchDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * saves the product batch arraylist to the .ser file.
+	 */
 	public void saveInfo() {
 		try {
 			OutputStream file = new FileOutputStream(pathName);

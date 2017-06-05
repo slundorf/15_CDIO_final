@@ -11,6 +11,6 @@ public interface IIngredientBatchDAO {
     List<IngredientBatchDTO> getIngredientBatchList() throws DALException;
     List<IngredientBatchDTO> getIngredientBatchList(int ingredientId) throws DALException;
     void createIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException;
-    void updateRaavareBatch(IngredientBatchDTO ingredientBatch) throws DALException;
+    void updateIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException;
 
 }
