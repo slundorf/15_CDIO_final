@@ -9,15 +9,15 @@ public class ProductBatchDTO implements Serializable{
 	private static final long serialVersionUID = -2239800485607431112L;
 	private int productBatchID;
 	private String recipeID;
-	private String productName;
+	private String productBatchName;
 	private String createdDate;
 	private String status;
 	
 	public ProductBatchDTO(){}
-	public ProductBatchDTO(int productBatchID, String recipeID, String productName, String createdDate,String status){
+	public ProductBatchDTO(int productBatchID, String recipeID, String productBatchName, String createdDate,String status){
 		this.setProductBatchID(productBatchID);
 		this.setRecipeID(recipeID);
-		this.setProductName(productName);
+		this.setProductBatchName(productBatchName);
 		this.setCreatedDate(createdDate);
 		this.setStatus(status);
 	}
@@ -48,14 +48,14 @@ public class ProductBatchDTO implements Serializable{
 	/**
 	 * @return the productName
 	 */
-	public String getProductName() {
-		return productName;
+	public String getProductBatchName() {
+		return productBatchName;
 	}
 	/**
-	 * @param productName the productName to set
+	 * @param productBatchName the productName to set
 	 */
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setProductBatchName(String productBatchName) {
+		this.productBatchName = productBatchName;
 	}
 	/**
 	 * @return the createdDate
