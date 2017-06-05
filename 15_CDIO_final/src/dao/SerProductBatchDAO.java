@@ -19,7 +19,7 @@ import java.util.List;
 
 import dto.IngredientDTO;
 import dto.ProductBatchDTO;
-import interfaces.DALException;
+import exceptions.DALException;
 import interfaces.IProductBatchDAO;
 
 public class SerProductBatchDAO implements IProductBatchDAO {
