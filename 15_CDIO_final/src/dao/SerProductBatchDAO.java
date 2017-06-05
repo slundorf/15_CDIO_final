@@ -18,82 +18,83 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dto.IngredientDTO;
+import dto.ProductBatchDTO;
 import exceptions.DALException;
-import interfaces.IIngredientDAO;
+import interfaces.IProductBatchDAO;
 
-public class SerIngredientDAO implements IIngredientDAO {
+public class SerProductBatchDAO implements IProductBatchDAO {
 	
-	private List<IngredientDTO> ingredients = new ArrayList<IngredientDTO>();
+	private List<ProductBatchDTO> pbs = new ArrayList<ProductBatchDTO>();
 	private final String pathName;
 	
-	public SerIngredientDAO(){
-		pathName="IngredientDB.ser";
-	}
-	
-	/**
-	 * 
-	 * @param ingredientID
-	 * @return Ingredient with specified id
-	 * @throws DALException
-	 */
-	@Override
-	public IngredientDTO getIngredient(int ingredientID) throws DALException {
-			loadInfo();
-			if (ingredients.size() == 0)
-				throw new DALException("The database is empty.");
-			for (int i = 0; i < ingredients.size(); i++) {
-				if (ingredients.get(i).getIngredientID() == ingredientID) {
-					return ingredients.get(i);
-				}
-			}
-			throw new DALException("No ingredient has been found with id: " + ingredientID);
-		}
-
-	
-	/**
-	 * 
-	 * @return A list of all ingredients
-	 * @throws DALException
-	 */
-	@Override
-	public List<IngredientDTO> getIngredientList() throws DALException {
-		loadInfo();
-		if (ingredients.size() == 0)
-			throw new DALException("There are no ingredients in the database.");
-		return ingredients;
-	}
-	
-	/**
-	 * Creates the Ingredient given as parameter.
-	 * @param ingredient
-	 * @throws DALException
-	 */
-	@Override
-	public void createIngredient(IngredientDTO ingredient) throws DALException {
-		loadInfo();
-		ingredients.add(ingredient);
-		saveInfo();
+	public SerProductBatchDAO(){
+		pathName="productBatchDB.ser";
 	}
 
 	/**
-	 * Updates the ingredient given as parameter.
-	 * @param ingredient
+	 * 
+	 * @param pbId (productBatch id)
+	 * @return Product Batch with specified id
 	 * @throws DALException
 	 */
 	@Override
-	public void updateIngredient(IngredientDTO ingredient) throws DALException {
+	public ProductBatchDTO getProductBatch(int pbId) throws DALException {
 		loadInfo();
-		for (int i = 0; i < ingredients.size(); i++) {
-			if (ingredient.getIngredientID() == ingredients.get(i).getIngredientID()) {
-				ingredients.remove(i);
-				ingredients.add(ingredient);
+		if (pbs.size() == 0)
+			throw new DALException("The database is empty.");
+		for (int i = 0; i < pbs.size(); i++) {
+			if (pbs.get(i).getProductBatchID() == pbId) {
+				return pbs.get(i);
 			}
 		}
-		saveInfo();
+		throw new DALException("No product batch has been found with id: " + pbId);
 	}
+
+	/**
+	 * 
+	 * @return A list of all product batches
+	 * @throws DALException
+	 */
+	@Override
+	public List<ProductBatchDTO> getProductBatchList() throws DALException {
+		loadInfo();
+		if (pbs.size() == 0)
+			throw new DALException("There are no product batches in the database.");
+		return pbs;
+	}
+
+	/**
+	 * Creates the Product Batch given as parameter.
+	 * @param productbatch
+	 * @throws DALException
+	 */
+	@Override
+	public void createProductBatch(ProductBatchDTO productbatch) throws DALException {
+		loadInfo();
+		pbs.add(productbatch);
+		saveInfo();
 		
+	}
+
 	/**
-	 * Loads the ingredients arraylist
+	 * Updates the product batch, given as parameter.
+	 * @param productbatch
+	 * @throws DALException
+	 */
+	@Override
+	public void updateProductBatch(ProductBatchDTO productbatch) throws DALException {
+		loadInfo();
+		for (int i = 0; i < pbs.size(); i++) {
+			if (productbatch.getProductBatchID() == pbs.get(i).getProductBatchID()) {
+				pbs.remove(i);
+				pbs.add(productbatch);
+			}
+		}
+		saveInfo();
+	}
+	
+	/**
+	 * Loads the product batch arraylist
 	 */
 	@SuppressWarnings("unchecked")
 	public void loadInfo() {
@@ -102,15 +103,15 @@ public class SerIngredientDAO implements IIngredientDAO {
 			InputStream file = new FileInputStream(pathName);
 			InputStream buffer = new BufferedInputStream(file);
 			ObjectInput input = new ObjectInputStream(buffer);
-			ingredients = (ArrayList<IngredientDTO>) input.readObject();
-			if (ingredients.equals(null))
-				ingredients = new ArrayList<IngredientDTO>();
+			pbs = (ArrayList<ProductBatchDTO>) input.readObject();
+			if (pbs.equals(null))
+				pbs = new ArrayList<ProductBatchDTO>();
 			input.close();
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (EOFException e) {
-			ingredients = new ArrayList<IngredientDTO>();
+			pbs = new ArrayList<ProductBatchDTO>();
 		} catch (StreamCorruptedException e) {
 			System.out.println("The file is currupted.");
 			e.printStackTrace();
@@ -124,7 +125,7 @@ public class SerIngredientDAO implements IIngredientDAO {
 	}
 	
 	/**
-	 * saves the ingredient arraylist to the .ser file.
+	 * saves the product batch arraylist to the .ser file.
 	 */
 	public void saveInfo() {
 		try {
@@ -133,7 +134,7 @@ public class SerIngredientDAO implements IIngredientDAO {
 			ObjectOutput output = new ObjectOutputStream(buffer);
 			// ObjectOutputStream oos = new ObjectOutputStream(new
 			// FileOutputStream(new File("UserInfo.ser")));
-			output.writeObject(ingredients);
+			output.writeObject(pbs);
 			// close the writing.
 			output.close();
 		} catch (IOException e) {
@@ -141,6 +142,5 @@ public class SerIngredientDAO implements IIngredientDAO {
 			e.printStackTrace();
 		}
 	}
-
 
 }

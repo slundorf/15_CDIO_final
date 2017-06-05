@@ -3,6 +3,7 @@ package interfaces;
 import java.util.List;
 
 import dto.IngredientDTO;
+import exceptions.DALException;
 
 public interface IIngredientDAO {
 

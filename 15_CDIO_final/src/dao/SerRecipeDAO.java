@@ -1,5 +1,4 @@
 package dao;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.EOFException;
@@ -17,83 +16,77 @@ import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dto.IngredientDTO;
+import dto.RecipeDTO;
 import exceptions.DALException;
-import interfaces.IIngredientDAO;
+import interfaces.IRecipeDAO;
 
-public class SerIngredientDAO implements IIngredientDAO {
+public class SerRecipeDAO implements IRecipeDAO{
 	
-	private List<IngredientDTO> ingredients = new ArrayList<IngredientDTO>();
+	private List<RecipeDTO> recepies = new ArrayList<RecipeDTO>();
 	private final String pathName;
-	
-	public SerIngredientDAO(){
-		pathName="IngredientDB.ser";
+
+	public SerRecipeDAO(){
+		pathName="RecipeDB.ser";
 	}
-	
 	/**
 	 * 
-	 * @param ingredientID
-	 * @return Ingredient with specified id
+	 * @param recipeID
+	 * @return Recipe with specified recipeID
 	 * @throws DALException
 	 */
 	@Override
-	public IngredientDTO getIngredient(int ingredientID) throws DALException {
-			loadInfo();
-			if (ingredients.size() == 0)
-				throw new DALException("The database is empty.");
-			for (int i = 0; i < ingredients.size(); i++) {
-				if (ingredients.get(i).getIngredientID() == ingredientID) {
-					return ingredients.get(i);
-				}
+	public RecipeDTO getRecipe(int recipeID) throws DALException {
+		loadInfo();
+		if(recepies.size() == 0)
+			throw new DALException("The database is empty.");
+		for(int i = 0; i < recepies.size(); i++) {
+			if (recepies.get(i).getRecipeID() == recipeID) {
+				return recepies.get(i);
 			}
-			throw new DALException("No ingredient has been found with id: " + ingredientID);
 		}
-
-	
+		throw new DALException("No recipe has been found with id: " + recipeID);
+	}
 	/**
 	 * 
-	 * @return A list of all ingredients
+	 * @return A list of all recepies
 	 * @throws DALException
 	 */
 	@Override
-	public List<IngredientDTO> getIngredientList() throws DALException {
+	public List<RecipeDTO> getRecipeList() throws DALException {
 		loadInfo();
-		if (ingredients.size() == 0)
-			throw new DALException("There are no ingredients in the database.");
-		return ingredients;
+		if(recepies.size() == 0)
+			throw new DALException("There are no recepies in this database");
+		return recepies;
 	}
-	
 	/**
-	 * Creates the Ingredient given as parameter.
-	 * @param ingredient
+	 * Creates the recipe given as parameter.
+	 * @param recipe
 	 * @throws DALException
 	 */
+	
 	@Override
-	public void createIngredient(IngredientDTO ingredient) throws DALException {
+	public void createRecipe(RecipeDTO recipe) throws DALException {
 		loadInfo();
-		ingredients.add(ingredient);
+		recepies.add(recipe);
 		saveInfo();
 	}
-
 	/**
-	 * Updates the ingredient given as parameter.
-	 * @param ingredient
+	 * Updates the recipe, given as parameter.
+	 * @param recipe
 	 * @throws DALException
 	 */
 	@Override
-	public void updateIngredient(IngredientDTO ingredient) throws DALException {
+	public void updateRecipe(RecipeDTO recipe) throws DALException {
 		loadInfo();
-		for (int i = 0; i < ingredients.size(); i++) {
-			if (ingredient.getIngredientID() == ingredients.get(i).getIngredientID()) {
-				ingredients.remove(i);
-				ingredients.add(ingredient);
+		for(int i = 0; i< recepies.size(); i++) {
+			if(recipe.getRecipeID() == recepies.get(i).getRecipeID()) {
+				recepies.remove(i);
+				recepies.add(recipe);
 			}
 		}
-		saveInfo();
 	}
-		
 	/**
-	 * Loads the ingredients arraylist
+	 * Loads the recipe arraylist
 	 */
 	@SuppressWarnings("unchecked")
 	public void loadInfo() {
@@ -102,15 +95,15 @@ public class SerIngredientDAO implements IIngredientDAO {
 			InputStream file = new FileInputStream(pathName);
 			InputStream buffer = new BufferedInputStream(file);
 			ObjectInput input = new ObjectInputStream(buffer);
-			ingredients = (ArrayList<IngredientDTO>) input.readObject();
-			if (ingredients.equals(null))
-				ingredients = new ArrayList<IngredientDTO>();
+			recepies = (ArrayList<RecipeDTO>) input.readObject();
+			if (recepies.equals(null))
+				recepies = new ArrayList<RecipeDTO>();
 			input.close();
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (EOFException e) {
-			ingredients = new ArrayList<IngredientDTO>();
+			recepies = new ArrayList<RecipeDTO>();
 		} catch (StreamCorruptedException e) {
 			System.out.println("The file is currupted.");
 			e.printStackTrace();
@@ -122,9 +115,8 @@ public class SerIngredientDAO implements IIngredientDAO {
 			e.printStackTrace();
 		}
 	}
-	
 	/**
-	 * saves the ingredient arraylist to the .ser file.
+	 * saves the recipe arraylist to the .ser file.
 	 */
 	public void saveInfo() {
 		try {
@@ -133,7 +125,7 @@ public class SerIngredientDAO implements IIngredientDAO {
 			ObjectOutput output = new ObjectOutputStream(buffer);
 			// ObjectOutputStream oos = new ObjectOutputStream(new
 			// FileOutputStream(new File("UserInfo.ser")));
-			output.writeObject(ingredients);
+			output.writeObject(recepies);
 			// close the writing.
 			output.close();
 		} catch (IOException e) {
@@ -141,6 +133,4 @@ public class SerIngredientDAO implements IIngredientDAO {
 			e.printStackTrace();
 		}
 	}
-
-
 }

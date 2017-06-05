@@ -17,83 +17,76 @@ import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dto.IngredientDTO;
+import dto.RoleDTO;
 import exceptions.DALException;
-import interfaces.IIngredientDAO;
+import interfaces.IRoleDAO;
 
-public class SerIngredientDAO implements IIngredientDAO {
-	
-	private List<IngredientDTO> ingredients = new ArrayList<IngredientDTO>();
+public class SerRoleDAO implements IRoleDAO {
+	private List<RoleDTO> roles = new ArrayList<RoleDTO>();
 	private final String pathName;
 	
-	public SerIngredientDAO(){
-		pathName="IngredientDB.ser";
+	public SerRoleDAO(){
+	pathName="RoleDB.ser";	
 	}
-	
 	/**
 	 * 
-	 * @param ingredientID
-	 * @return Ingredient with specified id
+	 * @param roleID
+	 * @return Role with specified roleID
 	 * @throws DALException
 	 */
 	@Override
-	public IngredientDTO getIngredient(int ingredientID) throws DALException {
-			loadInfo();
-			if (ingredients.size() == 0)
-				throw new DALException("The database is empty.");
-			for (int i = 0; i < ingredients.size(); i++) {
-				if (ingredients.get(i).getIngredientID() == ingredientID) {
-					return ingredients.get(i);
-				}
+	public RoleDTO getRoles(int roleID) throws DALException {
+		loadInfo();
+		if(roles.size() == 0)
+			throw new DALException("The database is empty.");
+		for(int i = 0; i < roles.size(); i++) {
+			if (roles.get(i).getRoleID() == roleID) {
+				return roles.get(i);
 			}
-			throw new DALException("No ingredient has been found with id: " + ingredientID);
 		}
-
-	
+		throw new DALException("No roles have been found with id: " + roleID);
+	}
 	/**
 	 * 
-	 * @return A list of all ingredients
+	 * @return A list of all roles
 	 * @throws DALException
 	 */
 	@Override
-	public List<IngredientDTO> getIngredientList() throws DALException {
+	public List<RoleDTO> getRoleList() throws DALException {
 		loadInfo();
-		if (ingredients.size() == 0)
-			throw new DALException("There are no ingredients in the database.");
-		return ingredients;
+		if(roles.size() == 0)
+			throw new DALException("There are no roles in this database");
+		return roles;
 	}
-	
 	/**
-	 * Creates the Ingredient given as parameter.
-	 * @param ingredient
+	 * Creates the role given as parameter.
+	 * @param role
 	 * @throws DALException
 	 */
 	@Override
-	public void createIngredient(IngredientDTO ingredient) throws DALException {
+	public void createRole(RoleDTO Role) throws DALException {
 		loadInfo();
-		ingredients.add(ingredient);
+		roles.add(Role);
 		saveInfo();
+	}
+	/**
+	 * Updates the role, given as parameter.
+	 * @param role
+	 * @throws DALException
+	 */
+	@Override
+	public void updateRole(RoleDTO Role) throws DALException {
+		loadInfo();
+		for(int i = 0; i< roles.size(); i++) {
+			if(Role.getRoleID() == roles.get(i).getRoleID()) {
+				roles.remove(i);
+				roles.add(Role);
+			}
+		}
 	}
 
 	/**
-	 * Updates the ingredient given as parameter.
-	 * @param ingredient
-	 * @throws DALException
-	 */
-	@Override
-	public void updateIngredient(IngredientDTO ingredient) throws DALException {
-		loadInfo();
-		for (int i = 0; i < ingredients.size(); i++) {
-			if (ingredient.getIngredientID() == ingredients.get(i).getIngredientID()) {
-				ingredients.remove(i);
-				ingredients.add(ingredient);
-			}
-		}
-		saveInfo();
-	}
-		
-	/**
-	 * Loads the ingredients arraylist
+	 * Loads the role arraylist
 	 */
 	@SuppressWarnings("unchecked")
 	public void loadInfo() {
@@ -102,15 +95,15 @@ public class SerIngredientDAO implements IIngredientDAO {
 			InputStream file = new FileInputStream(pathName);
 			InputStream buffer = new BufferedInputStream(file);
 			ObjectInput input = new ObjectInputStream(buffer);
-			ingredients = (ArrayList<IngredientDTO>) input.readObject();
-			if (ingredients.equals(null))
-				ingredients = new ArrayList<IngredientDTO>();
+			roles = (ArrayList<RoleDTO>) input.readObject();
+			if (roles.equals(null))
+				roles = new ArrayList<RoleDTO>();
 			input.close();
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (EOFException e) {
-			ingredients = new ArrayList<IngredientDTO>();
+			roles = new ArrayList<RoleDTO>();
 		} catch (StreamCorruptedException e) {
 			System.out.println("The file is currupted.");
 			e.printStackTrace();
@@ -122,9 +115,8 @@ public class SerIngredientDAO implements IIngredientDAO {
 			e.printStackTrace();
 		}
 	}
-	
 	/**
-	 * saves the ingredient arraylist to the .ser file.
+	 * saves the role arraylist to the .ser file.
 	 */
 	public void saveInfo() {
 		try {
@@ -133,7 +125,7 @@ public class SerIngredientDAO implements IIngredientDAO {
 			ObjectOutput output = new ObjectOutputStream(buffer);
 			// ObjectOutputStream oos = new ObjectOutputStream(new
 			// FileOutputStream(new File("UserInfo.ser")));
-			output.writeObject(ingredients);
+			output.writeObject(roles);
 			// close the writing.
 			output.close();
 		} catch (IOException e) {
@@ -141,6 +133,5 @@ public class SerIngredientDAO implements IIngredientDAO {
 			e.printStackTrace();
 		}
 	}
-
 
 }
