@@ -1,8 +1,6 @@
 package dto;
 
 import java.io.Serializable;
-import java.util.List;
-
 public class UserDTO implements Serializable{
 	/**
 	 * 
@@ -14,6 +12,7 @@ public class UserDTO implements Serializable{
 	private String cpr;
 	private String password;
 	private RoleDTO role;
+	private boolean status;
 	
 	
 	/**
@@ -27,15 +26,17 @@ public class UserDTO implements Serializable{
 	 * @param ini
 	 * @param cpr
 	 * @param password
-	 * @param roles List of roles
+	 * @param role the role of the user
+	 * @param status true/false for active/inactive.
 	 */
-	public UserDTO(int userID,String userName, String ini, String cpr, String password, List<RoleDTO> roles){
+	public UserDTO(int userID,String userName, String ini, String cpr, String password, RoleDTO role, boolean status){
 		this.setUserID(userID);
 		this.setUserName(userName);
 		this.setIni(ini);
 		this.setCpr(cpr);
 		this.setPassword(password);
 		this.setRole(role);
+		this.setStatus(status);
 	}
 	/**
 	 * @return the userID
@@ -108,5 +109,17 @@ public class UserDTO implements Serializable{
 	 */
 	public void setRole(RoleDTO role) {
 		this.role = role;
+	}
+	/**
+	 * @return the status
+	 */
+	public boolean isStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 }
