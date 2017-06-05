@@ -113,7 +113,7 @@ public class SerIngredientBatchDAO implements IIngredientBatchDAO {
 	}
 	
 	/**
-	 * Loads the ingredient batch arraylist
+	 * Loads the ingredientbatch arraylist
 	 */
 	@SuppressWarnings("unchecked")
 	public void loadInfo() {
@@ -144,7 +144,7 @@ public class SerIngredientBatchDAO implements IIngredientBatchDAO {
 	}
 	
 	/**
-	 * saves the ingredient batch arraylist to the .ser file.
+	 * saves the ingredientbatch arraylist to the .ser file.
 	 */
 	public void saveInfo() {
 		try {
