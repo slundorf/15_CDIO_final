@@ -4,25 +4,29 @@
 <meta charset="UTF-8">
 <title>Hello Test</title>
 <script src="jquery-3.2.1.js"></script>
-<script>
-$(document).ready(function() {
-	$('#button').click(function() {
-		$.ajax({
-			url : 'rest/hello',
-			type : 'GET',
-			success : function(data){
-				$('#mydiv').html(data);
-			}
-		});
-		return false;
-	});
-});
-</script>
+<script src="jquery.min.js"></script>
+<script src="jquery.serialize-object.min.js"></script>
+
 </head>
 <body>
 
-<input type="button" id="button" value="Klik her">
-<div id="mydiv">Tryk på knappen for at skifte teksten</div>
+	<div id='container'>
+		<div id='text'>
+
+			<form id="loginForm">
+
+				<br /> <br /> <label for="usrName"></label> <input id="usrName"
+					name="Username" type="text" required placeholder="Username" value="admin">
+					<br /> <br /> <label for="pass"></label> <input id="pass"
+					name="Password" type="password" required placeholder="Password" value="root">
+					
+					<br /> <br /> <button id="loginButton">Login</button>
+			</form>
+
+		</div>
+	</div>
+
+<script src="main.js"></script>
 
 </body>
 </html>
