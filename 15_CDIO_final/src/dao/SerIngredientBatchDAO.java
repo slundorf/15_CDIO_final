@@ -31,6 +31,12 @@ public class SerIngredientBatchDAO implements IIngredientBatchDAO {
 		pathName="IngredientBatchDB.ser";
 	}
 
+	/**
+	 * 
+	 * @param ibId (ingredient batch id)
+	 * @return Ingredient Batch with specified ibId
+	 * @throws DALException
+	 */
 	@Override
 	public IngredientBatchDTO getIngredientBatch(int ibId) throws DALException {
 		loadInfo();
@@ -43,7 +49,12 @@ public class SerIngredientBatchDAO implements IIngredientBatchDAO {
 		}
 		throw new DALException("No Ingredient Batch has been found with id: " + ibId);
 	}
-
+	
+	/**
+	 * 
+	 * @return A list of all ingredient batches
+	 * @throws DALException
+	 */
 	@Override
 	public List<IngredientBatchDTO> getIngredientBatchList() throws DALException {
 		loadInfo();
@@ -52,6 +63,11 @@ public class SerIngredientBatchDAO implements IIngredientBatchDAO {
 		return ingrBatches;
 	}
 
+	/**
+	 * @param ingredientId 
+	 * @return A list of all ingredient batches that contains the ingredientId
+	 * @throws DALException
+	 */
 	@Override
 	public List<IngredientBatchDTO> getIngredientBatchList(int ingredientId) throws DALException {
 		loadInfo();
@@ -67,16 +83,25 @@ public class SerIngredientBatchDAO implements IIngredientBatchDAO {
 		}
 		return returnList;
 	}
-
+	/**
+	 * Creates the Ingredient Batch given as parameter.
+	 * @param ingredientBatch
+	 * @throws DALException
+	 */
 	@Override
 	public void createIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException {
 		loadInfo();
 		ingrBatches.add(ingredientBatch);
 		saveInfo();
 	}
-
+	
+	/**
+	 * Updates the ingredient batch, given as parameter.
+	 * @param ingredientBatch
+	 * @throws DALException
+	 */
 	@Override
-	public void updateRaavareBatch(IngredientBatchDTO ingredientBatch) throws DALException {
+	public void updateIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException {
 		loadInfo();
 		for (int i = 0; i < ingrBatches.size(); i++) {
 			if (ingredientBatch.getIngredientBatchID() == ingrBatches.get(i).getIngredientBatchID()) {
@@ -86,6 +111,10 @@ public class SerIngredientBatchDAO implements IIngredientBatchDAO {
 		}
 		saveInfo();
 	}
+	
+	/**
+	 * Loads the ingredient batch arraylist
+	 */
 	@SuppressWarnings("unchecked")
 	public void loadInfo() {
 
@@ -113,6 +142,10 @@ public class SerIngredientBatchDAO implements IIngredientBatchDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * saves the ingredient batch arraylist to the .ser file.
+	 */
 	public void saveInfo() {
 		try {
 			OutputStream file = new FileOutputStream(pathName);

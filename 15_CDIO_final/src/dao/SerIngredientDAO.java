@@ -30,6 +30,12 @@ public class SerIngredientDAO implements IIngredientDAO {
 		pathName="IngredientDB.ser";
 	}
 	
+	/**
+	 * 
+	 * @param ingredientID
+	 * @return Ingredient with specified id
+	 * @throws DALException
+	 */
 	@Override
 	public IngredientDTO getIngredient(int ingredientID) throws DALException {
 			loadInfo();
@@ -44,7 +50,11 @@ public class SerIngredientDAO implements IIngredientDAO {
 		}
 
 	
-
+	/**
+	 * 
+	 * @return A list of all ingredients
+	 * @throws DALException
+	 */
 	@Override
 	public List<IngredientDTO> getIngredientList() throws DALException {
 		loadInfo();
@@ -53,7 +63,11 @@ public class SerIngredientDAO implements IIngredientDAO {
 		return ingredients;
 	}
 	
-
+	/**
+	 * Creates the Ingredient given as parameter.
+	 * @param ingredient
+	 * @throws DALException
+	 */
 	@Override
 	public void createIngredient(IngredientDTO ingredient) throws DALException {
 		loadInfo();
@@ -61,6 +75,11 @@ public class SerIngredientDAO implements IIngredientDAO {
 		saveInfo();
 	}
 
+	/**
+	 * Updates the ingredient given as parameter.
+	 * @param ingredient
+	 * @throws DALException
+	 */
 	@Override
 	public void updateIngredient(IngredientDTO ingredient) throws DALException {
 		loadInfo();
@@ -73,7 +92,9 @@ public class SerIngredientDAO implements IIngredientDAO {
 		saveInfo();
 	}
 		
-	
+	/**
+	 * Loads the ingredients arraylist
+	 */
 	@SuppressWarnings("unchecked")
 	public void loadInfo() {
 
@@ -101,6 +122,10 @@ public class SerIngredientDAO implements IIngredientDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * saves the ingredient arraylist to the .ser file.
+	 */
 	public void saveInfo() {
 		try {
 			OutputStream file = new FileOutputStream(pathName);
