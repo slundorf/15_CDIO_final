@@ -12,12 +12,7 @@ public class SerIngredientBatchDAO extends SerDAO<IngredientBatchDTO> implements
 		super("IngredientBatchDB.ser");
 	}
 
-	/**
-	 * 
-	 * @param ibId (ingredient batch id)
-	 * @return Ingredient Batch with specified ibId
-	 * @throws DALException
-	 */
+
 	@Override
 	public IngredientBatchDTO getIngredientBatch(int ibId) throws DALException {
 		loadInfo();
@@ -31,11 +26,7 @@ public class SerIngredientBatchDAO extends SerDAO<IngredientBatchDTO> implements
 		throw new DALException("No Ingredient Batch has been found with id: " + ibId);
 	}
 	
-	/**
-	 * 
-	 * @return A list of all ingredient batches
-	 * @throws DALException
-	 */
+
 	@Override
 	public List<IngredientBatchDTO> getIngredientBatchList() throws DALException {
 		loadInfo();
@@ -44,11 +35,7 @@ public class SerIngredientBatchDAO extends SerDAO<IngredientBatchDTO> implements
 		return list;
 	}
 
-	/**
-	 * @param ingredientId 
-	 * @return A list of all ingredient batches that contains the ingredientId
-	 * @throws DALException
-	 */
+
 	@Override
 	public List<IngredientBatchDTO> getIngredientBatchList(int ingredientId) throws DALException {
 		loadInfo();
@@ -64,11 +51,7 @@ public class SerIngredientBatchDAO extends SerDAO<IngredientBatchDTO> implements
 		}
 		return returnList;
 	}
-	/**
-	 * Creates the Ingredient Batch given as parameter.
-	 * @param ingredientBatch
-	 * @throws DALException
-	 */
+
 	@Override
 	public void createIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException {
 		loadInfo();
@@ -76,11 +59,6 @@ public class SerIngredientBatchDAO extends SerDAO<IngredientBatchDTO> implements
 		saveInfo();
 	}
 	
-	/**
-	 * Updates the ingredient batch, given as parameter.
-	 * @param ingredientBatch
-	 * @throws DALException
-	 */
 	@Override
 	public void updateIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException {
 		loadInfo();

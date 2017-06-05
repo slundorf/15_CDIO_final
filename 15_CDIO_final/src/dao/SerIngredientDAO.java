@@ -12,13 +12,6 @@ public class SerIngredientDAO extends SerDAO<IngredientDTO> implements IIngredie
 	public SerIngredientDAO(){
 		super("IngredientDB.ser");
 	}
-	
-	/**
-	 * 
-	 * @param ingredientID
-	 * @return Ingredient with specified id
-	 * @throws DALException
-	 */
 	@Override
 	public IngredientDTO getIngredient(int ingredientID) throws DALException {
 			loadInfo();
@@ -32,12 +25,6 @@ public class SerIngredientDAO extends SerDAO<IngredientDTO> implements IIngredie
 			throw new DALException("No ingredient has been found with id: " + ingredientID);
 		}
 
-	
-	/**
-	 * 
-	 * @return A list of all ingredients
-	 * @throws DALException
-	 */
 	@Override
 	public List<IngredientDTO> getIngredientList() throws DALException {
 		loadInfo();
@@ -46,11 +33,6 @@ public class SerIngredientDAO extends SerDAO<IngredientDTO> implements IIngredie
 		return list;
 	}
 	
-	/**
-	 * Creates the Ingredient given as parameter.
-	 * @param ingredient
-	 * @throws DALException
-	 */
 	@Override
 	public void createIngredient(IngredientDTO ingredient) throws DALException {
 		loadInfo();
@@ -58,11 +40,6 @@ public class SerIngredientDAO extends SerDAO<IngredientDTO> implements IIngredie
 		saveInfo();
 	}
 
-	/**
-	 * Updates the ingredient given as parameter.
-	 * @param ingredient
-	 * @throws DALException
-	 */
 	@Override
 	public void updateIngredient(IngredientDTO ingredient) throws DALException {
 		loadInfo();
