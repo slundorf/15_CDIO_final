@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dto.IngredientDTO;
-import exeptions.DALException;
+import exceptions.DALException;
 import interfaces.IIngredientDAO;
 
 public class SerIngredientDAO implements IIngredientDAO {
