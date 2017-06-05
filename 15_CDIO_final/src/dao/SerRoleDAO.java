@@ -1,4 +1,5 @@
 package dao;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.EOFException;
@@ -16,77 +17,76 @@ import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dto.RecipeDTO;
+import dto.RoleDTO;
 import exceptions.DALException;
-import interfaces.IRecipeDAO;
+import interfaces.IRoleDAO;
 
-public class SerRecipeDAO implements IRecipeDAO{
-	
-	private List<RecipeDTO> recepies = new ArrayList<RecipeDTO>();
+public class SerRoleDAO implements IRoleDAO {
+	private List<RoleDTO> roles = new ArrayList<RoleDTO>();
 	private final String pathName;
-
-	public SerRecipeDAO(){
-		pathName="RecipeDB.ser";
+	
+	public SerRoleDAO(){
+	pathName="RoleDB.ser";	
 	}
 	/**
 	 * 
-	 * @param recipeID
-	 * @return Recipe with specified recipeID
+	 * @param roleID
+	 * @return Role with specified roleID
 	 * @throws DALException
 	 */
 	@Override
-	public RecipeDTO getRecipe(int recipeID) throws DALException {
+	public RoleDTO getRoles(int roleID) throws DALException {
 		loadInfo();
-		if(recepies.size() == 0)
+		if(roles.size() == 0)
 			throw new DALException("The database is empty.");
-		for(int i = 0; i < recepies.size(); i++) {
-			if (recepies.get(i).getRecipeID() == recipeID) {
-				return recepies.get(i);
+		for(int i = 0; i < roles.size(); i++) {
+			if (roles.get(i).getRoleID() == roleID) {
+				return roles.get(i);
 			}
 		}
-		throw new DALException("No recipe has been found with id: " + recipeID);
+		throw new DALException("No roles have been found with id: " + roleID);
 	}
 	/**
 	 * 
-	 * @return A list of all recepies
+	 * @return A list of all roles
 	 * @throws DALException
 	 */
 	@Override
-	public List<RecipeDTO> getRecipeList() throws DALException {
+	public List<RoleDTO> getRoleList() throws DALException {
 		loadInfo();
-		if(recepies.size() == 0)
-			throw new DALException("There are no recepies in this database");
-		return recepies;
+		if(roles.size() == 0)
+			throw new DALException("There are no roles in this database");
+		return roles;
 	}
 	/**
-	 * Creates the recipe given as parameter.
-	 * @param recipe
+	 * Creates the role given as parameter.
+	 * @param role
 	 * @throws DALException
 	 */
-	
 	@Override
-	public void createRecipe(RecipeDTO recipe) throws DALException {
+	public void createRole(RoleDTO Role) throws DALException {
 		loadInfo();
-		recepies.add(recipe);
+		roles.add(Role);
 		saveInfo();
 	}
 	/**
-	 * Updates the recipe, given as parameter.
-	 * @param recipe
+	 * Updates the role, given as parameter.
+	 * @param role
 	 * @throws DALException
 	 */
 	@Override
-	public void updateRecipe(RecipeDTO recipe) throws DALException {
+	public void updateRole(RoleDTO Role) throws DALException {
 		loadInfo();
-		for(int i = 0; i< recepies.size(); i++) {
-			if(recipe.getRecipeID() == recepies.get(i).getRecipeID()) {
-				recepies.remove(i);
-				recepies.add(recipe);
+		for(int i = 0; i< roles.size(); i++) {
+			if(Role.getRoleID() == roles.get(i).getRoleID()) {
+				roles.remove(i);
+				roles.add(Role);
 			}
 		}
 	}
+
 	/**
-	 * Loads the recipe arraylist
+	 * Loads the role arraylist
 	 */
 	@SuppressWarnings("unchecked")
 	public void loadInfo() {
@@ -95,15 +95,15 @@ public class SerRecipeDAO implements IRecipeDAO{
 			InputStream file = new FileInputStream(pathName);
 			InputStream buffer = new BufferedInputStream(file);
 			ObjectInput input = new ObjectInputStream(buffer);
-			recepies = (ArrayList<RecipeDTO>) input.readObject();
-			if (recepies.equals(null))
-				recepies = new ArrayList<RecipeDTO>();
+			roles = (ArrayList<RoleDTO>) input.readObject();
+			if (roles.equals(null))
+				roles = new ArrayList<RoleDTO>();
 			input.close();
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (EOFException e) {
-			recepies = new ArrayList<RecipeDTO>();
+			roles = new ArrayList<RoleDTO>();
 		} catch (StreamCorruptedException e) {
 			System.out.println("The file is currupted.");
 			e.printStackTrace();
@@ -116,7 +116,7 @@ public class SerRecipeDAO implements IRecipeDAO{
 		}
 	}
 	/**
-	 * saves the recipe arraylist to the .ser file.
+	 * saves the role arraylist to the .ser file.
 	 */
 	public void saveInfo() {
 		try {
@@ -125,7 +125,7 @@ public class SerRecipeDAO implements IRecipeDAO{
 			ObjectOutput output = new ObjectOutputStream(buffer);
 			// ObjectOutputStream oos = new ObjectOutputStream(new
 			// FileOutputStream(new File("UserInfo.ser")));
-			output.writeObject(recepies);
+			output.writeObject(roles);
 			// close the writing.
 			output.close();
 		} catch (IOException e) {
@@ -133,4 +133,5 @@ public class SerRecipeDAO implements IRecipeDAO{
 			e.printStackTrace();
 		}
 	}
+
 }
