@@ -4,19 +4,18 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.List;
 
-import dao.SerProductBatchDAO;
-import dao.SerUserDAO;
 import dto.ProductBatchDTO;
 import dto.UserDTO;
 import interfaces.IProductBatchDAO;
 import interfaces.IUserDAO;
+import serDAO.SerProductBatchDAO;
+import serDAO.SerUserDAO;
 
 public class ScaleProcedure extends Thread {
 
 	String answerFromServer = null;
 	String answer;
 	boolean existed;
-	int i = 0;
 	double taraWeight;
 	double nettoWeight;
 	double bruttoWeight;
@@ -37,7 +36,45 @@ public class ScaleProcedure extends Thread {
 
 	public void ikkenogetnavnendnuregnermedrun() {
 		System.out.println("Hello from a thread!");
+		
+		while(true){
+		registrationOperator();
+		registrationProductBatch();
+		
+		weighingProcess("ingredient");
+		}
 
+	}
+
+	public String outputToServer(String outputToServer) {
+		try {
+			outToServer.println(outputToServer);
+			answerFromServer = inFromServer.readLine();
+			if (answerFromServer.startsWith("I4")) {
+				answerFromServer = inFromServer.readLine();
+			} else if (answerFromServer.startsWith("RM20 I")) {
+				answerFromServer = inFromServer.readLine();
+			}
+
+			// IF the message is the (RM 20 8 "TEXT" "" "&3") type, the
+			// following if statement is initiated.
+			// this is done because the RM type of message is answered two
+			// times, confirmation of message received,
+			// and then the answer from the user.
+			if (answerFromServer.startsWith("RM20 B")) {
+				answerFromServer = inFromServer.readLine();
+				return answerFromServer;
+			} else {
+				return answerFromServer;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error in outputToServer method");
+			return "";// this is only to fulfill compiler demands.
+		}
+	}
+	public void registrationOperator(){
+		
 		answer = outputToServer("RM20 8 \"Enter Operator-ID\" \"\" \"&3\"");
 		while (answer.equals("RM20 C")) {
 			answer = outputToServer("RM20 8 \"Enter Operator-ID\" \"\" \"&3\"");
@@ -55,7 +92,7 @@ public class ScaleProcedure extends Thread {
 		}
 
 		while (true) {
-			for (i = 0; i < UserArray.size(); i++) {
+			for (int i = 0; i < UserArray.size(); i++) {
 				existed = true;
 				if (answer.equals(String.valueOf(UserArray.get(i).getUserID()))) {
 					if (!UserArray.get(i).getRole().getRoleName().equals("Administrator")) {
@@ -79,7 +116,14 @@ public class ScaleProcedure extends Thread {
 				answer = answer.split("\"")[1];
 			}
 		}
-
+		
+	}
+	
+	public ProductBatchDTO registrationProductBatch(){
+		
+		ProductBatchDTO DTO = null; 
+		int i=0;
+		
 		answer = outputToServer("RM20 8 \"Enter Batch-ID\" \"\" \"&3\"");
 		while (answer.equals("RM20 C")) {
 			answer = outputToServer("RM20 8 \"Enter Batch-ID\" \"\" \"&3\"");
@@ -99,6 +143,7 @@ public class ScaleProcedure extends Thread {
 				if (answer.equals(String.valueOf(batchArray.get(i).getProductBatchID()))) {
 					answer = outputToServer(
 							"RM20 8 \"" + batchArray.get(i).getProductBatchName() + "?" + "\" \"\" \"&3\"");
+					DTO = batchArray.get(i);
 					break;
 				}
 				existed = false;
@@ -116,6 +161,10 @@ public class ScaleProcedure extends Thread {
 				answer = answer.split("\"")[1];
 			}
 		}
+	return DTO;
+	}
+	public void weighingProcess(String ingredient){
+		
 		answer = outputToServer("RM20 8 \"Unload weight\" \"\" \"&3\"");
 		// answer = answer.split("\"")[1];
 		while (true) {
@@ -213,35 +262,6 @@ public class ScaleProcedure extends Thread {
 				// inFromServer.readLine();
 				break;
 			}
-		}
-
-	}
-
-	public String outputToServer(String outputToServer) {
-		try {
-			outToServer.println(outputToServer);
-			answerFromServer = inFromServer.readLine();
-			if (answerFromServer.startsWith("I4")) {
-				answerFromServer = inFromServer.readLine();
-			} else if (answerFromServer.startsWith("RM20 I")) {
-				answerFromServer = inFromServer.readLine();
-			}
-
-			// IF the message is the (RM 20 8 "TEXT" "" "&3") type, the
-			// following if statement is initiated.
-			// this is done because the RM type of message is answered two
-			// times, confirmation of message received,
-			// and then the answer from the user.
-			if (answerFromServer.startsWith("RM20 B")) {
-				answerFromServer = inFromServer.readLine();
-				return answerFromServer;
-			} else {
-				return answerFromServer;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error in outputToServer method");
-			return "";// this is only to fulfill compiler demands.
 		}
 	}
 
