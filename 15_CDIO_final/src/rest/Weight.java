@@ -11,10 +11,17 @@ import javax.ws.rs.core.MediaType;
 @Path("weight")
 public class Weight {
 
-	@POST
+	@POST @Path("login")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public boolean loginUser() {
+		return true;
+	}
+	
+	@POST @Path("cu")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean createUser() {
 		return true;
 	}
 	
