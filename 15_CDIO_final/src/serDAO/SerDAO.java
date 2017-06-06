@@ -27,10 +27,10 @@ public abstract class SerDAO<E> {
 	
 	
 	/**
-	 * Loads the user arraylist
+	 * Loads the data arraylist
 	 */
 	@SuppressWarnings("unchecked")
-	public void loadInfo() {
+	protected void loadInfo() {
 
 		try {
 			InputStream file = new FileInputStream(pathName);
@@ -58,9 +58,9 @@ public abstract class SerDAO<E> {
 	}
 
 	/**
-	 * saves the user arraylist to the .ser file.
+	 * saves the data arraylist to the .ser file.
 	 */
-	public void saveInfo() {
+	protected void saveInfo() {
 		try {
 			OutputStream file = new FileOutputStream(pathName);
 			OutputStream buffer = new BufferedOutputStream(file);

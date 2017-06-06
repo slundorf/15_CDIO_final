@@ -7,10 +7,12 @@ import interfaces.IIngredientDAO;
 
 public class SerIngredientDAO extends SerDAO<IngredientDTO> implements IIngredientDAO {
 	
-	
+	public SerIngredientDAO(String pathName){
+		super(pathName);
+	}
 	
 	public SerIngredientDAO(){
-		super("IngredientDB.ser");
+		super("SerFiles/IngredientDB.ser");
 	}
 	@Override
 	public IngredientDTO getIngredient(int ingredientID) throws DALException {
