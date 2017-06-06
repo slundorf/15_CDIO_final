@@ -4,19 +4,18 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.List;
 
-import dao.SerProductBatchDAO;
-import dao.SerUserDAO;
 import dto.ProductBatchDTO;
 import dto.UserDTO;
 import interfaces.IProductBatchDAO;
 import interfaces.IUserDAO;
+import serDAO.SerProductBatchDAO;
+import serDAO.SerUserDAO;
 
 public class ScaleProcedure extends Thread {
 
 	String answerFromServer = null;
 	String answer;
 	boolean existed;
-	int i = 0;
 	double taraWeight;
 	double nettoWeight;
 	double bruttoWeight;
@@ -41,7 +40,7 @@ public class ScaleProcedure extends Thread {
 		while(true){
 		registrationOperator();
 		registrationProductBatch();
-	
+		
 		weighingProcess("ingredient");
 		}
 
@@ -93,7 +92,7 @@ public class ScaleProcedure extends Thread {
 		}
 
 		while (true) {
-			for (i = 0; i < UserArray.size(); i++) {
+			for (int i = 0; i < UserArray.size(); i++) {
 				existed = true;
 				if (answer.equals(String.valueOf(UserArray.get(i).getUserID()))) {
 					if (!UserArray.get(i).getRole().getRoleName().equals("Administrator")) {
@@ -120,7 +119,10 @@ public class ScaleProcedure extends Thread {
 		
 	}
 	
-	public void registrationProductBatch(){
+	public ProductBatchDTO registrationProductBatch(){
+		
+		ProductBatchDTO DTO = null; 
+		int i=0;
 		
 		answer = outputToServer("RM20 8 \"Enter Batch-ID\" \"\" \"&3\"");
 		while (answer.equals("RM20 C")) {
@@ -141,6 +143,7 @@ public class ScaleProcedure extends Thread {
 				if (answer.equals(String.valueOf(batchArray.get(i).getProductBatchID()))) {
 					answer = outputToServer(
 							"RM20 8 \"" + batchArray.get(i).getProductBatchName() + "?" + "\" \"\" \"&3\"");
+					DTO = batchArray.get(i);
 					break;
 				}
 				existed = false;
@@ -158,6 +161,7 @@ public class ScaleProcedure extends Thread {
 				answer = answer.split("\"")[1];
 			}
 		}
+	return DTO;
 	}
 	public void weighingProcess(String ingredient){
 		

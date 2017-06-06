@@ -1,4 +1,4 @@
-package dao;
+package serDAO;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -25,7 +25,7 @@ function validateLogin() {
 	$.ajax({
 		type: 'POST',
 		contentType: 'application/json',
-		url: rootURL,
+		url: rootURL + '/login',
 		dataType: "json",
 		data: login,
 		success: function(data, textStatus, jqXHR) {
@@ -42,7 +42,7 @@ function createUser() {
 	$.ajax({
 		type: 'POST',
 		contentType: 'application/json',
-		url: rootURL,
+		url: rootURL + '/cu',
 		dataType: "json",
 		data: data,
 		success: function(data, textStatus, jqXHR) {

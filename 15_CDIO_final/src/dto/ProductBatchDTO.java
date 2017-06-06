@@ -1,6 +1,7 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ProductBatchDTO implements Serializable{
 	/**
@@ -12,6 +13,7 @@ public class ProductBatchDTO implements Serializable{
 	private String productBatchName;
 	private String createdDate;
 	private String status;
+	private List<ProductBatchComponentDTO> components;
 	
 	public ProductBatchDTO(){}
 	public ProductBatchDTO(int productBatchID, String recipeID, String productBatchName, String createdDate,String status){
@@ -38,6 +40,19 @@ public class ProductBatchDTO implements Serializable{
 	 */
 	public String getRecipeID() {
 		return recipeID;
+	}
+	/**
+	 * @return the components
+	 */
+	public List<ProductBatchComponentDTO> getComponents() {
+		return components;
+	}
+	/**
+	 * 
+	 * @param component adds a component to the current list of components
+	 */
+	public void addComponent(ProductBatchComponentDTO component){
+		components.add(component);
 	}
 	/**
 	 * @param recipeID the recipeID to set
