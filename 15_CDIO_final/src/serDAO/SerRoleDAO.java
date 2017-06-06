@@ -8,7 +8,7 @@ import interfaces.IRoleDAO;
 public class SerRoleDAO extends SerDAO<RoleDTO> implements IRoleDAO {
 	
 	public SerRoleDAO(){
-	super("RoleDB.ser");	
+	super("Ser/RoleDB.ser");
 	}
 	@Override
 	public RoleDTO getRoles(int roleID) throws DALException {

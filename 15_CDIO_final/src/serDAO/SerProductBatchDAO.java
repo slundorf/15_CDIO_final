@@ -8,7 +8,7 @@ import interfaces.IProductBatchDAO;
 public class SerProductBatchDAO extends SerDAO<ProductBatchDTO>implements IProductBatchDAO {
 	
 	public SerProductBatchDAO(){
-		super("SerFiles/productBatchDB.ser");
+		super("SerFiles/ProductBatchDB.ser");
 	}
 
 	/**

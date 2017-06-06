@@ -9,7 +9,7 @@ import interfaces.IIngredientBatchDAO;
 public class SerIngredientBatchDAO extends SerDAO<IngredientBatchDTO> implements IIngredientBatchDAO {
 	
 	public SerIngredientBatchDAO(){
-		super("IngredientBatchDB.ser");
+		super("SerFiles/IngredientBatchDB.ser");
 	}
 
 
