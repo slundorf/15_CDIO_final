@@ -4,12 +4,12 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.List;
 
-import dao.SerProductBatchDAO;
-import dao.SerUserDAO;
 import dto.ProductBatchDTO;
 import dto.UserDTO;
 import interfaces.IProductBatchDAO;
 import interfaces.IUserDAO;
+import serDAO.SerProductBatchDAO;
+import serDAO.SerUserDAO;
 
 public class ScaleProcedure extends Thread {
 
