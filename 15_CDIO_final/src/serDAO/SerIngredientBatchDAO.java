@@ -11,6 +11,10 @@ public class SerIngredientBatchDAO extends SerDAO<IngredientBatchDTO> implements
 	public SerIngredientBatchDAO(){
 		super("SerFiles/IngredientBatchDB.ser");
 	}
+	
+	public SerIngredientBatchDAO(String pathName){
+		super(pathName);
+	}
 
 
 	@Override

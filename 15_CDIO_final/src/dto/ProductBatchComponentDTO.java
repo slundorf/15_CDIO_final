@@ -26,6 +26,11 @@ public class ProductBatchComponentDTO implements Serializable{
 		this.setTara(tara);
 		this.setNetto(netto);
 		this.setIngredientBatchID(ingredientBatchID);
+		this.setProductBatchID(productBatchID);
+	}
+	
+	public void setProductBatchID(int productBatchID){
+		this.productBatchID=productBatchID;
 	}
 	/**
 	 * @return the productBatchID

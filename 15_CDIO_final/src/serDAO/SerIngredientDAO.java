@@ -7,7 +7,9 @@ import interfaces.IIngredientDAO;
 
 public class SerIngredientDAO extends SerDAO<IngredientDTO> implements IIngredientDAO {
 	
-	
+	public SerIngredientDAO(String pathName){
+		super(pathName);
+	}
 	
 	public SerIngredientDAO(){
 		super("SerFiles/IngredientDB.ser");

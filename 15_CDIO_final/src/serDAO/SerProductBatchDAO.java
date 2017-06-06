@@ -7,6 +7,10 @@ import interfaces.IProductBatchDAO;
 
 public class SerProductBatchDAO extends SerDAO<ProductBatchDTO>implements IProductBatchDAO {
 	
+	public SerProductBatchDAO(String pathName){
+		super(pathName);
+	}
+	
 	public SerProductBatchDAO(){
 		super("SerFiles/ProductBatchDB.ser");
 	}
@@ -53,7 +57,6 @@ public class SerProductBatchDAO extends SerDAO<ProductBatchDTO>implements IProdu
 		loadInfo();
 		list.add(productbatch);
 		saveInfo();
-		
 	}
 
 	/**

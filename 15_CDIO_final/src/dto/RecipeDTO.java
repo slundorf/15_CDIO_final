@@ -1,6 +1,7 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeDTO implements Serializable{
@@ -16,6 +17,8 @@ public class RecipeDTO implements Serializable{
 	public RecipeDTO(int recipeID, String recipeName){
 		this.setRecipeID(recipeID);
 		this.setRecipeName(recipeName);
+		this.setComponents(new ArrayList<RecipeComponentDTO>());
+		
 	}
 	/**
 	 * @return the recipeID
