@@ -34,7 +34,24 @@
 				<li><a href='editingredient.html'><span>Edit ingredients</span></a></li>
 			</ul>
 		</div>
-		<div id='text'></div>
+		<div id='text'>
+		
+					<form id="ciForm">
+
+					<label for="ingID">Ingredient ID:</label>
+					<input id="ingID" name="IngredientID" type="number" required min="11" max="99">					
+					<br/>
+					<label for="ingName">Ingredient name:</label>
+					<input id="ingName" name="IngredientName" type="text" required>
+					<br/>
+					<label for="supp">Supplier:</label>
+					<input id="supp" name="Supplier" type="text" required>
+					<br/>
+					<button id="ciButton">Create user</button>
+
+			</form>
+		
+		</div>
 	</div>
 </body>
 </html>

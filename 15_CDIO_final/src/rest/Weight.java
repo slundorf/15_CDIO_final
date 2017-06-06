@@ -25,5 +25,12 @@ public class Weight {
 		return true;
 	}
 	
+	@POST @Path("ci")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean createIngredient() {
+		return true;
+	}
+	
 	
 }

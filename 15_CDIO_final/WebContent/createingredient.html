@@ -3,7 +3,6 @@
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
 <meta charset="UTF-8">
-<title>Login side</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="menustyle.css">
@@ -31,8 +30,26 @@
 					</ul></li>
 			</ul>
 		</div>
-		<div id='box'></div>
+		<div id='box'>
+			
+			<form id="ibForm">
+
+					<label for="ibID">IngredientBatch ID:</label>
+					<input id="ibID" name="IngredientBatchID" type="number" required min="11" max="99">					
+					<br/>
+					<label for="ingID">User name:</label>
+					<input id="ingID" name="IngredientID" type="number" required min="11" max="99">
+					<br/>
+					<label for="amnt">Amount:</label>
+					<input id="amnt" name="Amount" type="text" required>
+					<br/>
+					<button id="ibButton">Create user</button>
+
+			</form>
+		
+		</div>
 	</div>
+	
 	
 	
 	<script src="main.js"></script>
