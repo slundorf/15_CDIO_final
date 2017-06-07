@@ -7,6 +7,10 @@ import interfaces.IRecipeDAO;
 
 public class SerRecipeDAO extends SerDAO<RecipeDTO> implements IRecipeDAO{ 
 	
+	public SerRecipeDAO(String pathName){
+		super(pathName);
+	}
+	
 	public SerRecipeDAO(){
 		super("SerFiles/RecipeDB.ser");
 	}
@@ -48,5 +52,6 @@ public class SerRecipeDAO extends SerDAO<RecipeDTO> implements IRecipeDAO{
 				list.add(recipe);
 			}
 		}
+		saveInfo();
 	}
 }

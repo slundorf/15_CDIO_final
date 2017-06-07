@@ -9,6 +9,10 @@ import interfaces.IRecipeComponentDAO;
 
 public class SerRecipeComponentDAO extends SerDAO<RecipeDTO> implements IRecipeComponentDAO{
 	
+	public SerRecipeComponentDAO(String pathName){
+		super(pathName);
+	}
+	
 	public SerRecipeComponentDAO(){
 		super("SerFiles/RecipeDB.ser");
 	}

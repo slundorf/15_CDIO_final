@@ -6,12 +6,15 @@ import exceptions.DALException;
 import interfaces.IRoleDAO;
 
 public class SerRoleDAO extends SerDAO<RoleDTO> implements IRoleDAO {
+	public SerRoleDAO(String pathName){
+		super(pathName);
+	}
 	
 	public SerRoleDAO(){
-	super("RoleDB.ser");	
+	super("Ser/RoleDB.ser");
 	}
 	@Override
-	public RoleDTO getRoles(int roleID) throws DALException {
+	public RoleDTO getRole(int roleID) throws DALException {
 		loadInfo();
 		if(list.size() == 0)
 			throw new DALException("The database is empty.");
