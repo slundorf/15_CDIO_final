@@ -2,13 +2,17 @@ package businessLayer;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.text.SimpleDateFormat;
 
+import dto.RoleDTO;
+import dto.UserDTO;
 import exceptions.DALException;
+import interfaces.*;
 
-public class BusinessLayerImplementation implements IBusinessLayer{
-	
+
+public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO{
 	private final String uLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private final String lLetter = "abcdefghijklmnopqrstuvwxyz";
 	private final String number = "0123456789";
@@ -18,11 +22,66 @@ public class BusinessLayerImplementation implements IBusinessLayer{
 	private final int noOfSChars = 1;
 	private final int min = 9;
 	private final int max = 12;
-	private final int productBatchMin = 10000;
-	private final int productBatchMax = 10100;
+	private final int productBatchMin = 300;
+	private final int productBatchMax = 399;
+	private IUserDAO userDAO;
+	private IRoleDAO roleDAO;
+	private IIngredientDAO ingredientDAO;
+	private IRecipeDAO recipeDAO;
+	private IProductBatchDAO productBatchDAO;
+
+	@Override
+	public UserDTO getUser(int userID) throws DALException {
+		return userDAO.getUser(userID);
+	}
+
+	@Override
+	public List<UserDTO> getUserList() throws DALException {
+		return userDAO.getUserList();
+	}
+
+	@Override
+	public void createUser(UserDTO user) throws DALException {
+		String cpr = user.getCpr();
+		Date date;
+		try {
+			String[] parts = cpr.split("-");
+			String dateNumber = parts[0];
+			String number = parts[1];
+				if(dateNumber.length() == 6 && number.length() == 4) {
+					try {
+						SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
+						date = sdf.parse(dateNumber);
+						if (!dateNumber.equals(sdf.format(date))) {
+							throw new DALException("invalid date");
+						} else {
+							userDAO.createUser(user);
+							}
+					} catch (ParseException ex) {
+						throw new DALException("parsing error");
+						}
+					} else
+						throw new DALException("Invalid CPR length");
+				} catch(ArrayIndexOutOfBoundsException e) {
+		throw new DALException("Invalid CPR from (missing -)");
+		}
+	}
+
+	@Override
+	public void updateUser(UserDTO user) throws DALException {
+		userDAO.updateUser(user);
+		
+	}
 	
-	
-	private String createPassword(BusinessLayerImplementation psw) throws DALException {
+	/**
+	 * Method to create a new password. 
+	 * @param psw
+	 * @return finalPassword
+	 * @throws DALException
+	 */
+
+	@Override
+	public String createPassword(UserDTO pwg) throws DALException {
 		Random random = new Random();
 		int length = random.nextInt(max-min+1)+min;
 		char[] password = new char[length];
@@ -50,14 +109,29 @@ public class BusinessLayerImplementation implements IBusinessLayer{
 		}
 		return finalPassword;
 	}
+	
+	/**
+	 * Supportive method, used to generate a password.
+	 * @param random
+	 * @param length
+	 * @param password
+	 * @return index
+	 */
+	
 	private int getNI(Random random, int length, char[] password) {
 		int index = random.nextInt(length);
 		while (password[index = random.nextInt(length)] != 0);
 		return index;
 	}
 
+	/**
+	 * Method to validate the entered password.
+	 * @param password
+	 * @throws DALException
+	 */
 	
-	private void checkPassword(String password) throws DALException {
+	@Override
+	public void checkPassword(String password) throws DALException {
 		if(password.length() > max) {
 			throw new DALException("Password is too long");
 		}
@@ -67,6 +141,7 @@ public class BusinessLayerImplementation implements IBusinessLayer{
 		int noCAPS = 0;
 		int noSChars = 0;
 		int noDigits = 0;
+		
 		for(int i = 0; i < password.length(); i++) {
 			if(Character.isUpperCase(password.charAt(i))) {
 				noCAPS++;
@@ -85,8 +160,18 @@ public class BusinessLayerImplementation implements IBusinessLayer{
 		if(noDigits < noOfNumbers) {
 			throw new DALException("Password must contain at least " + noOfNumbers + " digits.");
 		}
+		
 	}
-	public boolean checkCPR(String cpr) throws DALException {
+	
+	/**
+	 * Method to validate the entered CPR number.
+	 * @param cpr
+	 * @return true, false
+	 * @throws DALException
+	 */
+	
+	@Override
+	public boolean checkCpr(String cpr) throws DALException {
 		Date date = null;
 		//First try and catch for "-" error
 		try {
@@ -112,13 +197,67 @@ public class BusinessLayerImplementation implements IBusinessLayer{
 		} catch (ArrayIndexOutOfBoundsException e) {
 				return false;
 			}
-		}
-	/*public int productBatchNumberGenerator() {
-		int prodBatchNumber = productBatchMin;
+	}
+
+	/**
+	 * Method to generate an ID for the product batch-
+	 * @return prodBatchID
+	 */    
+	
+	@Override
+	public int productBatchIDGenerator() throws DALException {
+		int prodBatchID = productBatchMin;
 		for(int i = 0; i < 100; i++) {
-			
+			prodBatchID++;
 		}
-		return prodBatchNumber;
-	}*/
+		if(prodBatchID > productBatchMax) {
+			prodBatchID = 0;
+		}
+		return prodBatchID;
+	}
+	
+	@Override
+	public void checkID(int ID) throws DALException {
+		//role ID, User ID, Ingredient ID, recipe ID, productbatchID
+		if(ID > 0 && ID < 6) {
+			roleDAO.getRole(ID);
+		} else if(ID > 10 && ID < 100) {
+			userDAO.getUser(ID);
+		} else if(ID > 99 && ID < 200) {
+			ingredientDAO.getIngredient(ID);
+		} else if(ID > 199 && ID < 300) {
+			recipeDAO.getRecipe(ID);
+		} else if(ID > 299 && ID < 400) {
+			productBatchDAO.getProductBatch(ID);
+		} else 
+			throw new DALException("Not a valid ID");
+		
+	}
+	
+	
+
+	@Override
+	public RoleDTO getRole(int roleID) throws DALException {
+		return roleDAO.getRole(roleID);
+	}
+
+	@Override
+	public List<RoleDTO> getRoleList() throws DALException {
+		return roleDAO.getRoleList();
+	}
+
+	@Override
+	public void createRole(RoleDTO role) throws DALException {
+		roleDAO.createRole(role);
+	}
+
+	@Override
+	public void updateRole(RoleDTO role) throws DALException {
+		roleDAO.updateRole(role);;
+		
+	}
+
+	
+
 	}
 
