@@ -16,9 +16,7 @@ public class ScaleProcedure extends Thread {
 	String answerFromServer = null;
 	String answer;
 	boolean existed;
-	double taraWeight;
-	double nettoWeight;
-	double bruttoWeight;
+	
 	IUserDAO users = new SerUserDAO();
 	IProductBatchDAO batches = new SerProductBatchDAO();
 
@@ -36,12 +34,12 @@ public class ScaleProcedure extends Thread {
 
 	public void ikkenogetnavnendnuregnermedrun() {
 		System.out.println("Hello from a thread!");
-		
-		while(true){
-		registrationOperator();
-		registrationProductBatch();
-		
-		weighingProcess("ingredient");
+
+		while (true) {
+			registrationOperator();
+			registrationProductBatch();
+
+			weighingProcess("ingredient");
 		}
 
 	}
@@ -73,8 +71,10 @@ public class ScaleProcedure extends Thread {
 			return "";// this is only to fulfill compiler demands.
 		}
 	}
-	public void registrationOperator(){
-		
+
+	public UserDTO registrationOperator() {
+
+		UserDTO user = null;
 		answer = outputToServer("RM20 8 \"Enter Operator-ID\" \"\" \"&3\"");
 		while (answer.equals("RM20 C")) {
 			answer = outputToServer("RM20 8 \"Enter Operator-ID\" \"\" \"&3\"");
@@ -97,6 +97,7 @@ public class ScaleProcedure extends Thread {
 				if (answer.equals(String.valueOf(UserArray.get(i).getUserID()))) {
 					if (!UserArray.get(i).getRole().getRoleName().equals("Administrator")) {
 						answer = outputToServer("RM20 8 \"" + UserArray.get(i).getUserName() + "?" + "\" \"\" \"&3\"");
+						user = UserArray.get(i);
 						break;
 					}
 				}
@@ -116,14 +117,14 @@ public class ScaleProcedure extends Thread {
 				answer = answer.split("\"")[1];
 			}
 		}
-		
+		return user;
 	}
-	
-	public ProductBatchDTO registrationProductBatch(){
-		
-		ProductBatchDTO DTO = null; 
-		int i=0;
-		
+
+	public ProductBatchDTO registrationProductBatch() {
+
+		ProductBatchDTO PB = null;
+		int i = 0;
+
 		answer = outputToServer("RM20 8 \"Enter Batch-ID\" \"\" \"&3\"");
 		while (answer.equals("RM20 C")) {
 			answer = outputToServer("RM20 8 \"Enter Batch-ID\" \"\" \"&3\"");
@@ -143,7 +144,7 @@ public class ScaleProcedure extends Thread {
 				if (answer.equals(String.valueOf(batchArray.get(i).getProductBatchID()))) {
 					answer = outputToServer(
 							"RM20 8 \"" + batchArray.get(i).getProductBatchName() + "?" + "\" \"\" \"&3\"");
-					DTO = batchArray.get(i);
+					PB = batchArray.get(i);
 					break;
 				}
 				existed = false;
@@ -161,108 +162,117 @@ public class ScaleProcedure extends Thread {
 				answer = answer.split("\"")[1];
 			}
 		}
-	return DTO;
+		return PB;
 	}
-	public void weighingProcess(String ingredient){
-		
-		answer = outputToServer("RM20 8 \"Unload weight\" \"\" \"&3\"");
-		// answer = answer.split("\"")[1];
-		while (true) {
-			if (answer.startsWith("RM20 A")) {
-				outputToServer("T");
-				break;
-			} else {
-				answer = outputToServer("RM20 8 \"UNLOAD WEIGHT!\" \"\" \"&3\"");
-			}
-		}
-		answer = outputToServer("RM20 8 \"Place tara\" \"\" \"&3\"");
-		while (true) {
-			if (answer.startsWith("RM20 A")) {
-				outputToServer("B 0.400");// This is for the virtual
-											// weight-simulator
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				taraWeight = Double.parseDouble(outputToServer("S").replaceAll("[^-\\d.]", ""));// check
-																								// om
-																								// det
-																								// virker
-				answer = outputToServer("RM20 8 \"Tara: " + taraWeight + " kg\" \"\" \"&3\"");
+
+	public ProductBatchDTO weighingProcess(ProductBatchDTO PB) {
+		double taraWeight;
+		double nettoWeight;
+		double bruttoWeight;
+
+		for (int i = 0; i < PB.getComponents().size(); i++) {
+
+			answer = outputToServer("RM20 8 \"Unload weight\" \"\" \"&3\"");
+			// answer = answer.split("\"")[1];
+			while (true) {
 				if (answer.startsWith("RM20 A")) {
 					outputToServer("T");
 					break;
+				} else {
+					answer = outputToServer("RM20 8 \"UNLOAD WEIGHT!\" \"\" \"&3\"");
 				}
-			} else {
-				answer = outputToServer("RM20 8 \"PLACE TARA!\" \"\" \"&3\"");
 			}
-		}
-		answer = outputToServer("RM20 8 \"Place netto\" \"\" \"&3\"");
-		// answer = answer.split("\"")[1];
-		while (true) {
-			if (answer.startsWith("RM20 A")) {
-				outputToServer("B 1.000");// This is for the virtual
-											// weight-simulator
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				nettoWeight = Double.parseDouble(outputToServer("S").replaceAll("[^-\\d.]", ""));
-				answer = outputToServer("RM20 8 \"Netto: " + nettoWeight + " kg\" \"\" \"&3\"");
+			answer = outputToServer("RM20 8 \"Place tara\" \"\" \"&3\"");
+			while (true) {
 				if (answer.startsWith("RM20 A")) {
-					outputToServer("T");
+//					outputToServer("B 0.400");// This is for the virtual
+//												// weight-simulator
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					taraWeight = Double.parseDouble(outputToServer("S").replaceAll("[^-\\d.]", ""));// check
+																									// om
+																									// det
+																									// virker
+					answer = outputToServer("RM20 8 \"Tara: " + taraWeight + " kg\" \"\" \"&3\"");
+					if (answer.startsWith("RM20 A")) {
+						outputToServer("T");
+						break;
+					}
+				} else {
+					answer = outputToServer("RM20 8 \"PLACE TARA!\" \"\" \"&3\"");
+				}
+			}
+			answer = outputToServer("RM20 8 \"Place "+PB.getComponents().get(i).getIngredientName()+"\" \"\" \"&3\"");
+			// answer = answer.split("\"")[1];
+			while (true) {
+				if (answer.startsWith("RM20 A")) {
+//					outputToServer("B 1.000");// This is for the virtual
+//												// weight-simulator
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					nettoWeight = Double.parseDouble(outputToServer("S").replaceAll("[^-\\d.]", ""));
+					answer = outputToServer("RM20 8 \"Netto: " + nettoWeight + " kg\" \"\" \"&3\"");
+					if (answer.startsWith("RM20 A")) {
+						outputToServer("T");
+						break;
+					}
+				} else {
+					answer = outputToServer("RM20 8 \"PLACE NETTO!\" \"\" \"&3\"");
+				}
+			}
+
+			answer = outputToServer("RM20 8 \"Remove brutto\" \"\" \"&3\"");
+			// answer = answer.split("\"")[1];
+			while (true) {
+				if (answer.startsWith("RM20 A")) {
+//					outputToServer("F");// This is for the virtual
+										// weight-simulator
+					try {
+						Thread.sleep(1500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					bruttoWeight = Double.parseDouble(outputToServer("S").replaceAll("[^-\\d.]", ""));
+					answer = outputToServer("RM20 8 \"Brutto: " + bruttoWeight + " kg\" \"\" \"&3\"");
+					if (answer.startsWith("RM20 A")) {
+						outputToServer("T");
+						break;
+					}
+				} else {
+					answer = outputToServer("RM20 8 \"REMOVE BRUTTO!\" \"\" \"&3\"");
+				}
+			}
+
+			answer = outputToServer("RM20 8 \"OK or discard?\" \"\" \"&3\"");
+			// answer = answer.split("\"")[1];
+			while (true) {
+				if (answer.startsWith("RM20 A")) {
+					answer = outputToServer("RM20 8 \"Process done\" \"\" \"&3\"");
+					System.out.println("Tara: " + taraWeight + "\nNetto: " + nettoWeight + "\nBrutto: " + bruttoWeight);
+					outputToServer("P111 \"\"");
+					System.exit(1);
+
+					// inFromServer.readLine();
+					break;
+				} else {
+					answer = outputToServer("RM20 8 \"Data deleted\" \"\" \"&3\"");
+					outputToServer("P111 \"\"");
+					outputToServer("Q");
+					// inFromServer.readLine();
 					break;
 				}
-			} else {
-				answer = outputToServer("RM20 8 \"PLACE NETTO!\" \"\" \"&3\"");
 			}
 		}
-
-		answer = outputToServer("RM20 8 \"Remove brutto\" \"\" \"&3\"");
-		// answer = answer.split("\"")[1];
-		while (true) {
-			if (answer.startsWith("RM20 A")) {
-				outputToServer("F");// This is for the virtual weight-simulator
-				try {
-					Thread.sleep(1500);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				bruttoWeight = Double.parseDouble(outputToServer("S").replaceAll("[^-\\d.]", ""));
-				answer = outputToServer("RM20 8 \"Brutto: " + bruttoWeight + " kg\" \"\" \"&3\"");
-				if (answer.startsWith("RM20 A")) {
-					outputToServer("T");
-					break;
-				}
-			} else {
-				answer = outputToServer("RM20 8 \"REMOVE BRUTTO!\" \"\" \"&3\"");
-			}
-		}
-
-		answer = outputToServer("RM20 8 \"OK or discard?\" \"\" \"&3\"");
-		// answer = answer.split("\"")[1];
-		while (true) {
-			if (answer.startsWith("RM20 A")) {
-				answer = outputToServer("RM20 8 \"Process done\" \"\" \"&3\"");
-				System.out.println("Tara: " + taraWeight + "\nNetto: " + nettoWeight + "\nBrutto: " + bruttoWeight);
-				outputToServer("P111 \"\"");
-				System.exit(1);
-
-				// inFromServer.readLine();
-				break;
-			} else {
-				answer = outputToServer("RM20 8 \"Data deleted\" \"\" \"&3\"");
-				outputToServer("P111 \"\"");
-				outputToServer("Q");
-				// inFromServer.readLine();
-				break;
-			}
-		}
+		return PB;
 	}
 
 }
