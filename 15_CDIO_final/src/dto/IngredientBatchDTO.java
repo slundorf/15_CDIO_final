@@ -6,6 +6,7 @@ public class IngredientBatchDTO implements Serializable{
 
 	private static final long serialVersionUID = -2455091258190346348L;
 	private int ingredientBatchID;
+	private String ingredientBatchName;
 	private int ingredientID;
 	private double amount;
 	private String supplier;
@@ -64,6 +65,18 @@ public class IngredientBatchDTO implements Serializable{
 	 */
 	public void setSupplier(String supplier) {
 		this.supplier = supplier;
+	}
+	/**
+	 * @return the ingredientBatchName
+	 */
+	public String getIngredientBatchName() {
+		return ingredientBatchName;
+	}
+	/**
+	 * @param ingredientBatchName the ingredientBatchName to set
+	 */
+	public void setIngredientBatchName(String ingredientBatchName) {
+		this.ingredientBatchName = ingredientBatchName;
 	}
 	
 	
