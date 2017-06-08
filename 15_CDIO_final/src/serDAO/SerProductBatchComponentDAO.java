@@ -5,14 +5,17 @@ import java.util.List;
 
 import dto.ProductBatchComponentDTO;
 import dto.ProductBatchDTO;
-import dto.RecipeComponentDTO;
 import exceptions.DALException;
 import interfaces.IProductBatchComponentDAO;
 
 public class SerProductBatchComponentDAO extends SerDAO<ProductBatchDTO> implements IProductBatchComponentDAO {
 	
+	public SerProductBatchComponentDAO(String pathName){
+		super(pathName);
+	}
+	
 	public SerProductBatchComponentDAO(){
-		super("SerFiles/productBatchComponentDB.ser");
+		super("SerFiles/ProductBatchDB.ser");
 	}
 
 	@Override

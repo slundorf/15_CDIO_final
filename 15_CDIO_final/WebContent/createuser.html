@@ -12,6 +12,7 @@
 <script src="jquery.serialize-object.min.js"></script>
 <script src="main.js"></script>
 <title>Admin frontpage</title>
+<title>Create user</title>
 
 </head>
 <body>
@@ -26,7 +27,7 @@
 			</ul>
 		</div>
 		<div id='box'>
-			
+
 			<form id="cuForm">
 
 					<label for="userID">User ID:</label>
@@ -56,10 +57,22 @@
   					<br/>
 					<button id="cuButton">Create user</button>
 
+				<label for="userID">User ID:</label> <input id="usrID" name="UserID"
+					type="number" required min="11" max="99"> <br /> <label
+					for="usrName">User name:</label> <input id="usrName"
+					name="UserName" type="text" required> <br /> <label
+					for="ini">Initials:</label> <input id="ini" name="Initials"
+					type="text" required> <br /> <label for="cpr">Social
+					security number:</label> <input id="cpr" name="CPR" type="text" required>
+				<br /> <label for="psword">Password:</label> <input id="psword"
+					name="Password" type="password" required> <br />
+				<button id="cuButton">Create user</button>
+
+
 			</form>
-			
+
 		</div>
 	</div>
-	
+
 </body>
 </html>

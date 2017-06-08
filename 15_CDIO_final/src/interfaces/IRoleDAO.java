@@ -12,7 +12,7 @@ public interface IRoleDAO {
 	 * @return role
 	 * @throws DALException
 	 */
-	RoleDTO getRoles(int roleID) throws DALException;
+	RoleDTO getRole(int roleID) throws DALException;
 	/**
 	 * 
 	 * @return list of roles

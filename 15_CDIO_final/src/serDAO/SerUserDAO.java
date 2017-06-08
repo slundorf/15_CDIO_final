@@ -7,6 +7,11 @@ import interfaces.IUserDAO;
 
 public class SerUserDAO extends SerDAO<UserDTO> implements IUserDAO {
 	
+	public SerUserDAO(String pathName){
+		super(pathName);
+	}
+
+	
 	public SerUserDAO(){
 		super("SerFiles/UserDB.ser");
 	}
@@ -41,6 +46,11 @@ public class SerUserDAO extends SerDAO<UserDTO> implements IUserDAO {
 		loadInfo();
 		if (list.size() == 88) {
 			throw new DALException("Database is full");
+		}
+		for(int i=0;i<list.size();i++){
+			if(list.get(i).getUserID()==user.getUserID()){
+				throw new DALException("A user with ID = " + user.getUserID() + " already exists.");
+			}
 		}
 		list.add(user);
 		saveInfo();

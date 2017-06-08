@@ -2,19 +2,15 @@
 <html lang=''>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
-<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="JS.js"></script>
 <meta charset="UTF-8">
-<title>Login side</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="menustyle.css">
 <link rel="stylesheet" href="style.css">
-<script src="http://code.jquery.com/jquery-latest.min.js"
-	type="text/javascript"></script>
-<script src="script.js"></script>
-<title>Foreman frontpage</title>
-
+<script src="jquery-3.2.1.js"></script>
+<script src="jquery.min.js"></script>
+<script src="jquery.serialize-object.min.js"></script>
+<title>Create product</title>
 </head>
 <body>
 	<div id='container'>
@@ -23,17 +19,53 @@
 				<li class='active'><a href='formanindex.html'><span>Home</span></a></li>
 				<li class='has-sub'><a href='#'><span>Create</span></a>
 					<ul>
-						<li><a href='createingredient.html'><span>Ingredient batch</span></a></li>
-						<li><a href='createproduct.html'><span>Product batch</span></a></li>
+						<li><a href='createingredient.html'><span>Ingredient
+									batch</span></a></li>
+						<li><a href='createproduct.html'><span>Product
+									batch</span></a></li>
 					</ul></li>
 				<li class='has-sub'><a href='#'><span>Show</span></a>
 					<ul>
-						<li><a href='showingredient.html'><span>Ingredient batch</span></a></li>
+						<li><a href='showingredient.html'><span>Ingredient
+									batch</span></a></li>
 						<li><a href='showproduct.html'><span>Product batch</span></a></li>
 					</ul></li>
 			</ul>
 		</div>
-		<div id='box'></div>
+		<div id='box'>
+			<form id="productForm">
+
+				<label for="productID">Product batch ID:</label> <input
+					id="productID" name="productID" type="number" required min="1"
+					max="99999999"><br /> 
+				<label for="receptID">Recept
+					ID:</label> <input id="repceptID" name="repceptID" type="number" required
+					min="1" max="99999999"><br /> 
+				<label for="status">Status:</label>
+				<input id="status" name="status" type="number" required min="0"
+					max="2"><br /> 
+				<label for="userID">User ID:</label> <input
+					id="userID" name="userID" type="number" required min="1"
+					max="99999999"><br />
+					
+				<label for="rbID">Ingredient batch ID:</label> <input
+					id="rbID" name="rbID" type="number" required min="1"
+					max="99999999"><br />
+					
+					<label for="netto">Netto (in kg and 4 decimals):</label> <input
+					id="netto" name="netto" type="number" required min="0"
+					max="20,0" step="0.01" maxlength="4"> <br /> 
+					
+					<label for="tara">Tara (in kg and 4 decimals):</label> <input
+					id="tara" name="tara" type="number" required min="0"
+					max="20,0" step="0.01" maxlength="4"> <br /> 
+
+				<button id="productButton">Create recept</button>
+
+			</form>
+
+		</div>
 	</div>
+	<script src="main.js"></script>
 </body>
 </html>

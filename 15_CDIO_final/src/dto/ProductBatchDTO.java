@@ -1,6 +1,7 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductBatchDTO implements Serializable{
@@ -9,19 +10,20 @@ public class ProductBatchDTO implements Serializable{
 	 */
 	private static final long serialVersionUID = -2239800485607431112L;
 	private int productBatchID;
-	private String recipeID;
+	private int recipeID;
 	private String productBatchName;
 	private String createdDate;
 	private String status;
 	private List<ProductBatchComponentDTO> components;
 	
 	public ProductBatchDTO(){}
-	public ProductBatchDTO(int productBatchID, String recipeID, String productBatchName, String createdDate,String status){
+	public ProductBatchDTO(int productBatchID, int recipeID, String productBatchName, String createdDate,String status){
 		this.setProductBatchID(productBatchID);
 		this.setRecipeID(recipeID);
 		this.setProductBatchName(productBatchName);
 		this.setCreatedDate(createdDate);
 		this.setStatus(status);
+		this.setComponents(new ArrayList<ProductBatchComponentDTO>());
 	}
 	/**
 	 * @return the productBatchID
@@ -38,7 +40,7 @@ public class ProductBatchDTO implements Serializable{
 	/**
 	 * @return the recipeID
 	 */
-	public String getRecipeID() {
+	public int getRecipeID() {
 		return recipeID;
 	}
 	/**
@@ -48,16 +50,22 @@ public class ProductBatchDTO implements Serializable{
 		return components;
 	}
 	/**
+	 * @param components the components to set
+	 */
+	public void setComponents(List<ProductBatchComponentDTO> components) {
+		this.components = components;
+	}
+	/**
 	 * 
 	 * @param component adds a component to the current list of components
 	 */
 	public void addComponent(ProductBatchComponentDTO component){
-		components.add(component);
+		getComponents().add(component);
 	}
 	/**
 	 * @param recipeID the recipeID to set
 	 */
-	public void setRecipeID(String recipeID) {
+	public void setRecipeID(int recipeID) {
 		this.recipeID = recipeID;
 	}
 	/**
