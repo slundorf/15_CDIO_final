@@ -6,10 +6,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import dto.IngredientBatchDTO;
 import dto.IngredientDTO;
 import dto.RoleDTO;
 import dto.UserDTO;
 import exceptions.DALException;
+import interfaces.IIngredientBatchDAO;
 import interfaces.IIngredientDAO;
 import interfaces.IProductBatchDAO;
 import interfaces.IRecipeDAO;
@@ -32,13 +34,16 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	private IUserDAO userDAO;
 	private IRoleDAO roleDAO;
 	private IIngredientDAO ingredientDAO;
+	private IIngredientBatchDAO ingredientBatchDAO;
 	private IRecipeDAO recipeDAO;
 	private IProductBatchDAO productBatchDAO;
 	
 	
-	public BusinessLayerImplementation(IUserDAO userDAO, IRoleDAO roleDAO) {
+	public BusinessLayerImplementation(IUserDAO userDAO, IRoleDAO roleDAO, IIngredientDAO ingredientDAO, IIngredientBatchDAO ingredientBatchDAO) {
 		this.userDAO=userDAO;
 		this.roleDAO=roleDAO;
+		this.ingredientDAO=ingredientDAO;
+		this.ingredientBatchDAO=ingredientBatchDAO;
 	}
 	@Override
 	public UserDTO getUser(int userID) throws DALException {
@@ -302,16 +307,15 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		return prodBatchID;
 	}
 
+	
 	@Override
 	public RoleDTO getRole(int roleID) throws DALException {
 		return roleDAO.getRole(roleID);
 	}
-
 	@Override
 	public List<RoleDTO> getRoleList() throws DALException {
 		return roleDAO.getRoleList();
 	}
-
 	@Override
 	public void createRole(RoleDTO role) throws DALException {
 		if(role.getRoleID()<0 || role.getRoleID()>9)
@@ -323,7 +327,6 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		}
 		roleDAO.createRole(role);
 	}
-
 	@Override
 	public void updateRole(RoleDTO role) throws DALException {
 		roleDAO.updateRole(role);
@@ -339,6 +342,34 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		if(ingredient.getIngredientID()<100 || ingredient.getIngredientID()>199){
 			throw new DALException("Invalid ID");
 		}
+		for(int i=0;i<ingredientDAO.getIngredientList().size();i++){
+			if(ingredientDAO.getIngredient(i).getIngredientID()==ingredient.getIngredientID()){
+				throw new DALException("ID already taken");
+			}else if(ingredientDAO.getIngredient(i).getIngredientName().equals(ingredient.getIngredientName()) 
+					&& ingredientDAO.getIngredient(i).getSupplier().equals(ingredient.getSupplier())){
+				throw new DALException("This combination of ingredient and Supplier already exists.");
+			}
+		}
+		ingredientDAO.createIngredient(ingredient);
+	}
+	public void updateIngredient(IngredientDTO ingredient) throws DALException{
+		for(int i=0;i<ingredientDAO.getIngredientList().size();i++){
+			if(ingredientDAO.getIngredient(i).getIngredientName().equals(ingredient.getIngredientName()) 
+					&& ingredientDAO.getIngredient(i).getSupplier().equals(ingredient.getSupplier())){
+				throw new DALException("This combination of ingredient and Supplier already exists.");
+			}
+		}
+		ingredientDAO.createIngredient(ingredient);
 	}
 
+	public IngredientBatchDTO getIngredientBatch(int ibId) throws DALException{
+		return ingredientBatchDAO.getIngredientBatch(ibId);
+	}
+	public List<IngredientBatchDTO> getIngredientBatch() throws DALException{
+		return ingredientBatchDAO.getIngredientBatchList();
+	}
+	public void createIngredientBatch(IngredientBatchDTO ingredientBatch){
+		
+	}
+	
 }
