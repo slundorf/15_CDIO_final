@@ -10,6 +10,7 @@ import dto.ProductBatchComponentDTO;
 import dto.ProductBatchDTO;
 import dto.UserDTO;
 import exceptions.DALException;
+import exceptions.scaleConnectionException;
 import interfaces.IIngredientBatchDAO;
 import interfaces.IProductBatchDAO;
 import interfaces.IUserDAO;
@@ -17,7 +18,7 @@ import serDAO.SerIngredientBatchDAO;
 import serDAO.SerProductBatchDAO;
 import serDAO.SerUserDAO;
 
-public class procedureController {
+public class ProcedureController {
 
 	String answerFromServer = null;
 	String answer;
@@ -34,28 +35,17 @@ public class procedureController {
 	PrintWriter outToServer;
 	BufferedReader inFromServer;
 	private ProductBatchDTO productBatch;
-	private String input3;
+	private int input3;
 	ScaleConnection connection;
 	UserDTO user;
 
-	public void startScaleProcess() throws DALException, IOException, InputException {
+	public void startScaleProcess() throws DALException, IOException, InputException, scaleConnectionException {
 		connection = new ScaleConnection("127.0.0.1");// for
 
-<<<<<<< HEAD
 		enterUserId(connection);
 		enterProductBatchId(connection);
 		// Start Weighing
 		for (ProductBatchComponentDTO productBatchComponentDTO : productBatch.getComponents()) {
-=======
-		enterOperatorId(connection);
-		enterProductBatchId(connection);
-	
-		// set status on the productbatch to true
-		productBatch.setStatus("Igang");
-
-		//Start Weighing
-		for (ProductBatchComponentDTO productBatchComponentDTO: productBatch.getComponents()) {	
->>>>>>> branch 'master' of https://github.com/slundorf/15_CDIO_final.git
 			// Unload weight
 			connection.displayMsg("Unload weigth");
 			connection.doTara();
@@ -63,8 +53,8 @@ public class procedureController {
 			boolean found = false;
 			String ingredientname = productBatchComponentDTO.getIngredientName();
 			while (!found) {
-				input3 = connection.getInput("Indtast R�vareBatchID p� " + ingredientname);
-				IngredientBatchDTO ingredientBatch = ingredientBatches.getIngredientBatch(Integer.parseInt(input3));
+				input3 = connection.getInteger("Indtast R�vareBatchID p� " + ingredientname);
+				IngredientBatchDTO ingredientBatch = ingredientBatches.getIngredientBatch(input3);
 
 				if (productBatchComponentDTO.getIngredientID() == ingredientBatch.getIngredientID()) {
 					found = true;
@@ -73,7 +63,7 @@ public class procedureController {
 
 				connection.displayMsg("Place Tara");
 				// save Tara Weight.
-				double taraweight = connection.tara();
+				double taraweight = connection.doTara();
 				productBatchComponentDTO.setTara(taraweight);
 
 				// Weigh something
@@ -81,7 +71,7 @@ public class procedureController {
 				int nettoweight = 0;
 				while (b) {
 					String ingrdientName = productBatchComponentDTO.getIngredientName();
-					nettoweight = connection.getIngeter("Place " + ingrdientName);
+					nettoweight = connection.getInteger("Place " + ingrdientName);
 					// NÅr man trykke ok, tager den vægten herefter venter den i
 					// 2 sek og viser vægten på displayet.
 					try {
@@ -123,7 +113,7 @@ public class procedureController {
 	// }
 	// }
 
-	private void enterProductBatchId(ScaleConnection connection) throws IOException, InputException, DALException {
+	private void enterProductBatchId(ScaleConnection connection) throws IOException, InputException, DALException, scaleConnectionException {
 		ProductBatchDTO productBatch = null;
 		boolean attempt = true;
 
@@ -134,50 +124,26 @@ public class procedureController {
 			attempt = false;
 		}
 		productBatch.setStatus("Producing");
-		connection.setProductBatchName(productBatch.getProductBatchName());
+		connection.setProductBatchID(productBatch.getProductBatchName());
 		productBatch.setUserId(user.getUserID());
 
 	}
 
-<<<<<<< HEAD
-	private void enterUserId(ScaleConnection connection) throws IOException, InputException, DALException {
+	private void enterUserId(ScaleConnection connection) throws IOException, InputException, DALException, scaleConnectionException {
 		user = null;
 		boolean attempt = true;
 		while (user == null) {
 			int userId = connection.getInteger((attempt ? "" : "Try again: ") + "Enter User ID");
-=======
-	private void enterProductBatchId(ScaleConnection connection) throws IOException, InputException, DALException {
-		ProductBatchDTO PB = null;
-		boolean spasser2 = false;
-		
-		while(PB == null){
-		String input2 = connection.getInput((spasser2 ?" spade" : "" ) + "Indatst ProduktBatchID");
-		Integer produktbatchId = Integer.parseInt(input2);
-			
-		productBatch = productBatches.getProductBatch(produktbatchId);
-		 spasser2 = true;
-		}
-		
-	}
->>>>>>> branch 'master' of https://github.com/slundorf/15_CDIO_final.git
 
-<<<<<<< HEAD
 			// validate user;
-			user = users.getUser(userId);
+			try {
+				user = users.getUser(userId);
+			} catch (DALException e) {
+				//Try again
+			}
 			attempt = false;
-=======
-	private void enterOperatorId(ScaleConnection connection) throws IOException, InputException, DALException {
-		UserDTO user= null;
-		boolean spasser = false;
-		while (user==null){
-			String input = connection.getInput((spasser ? "Du er en spade " : "") + "Indtast Bruger ID");
-			Integer brugerId = Integer.parseInt(input);
-			//validate user;
-			user = users.getUser(brugerId);
-			spasser = true;
->>>>>>> branch 'master' of https://github.com/slundorf/15_CDIO_final.git
 		}
-		connection.setOperatorName(user.getUserName());
+		connection.setOperatorInitials(user.getIni());
 	}
 }
 
