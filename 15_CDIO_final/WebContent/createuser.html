@@ -10,6 +10,7 @@
 <script src="jquery-3.2.1.js"></script>
 <script src="jquery.min.js"></script>
 <script src="jquery.serialize-object.min.js"></script>
+<script src="main.js"></script>
 <title>Admin frontpage</title>
 
 </head>
@@ -42,15 +43,23 @@
 					<br/>
 					<label for="psword">Password:</label>
 					<input id="psword" name="Password" type="password" required>
-					<br />
+					<br/>
+					<label for="roles">Choose a role</label>
+					<input list="roles" name="roles">
+					<datalist id="roles">
+ 					<option value="Administrator">
+    				<option value="Pharmacist">
+    				<option value="Operator">
+   					<option value="Foreman">
+  					</datalist>
+  					<br/>
+  					<br/>
 					<button id="cuButton">Create user</button>
 
 			</form>
 			
 		</div>
 	</div>
-	
-	<script src="main.js"></script>
 	
 </body>
 </html>
