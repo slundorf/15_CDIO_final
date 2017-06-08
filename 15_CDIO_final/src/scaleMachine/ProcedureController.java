@@ -41,10 +41,8 @@ public class ProcedureController {
 	public void startScaleProcess() throws DALException, IOException, InputException {
 		 connection = new ScaleConnection("127.0.0.1");// for
 
-		//Get ID
-		checkUserId(connection);
-		//Get ProducktBatchIdd
-		checkProductBatchId(connection);
+		enterOperatorId(connection);
+		enterProductBatchId(connection);
 	
 		// set status on the productbatch to true
 		productBatch.setStatus("Igang");
@@ -118,7 +116,7 @@ public class ProcedureController {
 		}
 	}
 
-	private void checkProductBatchId(ScaleConnection connection) throws IOException, InputException, DALException {
+	private void enterProductBatchId(ScaleConnection connection) throws IOException, InputException, DALException {
 		ProductBatchDTO PB = null;
 		boolean spasser2 = false;
 		
@@ -132,7 +130,7 @@ public class ProcedureController {
 		
 	}
 
-	private void checkUserId(ScaleConnection connection) throws IOException, InputException, DALException {
+	private void enterOperatorId(ScaleConnection connection) throws IOException, InputException, DALException {
 		UserDTO user= null;
 		boolean spasser = false;
 		while (user==null){
