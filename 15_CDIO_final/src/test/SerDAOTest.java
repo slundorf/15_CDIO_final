@@ -114,21 +114,41 @@ public class SerDAOTest {
 	
 	@Test
 	public void testSerRoleDAO() throws DALException{
+		//READ
 		assertEquals(roleDB.getRole(1).getClass(),role.getClass());
 		assertEquals(roleDB.getRole(1).getRoleID(),role.getRoleID());
 		assertEquals(roleDB.getRole(1).getRoleName(),role.getRoleName());
-		
+		//UPDATE
+		role.setRoleName("updatedName");
+		roleDB.updateRole(role);
+		assertEquals(roleDB.getRole(1).getRoleName(),role.getRoleName());
 	}
 	@Test
 	public void testSerUserDAO() throws DALException {
 		//READ
-		assertTrue(userDB.getUser(11).getUserName().equals("user1"));
+		assertEquals(userDB.getUser(11).getUserID(),usr1.getUserID());
+		assertEquals(userDB.getUser(11).getUserName(), usr1.getUserName());
+		assertEquals(userDB.getUser(11).getCpr(),usr1.getCpr());
+		assertEquals(userDB.getUser(11).getIni(),usr1.getIni());
+		assertEquals(userDB.getUser(11).getPassword(),usr1.getPassword());
+		assertEquals(userDB.getUser(11).getRole().getRoleID(),usr1.getRole().getRoleID());
+		assertEquals(userDB.getUser(11).getRole().getRoleName(),usr1.getRole().getRoleName());
 		
-		UserDTO temp = userDB.getUser(11);
-		temp.setUserName("updatedName");
-		userDB.updateUser(temp);
-		//Update
-		assertTrue(userDB.getUser(11).getUserName().equals(temp.getUserName()));
+		//UPDATE
+		usr1.setUserName("updatedName");
+		userDB.updateUser(usr1);
+		assertTrue(userDB.getUser(11).getUserName().equals(usr1.getUserName()));
+	}
+	@Test
+	public void testSerIngredientDAO() throws DALException{
+		//READ
+		assertEquals(ingredientDB.getIngredient(1).getIngredientID(),ingr1.getIngredientID());
+		assertEquals(ingredientDB.getIngredient(1).getIngredientName(),ingr1.getIngredientName());
+		assertEquals(ingredientDB.getIngredient(1).getSupplier(),ingr1.getSupplier());
+		//UPDATE
+		ingr1.setIngredientName("updatedName");
+		ingredientDB.updateIngredient(ingr1);
+		assertEquals(ingredientDB.getIngredient(1).getIngredientName(),ingr1.getIngredientName());
 	}
 
 }

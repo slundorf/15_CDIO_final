@@ -41,10 +41,21 @@ public class procedureController {
 	public void startScaleProcess() throws DALException, IOException, InputException {
 		connection = new ScaleConnection("127.0.0.1");// for
 
+<<<<<<< HEAD
 		enterUserId(connection);
 		enterProductBatchId(connection);
 		// Start Weighing
 		for (ProductBatchComponentDTO productBatchComponentDTO : productBatch.getComponents()) {
+=======
+		enterOperatorId(connection);
+		enterProductBatchId(connection);
+	
+		// set status on the productbatch to true
+		productBatch.setStatus("Igang");
+
+		//Start Weighing
+		for (ProductBatchComponentDTO productBatchComponentDTO: productBatch.getComponents()) {	
+>>>>>>> branch 'master' of https://github.com/slundorf/15_CDIO_final.git
 			// Unload weight
 			connection.displayMsg("Unload weigth");
 			connection.doTara();
@@ -128,15 +139,43 @@ public class procedureController {
 
 	}
 
+<<<<<<< HEAD
 	private void enterUserId(ScaleConnection connection) throws IOException, InputException, DALException {
 		user = null;
 		boolean attempt = true;
 		while (user == null) {
 			int userId = connection.getInteger((attempt ? "" : "Try again: ") + "Enter User ID");
+=======
+	private void enterProductBatchId(ScaleConnection connection) throws IOException, InputException, DALException {
+		ProductBatchDTO PB = null;
+		boolean spasser2 = false;
+		
+		while(PB == null){
+		String input2 = connection.getInput((spasser2 ?" spade" : "" ) + "Indatst ProduktBatchID");
+		Integer produktbatchId = Integer.parseInt(input2);
+			
+		productBatch = productBatches.getProductBatch(produktbatchId);
+		 spasser2 = true;
+		}
+		
+	}
+>>>>>>> branch 'master' of https://github.com/slundorf/15_CDIO_final.git
 
+<<<<<<< HEAD
 			// validate user;
 			user = users.getUser(userId);
 			attempt = false;
+=======
+	private void enterOperatorId(ScaleConnection connection) throws IOException, InputException, DALException {
+		UserDTO user= null;
+		boolean spasser = false;
+		while (user==null){
+			String input = connection.getInput((spasser ? "Du er en spade " : "") + "Indtast Bruger ID");
+			Integer brugerId = Integer.parseInt(input);
+			//validate user;
+			user = users.getUser(brugerId);
+			spasser = true;
+>>>>>>> branch 'master' of https://github.com/slundorf/15_CDIO_final.git
 		}
 		connection.setOperatorName(user.getUserName());
 	}
