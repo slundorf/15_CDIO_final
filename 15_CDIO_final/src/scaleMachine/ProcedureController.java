@@ -17,8 +17,7 @@ import serDAO.SerIngredientBatchDAO;
 import serDAO.SerProductBatchDAO;
 import serDAO.SerUserDAO;
 
-public class ProcedureController {
-	
+public class procedureController {
 
 	String answerFromServer = null;
 	String answer;
@@ -37,124 +36,110 @@ public class ProcedureController {
 	private ProductBatchDTO productBatch;
 	private String input3;
 	ScaleConnection connection;
+	UserDTO user;
 
 	public void startScaleProcess() throws DALException, IOException, InputException {
-		 connection = new ScaleConnection("127.0.0.1");// for
+		connection = new ScaleConnection("127.0.0.1");// for
 
-		//Get ID
-		checkUserId(connection);
-		//Get ProducktBatchIdd
-		checkProductBatchId(connection);
-	
-		// set status on the productbatch to true
-		productBatch.setStatus("Igang");
-
-		//Start Weighing
-		for (ProductBatchComponentDTO productBatchComponentDTO: productBatch.getComponents()) {	
+		enterUserId(connection);
+		enterProductBatchId(connection);
+		// Start Weighing
+		for (ProductBatchComponentDTO productBatchComponentDTO : productBatch.getComponents()) {
 			// Unload weight
-			msg("Unload weigth");
-			// Tara efter v�gten er tom.
-			connection.tara();
-			msg("Place Tara");
-			
-			//The Tara Weight.
-			double taraweight = connection.tara();
-			productBatchComponentDTO.setTara(taraweight);
-			
-			checkProductBatchComponent(productBatchComponentDTO);
-			//Weigh something 
-			boolean b = false;
-			while(b){
-			String ingrdientName = productBatchComponentDTO.getIngredientName();
-			int nettoweight = connection.getNumber("Place "+ ingrdientName);
-			// NÅr man trykke ok, tager den vægten herefter venter den i 2 sek og viser vægten på displayet.
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			connection.showMessageToUser("Vægt:" + nettoweight);
-			// Tjekker om vægten er inde for Tolerancen.
-			double tolereanceWeight = productBatchComponentDTO.getTolerance()*productBatchComponentDTO.getAmount();
-			double amount = productBatchComponentDTO.getAmount(); 
-			// Først beregner jeg være den er på, hvorefter jeg om det passe med vægten.
-			if(tolereanceWeight+amount>nettoweight && tolereanceWeight-amount < nettoweight){
-				b = true;
-			}
-			connection.showMessageToUser("Forkert afvejning prøv igen");
-			}
-			
-			}
-		
-		productBatch.setStatus("Slut");
-		
-	}
+			connection.displayMsg("Unload weigth");
+			connection.doTara();
 
+			boolean found = false;
+			String ingredientname = productBatchComponentDTO.getIngredientName();
+			while (!found) {
+				input3 = connection.getInput("Indtast R�vareBatchID p� " + ingredientname);
+				IngredientBatchDTO ingredientBatch = ingredientBatches.getIngredientBatch(Integer.parseInt(input3));
 
-	private void checkProductBatchComponent(ProductBatchComponentDTO productBatchComponentDTO)
-			throws IOException, InputException, DALException {
-		boolean found = false;
-		String ingredientname = productBatchComponentDTO.getIngredientName();
-		while (!found){
-			input3 = connection.getInput("Indtast R�vareBatchID p� "+ingredientname);
-			IngredientBatchDTO ingredientBatch = ingredientBatches.getIngredientBatch(Integer.parseInt(input3));
-			
-			if(productBatchComponentDTO.getIngredientID() == ingredientBatch.getIngredientID()){
-				found = true;
+				if (productBatchComponentDTO.getIngredientID() == ingredientBatch.getIngredientID()) {
+					found = true;
+				}
+				connection.setComponentName(productBatchComponentDTO.getIngredientName());
+
+				connection.displayMsg("Place Tara");
+				// save Tara Weight.
+				double taraweight = connection.tara();
+				productBatchComponentDTO.setTara(taraweight);
+
+				// Weigh something
+				boolean b = false;
+				int nettoweight = 0;
+				while (b) {
+					String ingrdientName = productBatchComponentDTO.getIngredientName();
+					nettoweight = connection.getIngeter("Place " + ingrdientName);
+					// NÅr man trykke ok, tager den vægten herefter venter den i
+					// 2 sek og viser vægten på displayet.
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					// Tjekker om vægten er inde for Tolerancen.
+					double tolereanceWeight = productBatchComponentDTO.getTolerance()
+							* productBatchComponentDTO.getAmount();
+					double amount = productBatchComponentDTO.getAmount();
+					// Først beregner jeg være den er på, hvorefter jeg om det
+					// passe med vægten.
+					if (tolereanceWeight + amount >= nettoweight && tolereanceWeight - amount <= nettoweight) {
+						b = true;
+					}
+					connection.displayMsg("Forkert afvejning prøv igen");
+				}
+				productBatchComponentDTO.setNetto(nettoweight);
 			}
+			productBatches.updateProductBatch(productBatch);
+			connection.displayMsg("Your done with the procedure");
+
 		}
 	}
 
+	// Denne her skal nok væk fordi den komme i interfacet.
 
-	private void msg(String string) throws IOException, InputException {
-		Boolean b = false;
-		
-		while(b){
-		String input3 = connection.getInput(string);
-		if(input3.startsWith("RM20 A")){
-			b = true;
+	// private void msg(String string) throws IOException, InputException {
+	// Boolean b = false;
+	//
+	// while(b){
+	// String input3 = connection.getInput(string);
+	// if(input3.startsWith("RM20 A")){
+	// b = true;
+	// }
+	// }
+	// }
+
+	private void enterProductBatchId(ScaleConnection connection) throws IOException, InputException, DALException {
+		ProductBatchDTO productBatch = null;
+		boolean attempt = true;
+
+		while (productBatch == null) {
+			int productBatchId = connection.getInteger((attempt ? " " : "Try again:") + "Enter Product Batch ID");
+
+			productBatch = productBatches.getProductBatch(productBatchId);
+			attempt = false;
 		}
-		}
+		productBatch.setStatus("Producing");
+		connection.setProductBatchName(productBatch.getProductBatchName());
+		productBatch.setUserId(user.getUserID());
+
 	}
 
-	private void checkProductBatchId(ScaleConnection connection) throws IOException, InputException, DALException {
-		ProductBatchDTO PB = null;
-		boolean spasser2 = false;
-		
-		while(PB == null){
-		String input2 = connection.getInput((spasser2 ?" spade" : "" ) + "Indatst ProduktBatchID");
-		Integer produktbatchId = Integer.parseInt(input2);
-			
-		productBatch = productBatches.getProductBatch(produktbatchId);
-		 spasser2 = true;
-		}
-		
-	}
+	private void enterUserId(ScaleConnection connection) throws IOException, InputException, DALException {
+		user = null;
+		boolean attempt = true;
+		while (user == null) {
+			int userId = connection.getInteger((attempt ? "" : "Try again: ") + "Enter User ID");
 
-	private void checkUserId(ScaleConnection connection) throws IOException, InputException, DALException {
-		UserDTO user= null;
-		boolean spasser = false;
-		while (user==null){
-			String input = connection.getInput((spasser ? "Du er en spade " : "") + "Indtast Bruger ID");
-			Integer brugerId = Integer.parseInt(input);
-			//validate user;
-			user = users.getUser(brugerId);
-			spasser = true;
+			// validate user;
+			user = users.getUser(userId);
+			attempt = false;
 		}
+		connection.setOperatorName(user.getUserName());
 	}
 }
-				
-			
 
-
-
-
-
-			 
-
-
-			// Start Tread for at køre afvejningen.
-
-		
-
+// Start Tread for at køre afvejningen.
