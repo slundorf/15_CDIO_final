@@ -1,18 +1,30 @@
 package businessLayer;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.text.SimpleDateFormat;
 
+import dto.IngredientBatchDTO;
+import dto.IngredientDTO;
+import dto.ProductBatchComponentDTO;
+import dto.ProductBatchDTO;
+import dto.RecipeComponentDTO;
+import dto.RecipeDTO;
 import dto.RoleDTO;
 import dto.UserDTO;
 import exceptions.DALException;
-import interfaces.*;
+import interfaces.IIngredientBatchDAO;
+import interfaces.IIngredientDAO;
+import interfaces.IProductBatchComponentDAO;
+import interfaces.IProductBatchDAO;
+import interfaces.IRecipeComponentDAO;
+import interfaces.IRecipeDAO;
+import interfaces.IRoleDAO;
+import interfaces.IUserDAO;
 
-
-public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO{
+public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	private final String uLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private final String lLetter = "abcdefghijklmnopqrstuvwxyz";
 	private final String number = "0123456789";
@@ -24,12 +36,23 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO{
 	private final int max = 12;
 	private final int productBatchMin = 300;
 	private final int productBatchMax = 399;
+
 	private IUserDAO userDAO;
 	private IRoleDAO roleDAO;
 	private IIngredientDAO ingredientDAO;
+	private IIngredientBatchDAO ingredientBatchDAO;
 	private IRecipeDAO recipeDAO;
 	private IProductBatchDAO productBatchDAO;
-
+	private IProductBatchComponentDAO productBatchComponentDAO;
+	private IRecipeComponentDAO recipeComponentDAO;
+	
+	
+	public BusinessLayerImplementation(IUserDAO userDAO, IRoleDAO roleDAO, IIngredientDAO ingredientDAO, IIngredientBatchDAO ingredientBatchDAO) {
+		this.userDAO=userDAO;
+		this.roleDAO=roleDAO;
+		this.ingredientDAO=ingredientDAO;
+		this.ingredientBatchDAO=ingredientBatchDAO;
+	}
 	@Override
 	public UserDTO getUser(int userID) throws DALException {
 		return userDAO.getUser(userID);
@@ -42,199 +65,255 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO{
 
 	@Override
 	public void createUser(UserDTO user) throws DALException {
-		String cpr = user.getCpr();
-		Date date;
-		try {
-			String[] parts = cpr.split("-");
-			String dateNumber = parts[0];
-			String number = parts[1];
-				if(dateNumber.length() == 6 && number.length() == 4) {
-					try {
-						SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
-						date = sdf.parse(dateNumber);
-						if (!dateNumber.equals(sdf.format(date))) {
-							throw new DALException("invalid date");
-						} else {
-							userDAO.createUser(user);
-							}
-					} catch (ParseException ex) {
-						throw new DALException("parsing error");
-						}
-					} else
-						throw new DALException("Invalid CPR length");
-				} catch(ArrayIndexOutOfBoundsException e) {
-		throw new DALException("Invalid CPR from (missing -)");
+		
+		for(int i=0;i<roleDAO.getRoleList().size();i++){
+			if(user.getRole().getRoleName().equals(roleDAO.getRole(i).getRoleName()))
+				user.getRole().setRoleID(roleDAO.getRole(i).getRoleID());
 		}
+		user.setPassword(createPassword());
+		checkUser(user);
+		userDAO.createUser(user);
 	}
 
 	@Override
 	public void updateUser(UserDTO user) throws DALException {
+		checkUpdatedUser(user);
 		userDAO.updateUser(user);
-		
 	}
 	
 	/**
-	 * Method to create a new password. 
+	 * check user for creation specs.
+	 * @param user
+	 * @throws DALException
+	 */
+	private void checkUser(UserDTO user) throws DALException {
+		//Check for ID already taken.
+		for (int i = 0; i < userDAO.getUserList().size(); i++) {
+			if (userDAO.getUserList().get(i).getUserID() == user.getUserID())
+				throw new DALException("UserID already taken.");
+		}
+		
+		//Check username
+		if (user.getUserName().length() > 20 || user.getUserName().length() < 2)
+			throw new DALException("Username length must be between 2 and 20 characters");
+		
+		
+		/*
+		 * Check Initials
+		 * tempIni.matches(".*\\d+.*") ---------------------------- To explain:
+		 * .* means any character from 0 to infinite occurence, than the \\d+
+		 * (double backslash I think is just to escape the second backslash) and
+		 * \d+ means a digit from 1 time to infinite.
+		 */
+		if (user.getIni().matches(".*\\d+.*")) {
+			throw new DALException("Initials contains illegal characters");
+		}
+		if (user.getIni().length() < 2 || user.getIni().length() > 4) {
+			throw new DALException("Initials should have a length between [2-4]");
+		}
+
+		for (int i = 0; i < userDAO.getUserList().size(); i++) {
+			if (user.getIni().equals(userDAO.getUserList().get(i).getIni()))
+				if (!(userDAO.getUserList().get(i).getUserID() == user.getUserID()))
+					throw new DALException("Initials already taken");
+		}
+		
+		
+		//Check CPR number
+		checkCpr(user.getCpr());
+		for (int i = 0; i < userDAO.getUserList().size(); i++) {
+			if (!(user.getUserID() == userDAO.getUserList().get(i).getUserID())) {
+				if (user.getCpr().equals(userDAO.getUserList().get(i).getCpr())) {
+					throw new DALException("Invalid CPR number. This CPR number is already taken.");
+				}
+			}
+		}
+	}
+
+	/**
+	 * check user for update specs
+	 * @param user
+	 * @throws DALException
+	 */
+	private void checkUpdatedUser(UserDTO user) throws DALException {
+		
+		//Check username
+		if (user.getUserName().length() > 20 || user.getUserName().length() < 2)
+			throw new DALException("Username length must be between 2 and 20 characters");
+
+		/*
+		 * Check Initials
+		 * tempIni.matches(".*\\d+.*") ---------------------------- To explain:
+		 * .* means any character from 0 to infinite occurence, than the \\d+
+		 * (double backslash I think is just to escape the second backslash) and
+		 * \d+ means a digit from 1 time to infinite.
+		 */
+		if (user.getIni().matches(".*\\d+.*")) {
+			throw new DALException("Initials contains illegal characters");
+		}
+		if (user.getIni().length() < 2 || user.getIni().length() > 4) {
+			throw new DALException("Initials should have a length between [2-4]");
+		}
+
+		for (int i = 0; i < userDAO.getUserList().size(); i++) {
+			if (user.getIni().equals(userDAO.getUserList().get(i).getIni()))
+				if (!(userDAO.getUserList().get(i).getUserID() == user.getUserID()))
+					throw new DALException("Initials already taken");
+		}
+		
+		//Check CPR number
+		checkCpr(user.getCpr());
+		for (int i = 0; i < userDAO.getUserList().size(); i++) {
+			if (!(user.getUserID() == userDAO.getUserList().get(i).getUserID())) {
+				if (user.getCpr().equals(userDAO.getUserList().get(i).getCpr())) {
+					throw new DALException("Invalid CPR number. This CPR number is already taken.");
+				}
+			}
+		}
+		
+		//check password
+		checkPassword(user.getPassword());
+
+	}
+
+	/**
+	 * Method to create a new password.
+	 * 
 	 * @param psw
 	 * @return finalPassword
 	 * @throws DALException
 	 */
-
-	@Override
-	public String createPassword(UserDTO pwg) throws DALException {
+	private String createPassword() throws DALException {
 		Random random = new Random();
-		int length = random.nextInt(max-min+1)+min;
+		int length = random.nextInt(max - min + 1) + min;
 		char[] password = new char[length];
 		int index = 0;
-		for(int i = 0; i < noOfLetters; i++) {
-			index = getNI(random,length, password);
+		for (int i = 0; i < noOfLetters; i++) {
+			index = getNI(random, length, password);
 			password[index] = uLetter.charAt(random.nextInt(uLetter.length()));
 		}
-		for(int i = 0; i < noOfNumbers; i++) {
+		for (int i = 0; i < noOfNumbers; i++) {
 			index = getNI(random, length, password);
-			password[index]= number.charAt(random.nextInt(number.length()));
+			password[index] = number.charAt(random.nextInt(number.length()));
 		}
-		for(int i = 0; i < noOfSChars; i++) {
+		for (int i = 0; i < noOfSChars; i++) {
 			index = getNI(random, length, password);
-			password[index]= sChars.charAt(random.nextInt(sChars.length()));
+			password[index] = sChars.charAt(random.nextInt(sChars.length()));
 		}
-		for(int i = 0; i < noOfNumbers; i++) {
-			if(password[i] == 0) {
+		for (int i = 0; i < noOfNumbers; i++) {
+			if (password[i] == 0) {
 				password[i] = lLetter.charAt(random.nextInt(lLetter.length()));
 			}
 		}
 		String finalPassword = "";
-		for(int i = 0; i < password.length; i++) {
+		for (int i = 0; i < password.length; i++) {
 			finalPassword += password[i];
 		}
 		return finalPassword;
 	}
-	
+
 	/**
 	 * Supportive method, used to generate a password.
+	 * 
 	 * @param random
 	 * @param length
 	 * @param password
 	 * @return index
 	 */
-	
 	private int getNI(Random random, int length, char[] password) {
 		int index = random.nextInt(length);
-		while (password[index = random.nextInt(length)] != 0);
+		while (password[index = random.nextInt(length)] != 0)
+			;
 		return index;
 	}
 
 	/**
 	 * Method to validate the entered password.
+	 * 
 	 * @param password
 	 * @throws DALException
 	 */
-	
-	@Override
-	public void checkPassword(String password) throws DALException {
-		if(password.length() > max) {
+	private void checkPassword(String password) throws DALException {
+		if (password.length() > max) {
 			throw new DALException("Password is too long");
 		}
-		if(password.length() < min) {
+		if (password.length() < min) {
 			throw new DALException("Password is too short");
 		}
 		int noCAPS = 0;
 		int noSChars = 0;
 		int noDigits = 0;
-		
-		for(int i = 0; i < password.length(); i++) {
-			if(Character.isUpperCase(password.charAt(i))) {
+
+		for (int i = 0; i < password.length(); i++) {
+			if (Character.isUpperCase(password.charAt(i))) {
 				noCAPS++;
-			} else if(Character.isDigit(password.charAt(i))) {
+			} else if (Character.isDigit(password.charAt(i))) {
 				noDigits++;
-			} else if(!password.matches("[^A-Za-z0-9 ]")) {
+			} else if (!password.matches("[^A-Za-z0-9 ]")) {
 				noSChars++;
 			}
 		}
-		if(noCAPS < noOfLetters) {
+		if (noCAPS < noOfLetters) {
 			throw new DALException("Password must contain at least " + noOfLetters + " upper case characters.");
 		}
-		if(noSChars < noOfSChars) {
-			throw new DALException("Password must contain at least " + noOfSChars + " special characters [!@#$%^&*_=+-/].");
+		if (noSChars < noOfSChars) {
+			throw new DALException(
+					"Password must contain at least " + noOfSChars + " special characters [!@#$%^&*_=+-/].");
 		}
-		if(noDigits < noOfNumbers) {
+		if (noDigits < noOfNumbers) {
 			throw new DALException("Password must contain at least " + noOfNumbers + " digits.");
 		}
-		
+
 	}
-	
+
 	/**
 	 * Method to validate the entered CPR number.
+	 * 
 	 * @param cpr
 	 * @return true, false
 	 * @throws DALException
 	 */
-	
-	@Override
-	public boolean checkCpr(String cpr) throws DALException {
+	private boolean checkCpr(String cpr) throws DALException {
 		Date date = null;
-		//First try and catch for "-" error
+		// First try and catch for "-" error
 		try {
 			String[] parts = cpr.split("-");
 			String dateNumber = parts[0];
 			String number = parts[1];
-			
-			if(dateNumber.length() == 6 && number.length() == 4) {
+			if (dateNumber.length() == 6 && number.length() == 4) {
 				try {
-					SimpleDateFormat  sdf = new SimpleDateFormat("ddMMyy");
+					SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
 					date = sdf.parse(dateNumber);
-					if(!dateNumber.equals(sdf.format(date))) {
-						return false;
+					if (!dateNumber.equals(sdf.format(date))) {
+						throw new DALException("invalid date format");
 					} else {
 						return true;
 					}
-				} catch (ParseException ex) { 
-					return false;
+				} catch (ParseException ex) {
+					throw new DALException("parsing error");
 				}
-			} else {
-				return false;
-			} 
+			} else
+				throw new DALException("Invalid CPR length");
 		} catch (ArrayIndexOutOfBoundsException e) {
-				return false;
-			}
+			throw new DALException("Invalid CPR from (missing -)");
+		}
 	}
 
 	/**
 	 * Method to generate an ID for the product batch-
+	 * 
 	 * @return prodBatchID
-	 */    
-	
-	@Override
-	public int productBatchIDGenerator() throws DALException {
+	 */
+	private int productBatchIDGenerator() throws DALException {
 		int prodBatchID = productBatchMin;
-		for(int i = 0; i < 100; i++) {
+		for (int i = 0; i < 100; i++) {
 			prodBatchID++;
 		}
-		if(prodBatchID > productBatchMax) {
+		if (prodBatchID > productBatchMax) {
 			prodBatchID = 0;
 		}
 		return prodBatchID;
 	}
-	
-	@Override
-	public void checkID(int ID) throws DALException {
-		//role ID, User ID, Ingredient ID, recipe ID, productbatchID
-		if(ID > 0 && ID < 6) {
-			roleDAO.getRole(ID);
-		} else if(ID > 10 && ID < 100) {
-			userDAO.getUser(ID);
-		} else if(ID > 99 && ID < 200) {
-			ingredientDAO.getIngredient(ID);
-		} else if(ID > 199 && ID < 300) {
-			recipeDAO.getRecipe(ID);
-		} else if(ID > 299 && ID < 400) {
-			productBatchDAO.getProductBatch(ID);
-		} else 
-			throw new DALException("Not a valid ID");
-		
-	}
-	
-	
 
 	@Override
 	public RoleDTO getRole(int roleID) throws DALException {
@@ -248,16 +327,160 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO{
 
 	@Override
 	public void createRole(RoleDTO role) throws DALException {
+		if(role.getRoleID()<0 || role.getRoleID()>9)
+			throw new DALException("Invalid ID");
+		for(int i =0;i<roleDAO.getRoleList().size();i++){
+			if(roleDAO.getRole(i).getRoleID()==role.getRoleID()){
+				throw new DALException("ID already taken.");
+			}
+		}
 		roleDAO.createRole(role);
 	}
 
 	@Override
 	public void updateRole(RoleDTO role) throws DALException {
-		roleDAO.updateRole(role);;
-		
+		roleDAO.updateRole(role);
 	}
 
+	public IngredientDTO getIngredient(int ingredientID) throws DALException{
+		return ingredientDAO.getIngredient(ingredientID);
+	}
+	public List<IngredientDTO> getIngredientList() throws DALException{
+		return ingredientDAO.getIngredientList();
+	}
+	public void createIngredient(IngredientDTO ingredient) throws DALException{
+		if(ingredient.getIngredientID()<100 || ingredient.getIngredientID()>199){
+			throw new DALException("Invalid ID");
+		}
+		for(int i=0;i<ingredientDAO.getIngredientList().size();i++){
+			if(ingredientDAO.getIngredient(i).getIngredientID()==ingredient.getIngredientID()){
+				throw new DALException("ID already taken");
+			}else if(ingredientDAO.getIngredient(i).getIngredientName().equals(ingredient.getIngredientName()) 
+					&& ingredientDAO.getIngredient(i).getSupplier().equals(ingredient.getSupplier())){
+				throw new DALException("This combination of ingredient and Supplier already exists.");
+			}
+		}
+		ingredientDAO.createIngredient(ingredient);
+	}
+	public void updateIngredient(IngredientDTO ingredient) throws DALException{
+		for(int i=0;i<ingredientDAO.getIngredientList().size();i++){
+			if(ingredientDAO.getIngredient(i).getIngredientName().equals(ingredient.getIngredientName()) 
+					&& ingredientDAO.getIngredient(i).getSupplier().equals(ingredient.getSupplier())){
+				throw new DALException("This combination of ingredient and Supplier already exists.");
+			}
+		}
+		ingredientDAO.createIngredient(ingredient);
+	}
+	public ProductBatchComponentDTO getProductBatchComponent(int pbId, int ingrbatchId) throws DALException {
+		return productBatchComponentDAO.getProduktBatchComp(pbId, ingrbatchId);
+	}
 	
-
+	public List<ProductBatchComponentDTO> getProductBatchComponentList(int pbId) throws DALException {
+		return productBatchComponentDAO.getProductBatchComponentList(pbId);
 	}
-
+	
+	public List<ProductBatchComponentDTO> getProductBatchComponentList() throws DALException {
+		return productBatchComponentDAO.getProductBatchComponentList();
+	}
+	
+	public void createProductBatchComponent(ProductBatchComponentDTO productbatchcomponent) throws DALException {
+		for(int i=0;i<productBatchDAO.getProductBatchList().size();i++) {
+			if(productBatchDAO.getProductBatch(i).getProductBatchID()==productbatchcomponent.getProductBatchID()) {
+				for(int j=0;j<ingredientDAO.getIngredientList().size();j++) {
+					if(ingredientDAO.getIngredient(i).getIngredientID()==productbatchcomponent.getIngredientID()) {
+						throw new DALException("ID already taken.");
+					} ///////////
+				}
+			}
+		}
+		productBatchComponentDAO.createProductBatchComponent(productbatchcomponent);
+	}
+	
+	public void updateProductBatchComponent(ProductBatchComponentDTO productbatchComponent) throws DALException {
+		productBatchComponentDAO.updateProductBatchComponent(productbatchComponent);
+	}/////////////////
+	
+	public ProductBatchDTO getProductBatch(int pbId) throws DALException {
+		return productBatchDAO.getProductBatch(pbId);
+	}
+	
+	public List<ProductBatchDTO> getProductBatchList() throws DALException {
+		return productBatchDAO.getProductBatchList();
+	}
+	
+	public void createProductBatch(ProductBatchDTO productbatch) throws DALException {
+		for(int i=0;i<productBatchDAO.getProductBatchList().size();i++) {
+			if(productBatchDAO.getProductBatch(i).getProductBatchID()==productbatch.getProductBatchID()) {
+				throw new DALException("ID already taken.");
+			} 
+		}
+		productBatchDAO.createProductBatch(productbatch);
+	}
+	
+	public void updateProductBatch(ProductBatchDTO productbatch) throws DALException {
+		productBatchDAO.updateProductBatch(productbatch);
+	}
+	
+	public RecipeDTO getRecipeId(int recipeID) throws DALException {
+		return recipeDAO.getRecipe(recipeID);
+	}
+	
+	public List<RecipeDTO> getRecipeList() throws DALException {
+		return recipeDAO.getRecipeList();
+	}
+	
+	public void createRecipe(RecipeDTO recipe) throws DALException {
+		for(int i=0;i<recipeDAO.getRecipeList().size();i++) {
+			if(recipeDAO.getRecipe(i).getRecipeID()==recipe.getRecipeID()) {
+				throw new DALException("ID already taken.");				
+			} else if(recipeDAO.getRecipe(i).getRecipeName().equals(recipe.getRecipeName())) {
+				///////
+			}
+		}
+	}
+	
+	public void updateRecipe(RecipeDTO recipe) throws DALException {
+		recipeDAO.updateRecipe(recipe);
+		//////////
+	}
+	
+	public RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException {
+		return recipeComponentDAO.getRecipeComponent(recipeID, ingredientID);
+	}
+	
+	public List<RecipeComponentDTO> getRecipeComponentList() throws DALException {
+		return recipeComponentDAO.getRecipeComponentList();
+	}
+	
+	public void createRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
+		for(int i=0;i<recipeDAO.getRecipeList().size();i++) {
+			if(recipeDAO.getRecipe(i).getRecipeID()==recipeComponent.getRecipeID()) {
+				for(int j=0;j<ingredientDAO.getIngredientList().size();j++) {
+					if(ingredientDAO.getIngredient(i).getIngredientID()==recipeComponent.getIngredientID()) {
+						throw new DALException("ID already taken.");
+					}
+					////////////
+				}
+			}
+		}
+		recipeComponentDAO.createRecipeComponent(recipeComponent);
+	}
+	
+	public void updateRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
+		recipeComponentDAO.updateRecipeComponent(recipeComponent);
+		////////////
+	}
+	public IngredientBatchDTO getIngredientBatch(int ibId) throws DALException{
+		return ingredientBatchDAO.getIngredientBatch(ibId);
+	}
+	public List<IngredientBatchDTO> getIngredientBatch() throws DALException{
+		return ingredientBatchDAO.getIngredientBatchList();
+	}
+	public void createIngredientBatch(IngredientBatchDTO ingredientBatch){
+		///////////
+	}
+	public void updateIngredientBatch(IngredientBatchDTO ingredientBatch) {
+		///////////////
+	}
+	
+}

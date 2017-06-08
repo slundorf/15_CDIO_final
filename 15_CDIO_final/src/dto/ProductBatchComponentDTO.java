@@ -18,7 +18,7 @@ public class ProductBatchComponentDTO implements Serializable{
 	
 	public ProductBatchComponentDTO(){}
 	public ProductBatchComponentDTO(int productBatchID, int ingredientID, String ingredientName
-			, double amount, double tolerance, double tara, double netto, Integer ingredientBatchID){
+			, double amount, double tolerance, double tara, double netto, int ingredientBatchID){
 		this.setIngredientID(ingredientID);
 		this.setIngredientName(ingredientName);
 		this.setAmount(amount);
