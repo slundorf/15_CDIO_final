@@ -7,11 +7,17 @@ import java.util.List;
 import java.util.Random;
 
 import dto.IngredientDTO;
+import dto.ProductBatchComponentDTO;
+import dto.ProductBatchDTO;
+import dto.RecipeComponentDTO;
+import dto.RecipeDTO;
 import dto.RoleDTO;
 import dto.UserDTO;
 import exceptions.DALException;
 import interfaces.IIngredientDAO;
+import interfaces.IProductBatchComponentDAO;
 import interfaces.IProductBatchDAO;
+import interfaces.IRecipeComponentDAO;
 import interfaces.IRecipeDAO;
 import interfaces.IRoleDAO;
 import interfaces.IUserDAO;
@@ -34,6 +40,8 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	private IIngredientDAO ingredientDAO;
 	private IRecipeDAO recipeDAO;
 	private IProductBatchDAO productBatchDAO;
+	private IProductBatchComponentDAO productBatchComponentDAO;
+	private IRecipeComponentDAO recipeComponentDAO;
 	
 	
 	public BusinessLayerImplementation(IUserDAO userDAO, IRoleDAO roleDAO) {
@@ -340,5 +348,99 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 			throw new DALException("Invalid ID");
 		}
 	}
-
+	public ProductBatchComponentDTO getProductBatchComponent(int pbId, int ingrbatchId) throws DALException {
+		return productBatchComponentDAO.getProduktBatchComp(pbId, ingrbatchId);
+	}
+	
+	public List<ProductBatchComponentDTO> getProductBatchComponentList(int pbId) throws DALException {
+		return productBatchComponentDAO.getProductBatchComponentList(pbId);
+	}
+	
+	public List<ProductBatchComponentDTO> getProductBatchComponentList() throws DALException {
+		return productBatchComponentDAO.getProductBatchComponentList();
+	}
+	
+	public void createProductBatchComponent(ProductBatchComponentDTO productbatchcomponent) throws DALException {
+		//kombination af produktbatchid og ingredientid
+		for(int i=0;i<productBatchDAO.getProductBatchList().size();i++) {
+			if(productBatchDAO.getProductBatch(i).getProductBatchID()==productbatchcomponent.getProductBatchID()) {
+				for(int j=0;j<ingredientDAO.getIngredientList().size();j++) {
+					if(ingredientDAO.getIngredient(i).getIngredientID()==productbatchcomponent.getIngredientID()) {
+						throw new DALException("ID already taken.");
+					}
+				}
+			}
+		}
+		productBatchComponentDAO.createProductBatchComponent(productbatchcomponent);
+	}
+	
+	public void updateProductBatchComponent(ProductBatchComponentDTO productbatchComponent) throws DALException {
+		productBatchComponentDAO.updateProductBatchComponent(productbatchComponent);
+	}
+	
+	public ProductBatchDTO getProductBatch(int pbId) throws DALException {
+		return productBatchDAO.getProductBatch(pbId);
+	}
+	
+	public List<ProductBatchDTO> getProductBatchList() throws DALException {
+		return productBatchDAO.getProductBatchList();
+	}
+	
+	public void createProductBatch(ProductBatchDTO productbatch) throws DALException {
+		for(int i=0;i<productBatchDAO.getProductBatchList().size();i++) {
+			if(productBatchDAO.getProductBatch(i).getProductBatchID()==productbatch.getProductBatchID()) {
+				throw new DALException("ID already taken.");
+			}
+		}
+		productBatchDAO.createProductBatch(productbatch);
+	}
+	
+	public void updateProductBatch(ProductBatchDTO productbatch) throws DALException {
+		productBatchDAO.updateProductBatch(productbatch);
+	}
+	
+	public RecipeDTO getRecipeId(int recipeID) throws DALException {
+		return recipeDAO.getRecipe(recipeID);
+	}
+	
+	public List<RecipeDTO> getRecipeList() throws DALException {
+		return recipeDAO.getRecipeList();
+	}
+	
+	public void createRecipe(RecipeDTO recipe) throws DALException {
+		for(int i=0;i<recipeDAO.getRecipeList().size();i++) {
+			if(recipeDAO.getRecipe(i).getRecipeID()==recipe.getRecipeID()) {
+				throw new DALException("ID already taken.");				
+			}
+		}
+	}
+	
+	public void updateRecipe(RecipeDTO recipe) throws DALException {
+		recipeDAO.updateRecipe(recipe);
+	}
+	
+	public RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException {
+		return recipeComponentDAO.getRecipeComponent(recipeID, ingredientID);
+	}
+	
+	public List<RecipeComponentDTO> getRecipeComponentList() throws DALException {
+		return recipeComponentDAO.getRecipeComponentList();
+	}
+	
+	public void createRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
+		for(int i=0;i<recipeDAO.getRecipeList().size();i++) {
+			if(recipeDAO.getRecipe(i).getRecipeID()==recipeComponent.getRecipeID()) {
+				for(int j=0;j<ingredientDAO.getIngredientList().size();j++) {
+					if(ingredientDAO.getIngredient(i).getIngredientID()==recipeComponent.getIngredientID()) {
+						throw new DALException("ID already taken.");
+					}
+				}
+			}
+		}
+		recipeComponentDAO.createRecipeComponent(recipeComponent);
+	}
+	
+	public void updateRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
+		recipeComponentDAO.updateRecipeComponent(recipeComponent);
+	}
 }
