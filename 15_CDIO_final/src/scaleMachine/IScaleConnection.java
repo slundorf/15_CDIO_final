@@ -9,7 +9,6 @@ import exceptions.scaleConnectionException;
  *
  */
 public interface IScaleConnection {
-
 	
 	/**
 	 * Display the massage on the scale and wait for response
