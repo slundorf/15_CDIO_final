@@ -166,3 +166,34 @@ function createIngredientBatch() {
 	});
 }
 
+function getUsers(){
+	$("#usertablebody").html(""); //tømmer element
+	$.ajax({
+		method: "GET",
+		url: rootURL + '/getUsr',
+		dataType: "json",
+		success: function(response) { 
+			$.each(response, function(i, user) {
+				$("#usrTableBody").append(generateUserHTML(user));
+				
+			});
+		},
+		error: function() {
+			console.log("Error loading users");
+		}
+	});
+}
+
+function generateUserHTML(user){
+	var deleteId = user.usrId;
+	console.log("user id "+deleteId);
+	console.log("user id " + user.usrId);
+	return 	'<tr><td>' + user.usrId + '</td>' +
+				'<td>' + user.usrName + '</td>'+
+				'<td>' + user.ini+'</td>'+
+				'<td>' + user.cpr+'</td>'+
+				'<td>' + user.psword+'</td>'+
+				'<td>' + user.roles+'</td>'+
+				'<td><button data-userid="' + user.usrId + '" onclick="deleteUser2(this);">Slet bruger</button></td>' +
+				'</tr>';
+}
