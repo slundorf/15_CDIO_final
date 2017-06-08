@@ -384,13 +384,12 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	}
 	
 	public void createProductBatchComponent(ProductBatchComponentDTO productbatchcomponent) throws DALException {
-		//kombination af produktbatchid og ingredientid
 		for(int i=0;i<productBatchDAO.getProductBatchList().size();i++) {
 			if(productBatchDAO.getProductBatch(i).getProductBatchID()==productbatchcomponent.getProductBatchID()) {
 				for(int j=0;j<ingredientDAO.getIngredientList().size();j++) {
 					if(ingredientDAO.getIngredient(i).getIngredientID()==productbatchcomponent.getIngredientID()) {
 						throw new DALException("ID already taken.");
-					}
+					} ///////////
 				}
 			}
 		}
@@ -399,7 +398,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	
 	public void updateProductBatchComponent(ProductBatchComponentDTO productbatchComponent) throws DALException {
 		productBatchComponentDAO.updateProductBatchComponent(productbatchComponent);
-	}
+	}/////////////////
 	
 	public ProductBatchDTO getProductBatch(int pbId) throws DALException {
 		return productBatchDAO.getProductBatch(pbId);
@@ -413,7 +412,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		for(int i=0;i<productBatchDAO.getProductBatchList().size();i++) {
 			if(productBatchDAO.getProductBatch(i).getProductBatchID()==productbatch.getProductBatchID()) {
 				throw new DALException("ID already taken.");
-			}
+			} 
 		}
 		productBatchDAO.createProductBatch(productbatch);
 	}
@@ -434,12 +433,15 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		for(int i=0;i<recipeDAO.getRecipeList().size();i++) {
 			if(recipeDAO.getRecipe(i).getRecipeID()==recipe.getRecipeID()) {
 				throw new DALException("ID already taken.");				
+			} else if(recipeDAO.getRecipe(i).getRecipeName().equals(recipe.getRecipeName())) {
+				///////
 			}
 		}
 	}
 	
 	public void updateRecipe(RecipeDTO recipe) throws DALException {
 		recipeDAO.updateRecipe(recipe);
+		//////////
 	}
 	
 	public RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException {
@@ -457,6 +459,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 					if(ingredientDAO.getIngredient(i).getIngredientID()==recipeComponent.getIngredientID()) {
 						throw new DALException("ID already taken.");
 					}
+					////////////
 				}
 			}
 		}
@@ -465,6 +468,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	
 	public void updateRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
 		recipeComponentDAO.updateRecipeComponent(recipeComponent);
+		////////////
 	}
 	public IngredientBatchDTO getIngredientBatch(int ibId) throws DALException{
 		return ingredientBatchDAO.getIngredientBatch(ibId);
@@ -473,7 +477,10 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		return ingredientBatchDAO.getIngredientBatchList();
 	}
 	public void createIngredientBatch(IngredientBatchDTO ingredientBatch){
-		
+		///////////
+	}
+	public void updateIngredientBatch(IngredientBatchDTO ingredientBatch) {
+		///////////////
 	}
 	
 }
