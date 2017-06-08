@@ -46,5 +46,18 @@ public class Weight {
 		return true;
 	}
 	
+	@POST @Path("ib")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean createIngredientBatch() {
+		return true;
+	}
+	
+	@GET @Path("getUsr")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean getUsr() {
+		return true;
+	}
 	
 }

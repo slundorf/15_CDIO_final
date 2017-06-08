@@ -4,6 +4,13 @@
 
 var rootURL = "http://localhost:8080/15_CDIO_final/rest/weight";
 
+// Functions for serializing data to a JSON object.
+
+function login() { $('#loginForm').serializeJSON() }
+function cu() { return $('#cuForm').serializeJSON() }
+function ci() { $('#ciForm').serializeJSON() }
+function ib() { $('#ibForm').serializeJSON() }
+
 var login = $('#loginForm').serializeJSON();
 var cu = $('#cuForm').serializeJSON();
 var recept = $('#receptForm').serializeJSON();
@@ -12,25 +19,33 @@ var ci = $('#ciForm').serializeJSON();
 var ib = $('#ibForm').serializeJSON();
 
 
+
 // Collection of functions to pick up the event of clicking specific buttons throughout the web application
 // and then calling the specific function.
 
+$(document).ready(function() { // Prevents anything from running until the actual event happens.
+
 $('#loginButton').click(function() {
+	var login = login();
 	validateLogin();
 	return false;
 });
 
 $('#cuButton').click(function() {
+	var cu = cu();
 	createUser();
 	return false;
 });
 
 $('#ciButton').click(function() {
-	createUser();
+	var ci = ci();
+	createIngredient();
 	return false;
 });
 
 $('#ibButton').click(function() {
+	var ib = ib();
+	createIngredientBatch();
 	createUser();
 	return false;
 });
@@ -43,6 +58,8 @@ $('#receptButton').click(function() {
 $('#productButton').click(function() {
 	createProduct();
 	return false;
+});
+
 });
 
 function validateLogin() {
@@ -149,3 +166,34 @@ function createIngredientBatch() {
 	});
 }
 
+function getUsers(){
+	$("#usertablebody").html(""); //tømmer element
+	$.ajax({
+		method: "GET",
+		url: rootURL + '/getUsr',
+		dataType: "json",
+		success: function(response) { 
+			$.each(response, function(i, user) {
+				$("#usrTableBody").append(generateUserHTML(user));
+				
+			});
+		},
+		error: function() {
+			console.log("Error loading users");
+		}
+	});
+}
+
+function generateUserHTML(user){
+	var deleteId = user.usrId;
+	console.log("user id "+deleteId);
+	console.log("user id " + user.usrId);
+	return 	'<tr><td>' + user.usrId + '</td>' +
+				'<td>' + user.usrName + '</td>'+
+				'<td>' + user.ini+'</td>'+
+				'<td>' + user.cpr+'</td>'+
+				'<td>' + user.psword+'</td>'+
+				'<td>' + user.roles+'</td>'+
+				'<td><button data-userid="' + user.usrId + '" onclick="deleteUser2(this);">Slet bruger</button></td>' +
+				'</tr>';
+}
