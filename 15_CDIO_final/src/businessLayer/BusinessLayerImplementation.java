@@ -1,15 +1,20 @@
 package businessLayer;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.text.SimpleDateFormat;
 
+import dto.IngredientDTO;
 import dto.RoleDTO;
 import dto.UserDTO;
 import exceptions.DALException;
-import interfaces.*;
+import interfaces.IIngredientDAO;
+import interfaces.IProductBatchDAO;
+import interfaces.IRecipeDAO;
+import interfaces.IRoleDAO;
+import interfaces.IUserDAO;
 
 public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	private final String uLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -30,6 +35,11 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	private IRecipeDAO recipeDAO;
 	private IProductBatchDAO productBatchDAO;
 	
+	
+	public BusinessLayerImplementation(IUserDAO userDAO, IRoleDAO roleDAO) {
+		this.userDAO=userDAO;
+		this.roleDAO=roleDAO;
+	}
 	@Override
 	public UserDTO getUser(int userID) throws DALException {
 		return userDAO.getUser(userID);
@@ -292,23 +302,6 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		return prodBatchID;
 	}
 
-	private void checkID(int ID) throws DALException {
-		// role ID, User ID, Ingredient ID, recipe ID, productbatchID
-		if (ID > 0 && ID < 6) {
-			roleDAO.getRole(ID);
-		} else if (ID > 10 && ID < 100) {
-			userDAO.getUser(ID);
-		} else if (ID > 99 && ID < 200) {
-			ingredientDAO.getIngredient(ID);
-		} else if (ID > 199 && ID < 300) {
-			recipeDAO.getRecipe(ID);
-		} else if (ID > 299 && ID < 400) {
-			productBatchDAO.getProductBatch(ID);
-		} else
-			throw new DALException("Not a valid ID");
-
-	}
-
 	@Override
 	public RoleDTO getRole(int roleID) throws DALException {
 		return roleDAO.getRole(roleID);
@@ -321,14 +314,31 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 
 	@Override
 	public void createRole(RoleDTO role) throws DALException {
+		if(role.getRoleID()<0 || role.getRoleID()>9)
+			throw new DALException("Invalid ID");
+		for(int i =0;i<roleDAO.getRoleList().size();i++){
+			if(roleDAO.getRole(i).getRoleID()==role.getRoleID()){
+				throw new DALException("ID already taken.");
+			}
+		}
 		roleDAO.createRole(role);
 	}
 
 	@Override
 	public void updateRole(RoleDTO role) throws DALException {
 		roleDAO.updateRole(role);
-		;
+	}
 
+	public IngredientDTO getIngredient(int ingredientID) throws DALException{
+		return ingredientDAO.getIngredient(ingredientID);
+	}
+	public List<IngredientDTO> getIngredientList() throws DALException{
+		return ingredientDAO.getIngredientList();
+	}
+	public void createIngredient(IngredientDTO ingredient) throws DALException{
+		if(ingredient.getIngredientID()<100 || ingredient.getIngredientID()>199){
+			throw new DALException("Invalid ID");
+		}
 	}
 
 }
