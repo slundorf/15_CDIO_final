@@ -11,42 +11,40 @@ import exceptions.scaleConnectionException;
 public interface IScaleConnection {
 	
 	/**
-	 * Display the massage on the scale and wait for response
+	 * Display the massage on the scale and wait for numeric response
 	 * @param msg max. 24 characters
 	 * @return answer from the scale
 	 * @throws scaleConnectionException
 	 */
-	String getString(String msg) throws scaleConnectionException;
+	int getInteger(String msg) throws scaleConnectionException;
 	/**
 	 * Note the current mass and return it.
-	 * @param msg
 	 * @return netto weight
 	 * @throws scaleConnectionException
 	 */
-	int getMass(String msg) throws scaleConnectionException;
+	double getMass() throws scaleConnectionException;
 
 	/** set the scale to zero and return the difference
 	 * 
 	 * @return tara weight
 	 * @throws scaleConnectionException
 	 */
-	int doTara() throws scaleConnectionException;
+	double doTara() throws scaleConnectionException;
 	/**
 	 * display a message in the bottom line. Max
 	 * @param msg max. 30 characters
 	 * @throws scaleConnectionException
 	 */
-	void setBottomMsg(String msg) throws scaleConnectionException;
+	void setComponentName(String msg) throws scaleConnectionException;
 	/**
 	 * remove the message in the bottom line of the scale
 	 * @throws scaleConnectionException
 	 */
-	void removeBottomMsg() throws scaleConnectionException;
+	void removeComponentName() throws scaleConnectionException;
 	/**
 	 * show a temporary message on the display
 	 * @param msg max. 24 characters
 	 * @throws scaleConnectionException
 	 */
-	void displayTemporaryMsg(String msg) throws scaleConnectionException;
-	
+	void displayMsg(String msg) throws scaleConnectionException;
 }

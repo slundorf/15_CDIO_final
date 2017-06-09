@@ -25,7 +25,8 @@ public class ScaleConnection implements IScaleConnection {
 		try {
 			clientSocket = new Socket(ip, 8000);
 			outToServer = new PrintWriter(clientSocket.getOutputStream(), true);
-			bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			
 //			new Thread(listener).start();
 		} catch (UnknownHostException e) {
 			System.out.println("Could not connect to the specified IP");
@@ -35,19 +36,154 @@ public class ScaleConnection implements IScaleConnection {
 			e.printStackTrace();
 		}
 	}
+
+	
+	@Override
+	public int getInteger(String msg) throws scaleConnectionException {
+		outToServer.println("RM20 8 \"" + msg + "\" \"\" \"&3\"" );
+		outToServer.flush();
+		String readLine;
+		try {
+			readLine = readFromSocket();
+			if(readLine.equals("RM20 A \"\"")){
+				getInteger(msg);
+			}else if (readLine.startsWith("RM20 A")){
+				//Parse return string 
+				return Integer.valueOf(readLine.split("\"")[1]);
+			}else if(readLine.startsWith("RM20 C") ){
+				getInteger(msg);
+			}else{
+				throw new scaleConnectionException("unexpected answer");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+
+	}
+
+	@Override
+	public double getMass() throws scaleConnectionException {
+		outToServer.println("S");
+		outToServer.flush();
+		String readLine;
+		try{
+			readLine = readFromSocket();
+			while(readLine.startsWith("ES")){
+				outToServer.println("S");
+				outToServer.flush();
+				readLine=readFromSocket();
+			}
+			return Double.valueOf(readLine.split("S")[1].split("kg")[0]);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public double doTara() throws scaleConnectionException {
+		outToServer.println("T");
+		outToServer.flush();
+		String readLine;
+		try{
+			readLine = readFromSocket();
+			while(readLine.startsWith("ES")){
+				outToServer.println("T");
+				outToServer.flush();
+				readLine=readFromSocket();
+			}
+			return Double.valueOf(readLine.split("S")[1].split("kg")[0]);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public void setComponentName(String msg) throws scaleConnectionException {
+		outToServer.println("P111 \""+msg+"\"");
+		outToServer.flush();
+		try{
+			readFromSocket();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void removeComponentName() throws scaleConnectionException {
+		outToServer.println("P111 \"\"");
+		outToServer.flush();
+		try{
+			readFromSocket();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void displayMsg(String msg) throws scaleConnectionException {
+		outToServer.println("RM20 8 \"" + msg + "\" \"\" \"&3\"" );
+		outToServer.flush();
+		String readLine;
+		try{
+			readLine = readFromSocket();
+			if ("RM20 B".equals(readLine)){
+				String readLine2 = readFromSocket();	
+			}else{
+				throw new scaleConnectionException("unexpected answer");
+			}
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void setOperatorInitials(String operatorInitials){
+		outToServer.println("P112 1 \""+operatorInitials+"\"");
+		outToServer.flush();
+		try{
+			readFromSocket();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	public void removeOperatorInitials(){
+		outToServer.println("P113 1");
+		outToServer.flush();
+		try{
+			readFromSocket();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	public void setProductBatchID(String productBatchID){
+		outToServer.println("P112 2 \""+productBatchID+"\"");
+		outToServer.flush();
+		try{
+			readFromSocket();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	public void removeProductBatchID(){
+		outToServer.println("P113 2");
+		outToServer.flush();
+		try{
+			readFromSocket();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
 	
 //	public String getInput(String msg) throws IOException, InputException{
-//		outToServer.write("RM20 8 " + msg + "" );
-//		outToServer.flush();
-//		String readLine = readFromSocket();
-//		if ("RM20 B".equals(readLine)){
-//			String readLine2 = inFromServer.readLine();
-//			//Parse return string 
-//			return readLine2.split("RM20 A")[1];
-//			
-//		} else {
-//			throw new InputException();
-//		}
+
 //		
 //	}
 //	
@@ -67,13 +203,7 @@ public class ScaleConnection implements IScaleConnection {
 //		
 //	}
 //
-//	private String readFromSocket() throws IOException {
-//		String readLine = inFromServer.readLine();
-//	    while (readLine.startsWith("IA") || readLine.startsWith("RM20 I")){
-//			readLine = inFromServer.readLine();
-//		}
-//		return readLine;
-//	}
+
 //	
 //	
 ////	Skulle vi have brugt, men har ikke tid til at implementere det.
@@ -129,40 +259,31 @@ public class ScaleConnection implements IScaleConnection {
 //		
 //	}
 
-@Override
-public String getString(String msg) throws scaleConnectionException {
-	// TODO Auto-generated method stub
-	return null;
-}
+	private String readFromSocket() throws IOException {
+		String answerFromServer;
+		try {
+			answerFromServer = inFromServer.readLine();
+			if (answerFromServer.startsWith("I4")) {
+				answerFromServer = inFromServer.readLine();
+			} else if (answerFromServer.startsWith("RM20 I")) {
+				answerFromServer = inFromServer.readLine();
+			}
 
-@Override
-public int getMass(String msg) throws scaleConnectionException {
-	// TODO Auto-generated method stub
-	return 0;
-}
-
-@Override
-public int doTara() throws scaleConnectionException {
-	// TODO Auto-generated method stub
-	return 0;
-}
-
-@Override
-public void setBottomMsg(String msg) throws scaleConnectionException {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public void removeBottomMsg() throws scaleConnectionException {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public void displayTemporaryMsg(String msg) throws scaleConnectionException {
-	// TODO Auto-generated method stub
-	
-}
-
+			// IF the message is the (RM 20 8 "TEXT" "" "&3") type, the
+			// following if statement is initiated.
+			// this is done because the RM type of message is answered two
+			// times, confirmation of message received,
+			// and then the answer from the user.
+			if (answerFromServer.startsWith("RM20 B")) {
+				answerFromServer = inFromServer.readLine();
+				return answerFromServer;
+			} else {
+				return answerFromServer;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error in outputToServer method");
+			return "";// this is only to fulfill compiler demands.
+		}
+	}
 }

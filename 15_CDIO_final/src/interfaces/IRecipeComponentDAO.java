@@ -14,14 +14,14 @@ public interface IRecipeComponentDAO {
 	 * @return recipeComponent
 	 * @throws DALException
 	 */
-	RecipeComponentDTO getRecipeComponent(int receptId, int raavareId) throws DALException;
+	RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException;
 	/**
 	 * 
 	 * @param receptId
 	 * @return List of recipecomponents with specified receptID
 	 * @throws DALException
 	 */
-	List<RecipeComponentDTO> getRecipeComponentList(int receptId) throws DALException;
+	List<RecipeComponentDTO> getRecipeComponentList(int recipeID) throws DALException;
 	/**
 	 * 
 	 * @return all receptcomponents.
@@ -32,12 +32,12 @@ public interface IRecipeComponentDAO {
 	 * @param receptkomponent
 	 * @throws DALException
 	 */
-	void createRecipeComponent(RecipeComponentDTO receptkomponent) throws DALException;
+	void createRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException;
 	/**
 	 * 
 	 * @param receptkomponent
 	 * @throws DALException
 	 */
-	void updateRecipeComponent(RecipeComponentDTO receptkomponent) throws DALException;
+	void updateRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException;
 
 }

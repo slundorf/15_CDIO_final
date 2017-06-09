@@ -13,7 +13,7 @@ public class ProductBatchComponentDTO implements Serializable{
 	private double tolerance;
 	private double tara;
 	private double netto;
-	private Integer ingredientBatchID;
+	private int ingredientBatchID;
 	private int productBatchID;
 	
 	public ProductBatchComponentDTO(){}
