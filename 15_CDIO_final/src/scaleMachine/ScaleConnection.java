@@ -32,7 +32,7 @@ public class ScaleConnection implements IScaleConnection {
 			System.out.println("Could not connect to the specified IP");
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("Error in constructor");
+			System.out.println("Error in constructor ScaleConnection");
 			e.printStackTrace();
 		}
 	}

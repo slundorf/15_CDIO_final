@@ -47,4 +47,14 @@ public interface IScaleConnection {
 	 * @throws scaleConnectionException
 	 */
 	void displayMsg(String msg) throws scaleConnectionException;
+	
+	void setOperatorInitials(String operatorInitials) throws scaleConnectionException;
+	
+	void removeOperatorInitials() throws scaleConnectionException;
+	
+	void setProductBatchID(String productBatchID) throws scaleConnectionException;
+	
+	void removeProductBatchID() throws scaleConnectionException;
+	
+	 
 }

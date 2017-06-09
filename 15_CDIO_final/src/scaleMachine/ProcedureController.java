@@ -38,9 +38,13 @@ public class ProcedureController {
 	private int input3;
 	ScaleConnection connection;
 	UserDTO user;
+	
+	public ProcedureController(ScaleConnection connection){
+		this.connection=connection;
+	}
 
 	public void startScaleProcess() throws DALException, IOException, InputException, scaleConnectionException {
-		connection = new ScaleConnection("127.0.0.1");// for
+	
 
 		enterUserId(connection);
 		enterProductBatchId(connection);
