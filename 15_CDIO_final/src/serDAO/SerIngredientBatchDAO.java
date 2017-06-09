@@ -20,8 +20,6 @@ public class SerIngredientBatchDAO extends SerDAO<IngredientBatchDTO> implements
 	@Override
 	public IngredientBatchDTO getIngredientBatch(int ibId) throws DALException {
 		loadInfo();
-		if (list.size() == 0)
-			throw new DALException("The database is empty.");
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getIngredientBatchID() == ibId) {
 				return list.get(i);
@@ -34,8 +32,8 @@ public class SerIngredientBatchDAO extends SerDAO<IngredientBatchDTO> implements
 	@Override
 	public List<IngredientBatchDTO> getIngredientBatchList() throws DALException {
 		loadInfo();
-		if (list.size() == 0)
-			throw new DALException("There are no Ingredient batches in the database.");
+//		if (list.size() == 0)
+//			throw new DALException("There are no Ingredient batches in the database.");
 		return list;
 	}
 
@@ -44,8 +42,6 @@ public class SerIngredientBatchDAO extends SerDAO<IngredientBatchDTO> implements
 	public List<IngredientBatchDTO> getIngredientBatchList(int ingredientId) throws DALException {
 		loadInfo();
 		List<IngredientBatchDTO> returnList = new ArrayList<IngredientBatchDTO>();
-		if (list.size() == 0)
-			throw new DALException("There are no Ingredient batches in the database.");
 		for (int i = 0; i < list.size(); i++){
 			if (ingredientId == list.get(i).getIngredientID()){
 				returnList.add(list.get(i));
