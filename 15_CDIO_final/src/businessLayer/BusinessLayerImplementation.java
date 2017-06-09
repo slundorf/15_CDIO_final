@@ -299,22 +299,6 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		}
 	}
 
-	/**
-	 * Method to generate an ID for the product batch-
-	 * 
-	 * @return prodBatchID
-	 */
-	private int productBatchIDGenerator() throws DALException {
-		int prodBatchID = productBatchMin;
-		for (int i = 0; i < 100; i++) {
-			prodBatchID++;
-		}
-		if (prodBatchID > productBatchMax) {
-			prodBatchID = 0;
-		}
-		return prodBatchID;
-	}
-
 	@Override
 	public RoleDTO getRole(int roleID) throws DALException {
 		return roleDAO.getRole(roleID);
@@ -433,9 +417,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		for(int i=0;i<recipeDAO.getRecipeList().size();i++) {
 			if(recipeDAO.getRecipe(i).getRecipeID()==recipe.getRecipeID()) {
 				throw new DALException("ID already taken.");				
-			} else if(recipeDAO.getRecipe(i).getRecipeName().equals(recipe.getRecipeName())) {
-				///////
-			}
+			} 
 		}
 	}
 	
