@@ -75,7 +75,7 @@ public class SerDAOTest {
 		recipe = new RecipeDTO(1, "Flåede tomater");
 		recipeComp = new RecipeComponentDTO(1, 1, 1.5, 0.5);
 		
-		pb = new ProductBatchDTO(1, recipe.getRecipeID(), recipe.getRecipeName(), "06-06-2017", "Not begun" );
+		pb = new ProductBatchDTO(1, recipe.getRecipeID(), recipe.getRecipeName(), "06-06-2017", "Not begun", 11);
 		pbc= new ProductBatchComponentDTO(1, 1, ingr1.getIngredientName(), 1.5, 0.5, 0, 0, 1);
 	}
 
@@ -106,7 +106,7 @@ public class SerDAOTest {
 		recipe = new RecipeDTO(1, "Flåede tomater");
 		recipeComp = new RecipeComponentDTO(1, 1, 1.5, 0.5);
 		
-		pb = new ProductBatchDTO(1, recipe.getRecipeID(), recipe.getRecipeName(), "06-06-2017", "Not begun" );
+		pb = new ProductBatchDTO(1, recipe.getRecipeID(), recipe.getRecipeName(), "06-06-2017", "Not begun",11);
 		pbc= new ProductBatchComponentDTO(1, 1, ingr1.getIngredientName(), 1.5, 0.5, 0, 0, 1);
 	}
 
