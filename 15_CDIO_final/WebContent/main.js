@@ -4,34 +4,42 @@
 
 var rootURL = "http://localhost:8080/15_CDIO_final/rest/weight";
 
-var login = $('#loginForm').serializeJSON();
-var cu = $('#cuForm').serializeJSON();
-var recept = $('#receptForm').serializeJSON();
-var product = $('#productForm').serializeJSON();
-var ci = $('#ciForm').serializeJSON();
-var ib = $('#ibForm').serializeJSON();
+// Functions for serializing data to a JSON object.
+
+function login() { return $('#loginForm').serializeJSON() }
+function cu() { return $('#cuForm').serializeJSON() }
+function ci() { return $('#ciForm').serializeJSON() }
+function ib() { return $('#ibForm').serializeJSON() }
+function recept() { return $('receptForm').serializeJSON() }
+function product() { return $('productForm').serializeJSON() }
 
 
 // Collection of functions to pick up the event of clicking specific buttons throughout the web application
 // and then calling the specific function.
 
+$(document).ready(function() { // Prevents anything from running until the actual event happens.
+
 $('#loginButton').click(function() {
+	var login = login();
 	validateLogin();
 	return false;
 });
 
 $('#cuButton').click(function() {
 	createUser();
+	getUsers();
 	return false;
 });
 
 $('#ciButton').click(function() {
-	createUser();
+	var ci = ci();
+	createIngredient();
 	return false;
 });
 
 $('#ibButton').click(function() {
-	createUser();
+	var ib = ib();
+	createIngredientBatch();
 	return false;
 });
 
@@ -43,6 +51,8 @@ $('#receptButton').click(function() {
 $('#productButton').click(function() {
 	createProduct();
 	return false;
+});
+
 });
 
 function validateLogin() {
@@ -69,7 +79,7 @@ function createUser() {
 		contentType: 'application/json',
 		url: rootURL + '/cu',
 		dataType: "json",
-		data: cu,
+		data: cu(),
 		success: function(data, textStatus, jqXHR) {
 			alert('Yay');
 		},
@@ -149,3 +159,34 @@ function createIngredientBatch() {
 	});
 }
 
+function getUsers(){
+	$("#usertablebody").html(""); //tømmer element
+	$.ajax({
+		method: "GET",
+		url: rootURL + '/getUsr',
+		dataType: "json",
+		success: function(response) { 
+			$.each(response, function(i, user) {
+				$("#usertablebody").append(generateUserHTML(user));
+				
+			});
+		},
+		error: function() {
+			console.log("Error loading users");
+		}
+	});
+}
+
+function generateUserHTML(user){
+	var deleteId = user.usrId;
+	console.log("user id "+deleteId);
+	console.log("user id " + user.usrId);
+	return 	'<tr><td>' + user.usrId + '</td>' +
+				'<td>' + user.usrName + '</td>'+
+				'<td>' + user.ini+'</td>'+
+				'<td>' + user.cpr+'</td>'+
+				'<td>' + user.psword+'</td>'+
+				'<td>' + user.roles+'</td>'+
+				'<td><button data-userid="' + user.usrId + '" onclick="deleteUser2(this);">Slet bruger</button></td>' +
+				'</tr>';
+}

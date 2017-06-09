@@ -29,7 +29,7 @@ public class UserDTO implements Serializable{
 	 * @param role the role of the user
 	 * @param status true/false for active/inactive.
 	 */
-	public UserDTO(int userID,String userName, String ini, String cpr, String password, RoleDTO role, boolean status){
+	public UserDTO(int userID){
 		this.setUserID(userID);
 		this.setUserName(userName);
 		this.setIni(ini);
