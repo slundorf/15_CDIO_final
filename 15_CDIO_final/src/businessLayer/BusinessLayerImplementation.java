@@ -47,7 +47,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	private IRecipeComponentDAO recipeComponentDAO;
 	
 	
-	public BusinessLayerImplementation(IUserDAO userDAO) {
+	public BusinessLayerImplementation(IUserDAO userDAO, IRoleDAO roleDAO, IIngredientDAO ingredientDAO, IIngredientBatchDAO ingredientBatchDAO) {
 		this.userDAO=userDAO;
 		this.roleDAO=roleDAO;
 		this.ingredientDAO=ingredientDAO;
@@ -66,6 +66,11 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	@Override
 	public void createUser(UserDTO user) throws DALException {
 		
+
+//		for(int i=0;i<roleDAO.getRoleList().size();i++){
+//			if(user.getRole().getRoleName().equals(roleDAO.getRole(i).getRoleName()))
+//				user.getRole().setRoleID(roleDAO.getRole(i).getRoleID());
+//		}
 		user.setPassword(createPassword());
 		checkUser(user);
 		userDAO.createUser(user);
@@ -84,11 +89,11 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	 */
 	private void checkUser(UserDTO user) throws DALException {
 		//Check for ID already taken.
-		for (int i = 0; i < userDAO.getUserList().size(); i++) {
-			if (userDAO.getUserList().get(i).getUserID() == user.getUserID())
-				throw new DALException("UserID already taken.");
-		}
-		
+//		for (int i = 0; i < userDAO.getUserList().size(); i++) {
+//			if (userDAO.getUserList().get(i).getUserID() == user.getUserID())
+//				throw new DALException("UserID already taken.");
+//		}
+//		
 		//Check username
 		if (user.getUserName().length() > 20 || user.getUserName().length() < 2)
 			throw new DALException("Username length must be between 2 and 20 characters");
@@ -108,22 +113,22 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 			throw new DALException("Initials should have a length between [2-4]");
 		}
 
-		for (int i = 0; i < userDAO.getUserList().size(); i++) {
-			if (user.getIni().equals(userDAO.getUserList().get(i).getIni()))
-				if (!(userDAO.getUserList().get(i).getUserID() == user.getUserID()))
-					throw new DALException("Initials already taken");
-		}
+//		for (int i = 0; i < userDAO.getUserList().size(); i++) {
+//			if (user.getIni().equals(userDAO.getUserList().get(i).getIni()))
+//				if (!(userDAO.getUserList().get(i).getUserID() == user.getUserID()))
+//					throw new DALException("Initials already taken");
+//		}
 		
 		
 		//Check CPR number
 		checkCpr(user.getCpr());
-		for (int i = 0; i < userDAO.getUserList().size(); i++) {
-			if (!(user.getUserID() == userDAO.getUserList().get(i).getUserID())) {
-				if (user.getCpr().equals(userDAO.getUserList().get(i).getCpr())) {
-					throw new DALException("Invalid CPR number. This CPR number is already taken.");
-				}
-			}
-		}
+//		for (int i = 0; i < userDAO.getUserList().size(); i++) {
+//			if (!(user.getUserID() == userDAO.getUserList().get(i).getUserID())) {
+//				if (user.getCpr().equals(userDAO.getUserList().get(i).getCpr())) {
+//					throw new DALException("Invalid CPR number. This CPR number is already taken.");
+//				}
+//			}
+//		}
 	}
 
 	/**

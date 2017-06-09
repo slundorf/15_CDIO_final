@@ -34,36 +34,48 @@
 			</ul>
 		</div>
 		<div id='box'>
-			<form id="productForm">
-
-				<label for="productID">Product batch ID:</label> <input
-					id="productID" name="productID" type="number" required min="1"
-					max="99999999"><br /> 
-				<label for="receptID">Recept
-					ID:</label> <input id="repceptID" name="repceptID" type="number" required
-					min="1" max="99999999"><br /> 
-				<label for="status">Status:</label>
-				<input id="status" name="status" type="number" required min="0"
-					max="2"><br /> 
-				<label for="userID">User ID:</label> <input
-					id="userID" name="userID" type="number" required min="1"
-					max="99999999"><br />
+			<form id="pbcForm">
 					
 				<label for="rbID">Ingredient batch ID:</label> <input
 					id="rbID" name="rbID" type="number" required min="1"
 					max="99999999"><br />
 					
-					<label for="netto">Netto (in kg and 4 decimals):</label> <input
+				<label for="netto">Netto (in kg and 4 decimals):</label> <input
 					id="netto" name="netto" type="number" required min="0"
 					max="20,0" step="0.01" maxlength="4"> <br /> 
 					
-					<label for="tara">Tara (in kg and 4 decimals):</label> <input
+				<label for="tara">Tara (in kg and 4 decimals):</label> <input
 					id="tara" name="tara" type="number" required min="0"
 					max="20,0" step="0.01" maxlength="4"> <br /> 
 
-				<button id="productButton">Create recept</button>
+				<button id="pbcButton">Add component</button>
 
 			</form>
+			
+			</br></br>
+			
+			<form id="pbForm">
+
+				<label for="productBatchID">Product batch ID:</label> <input
+					id="productBatchID" name="productBatchID" type="number" required min="1"
+					max="99999999"><br /> 
+				<label for="recipeID">Recipe
+					ID:</label> <input id="recipeID" name="recipeID" type="number" required
+					min="1" max="99999999">
+				</br> 
+				<label for="productBatchName">Product batch name:</label>
+				<input type="text" id="productBatchName" name="productBatchName" required>
+				</br>
+				<label for="createdDate">Date created:</label>
+				<input type="date" id="createdDate" name="createdDate" required>
+				</br>
+				<input id="status" name="status" type="hidden" value="Created">
+				<label for="userId">User ID:</label> <input
+					id="userId" name="userId" type="number" required min="1"
+					max="99"><br />
+					<button id="pbButton">Create product batch</button>
+					</form>
+					
 
 		</div>
 	</div>

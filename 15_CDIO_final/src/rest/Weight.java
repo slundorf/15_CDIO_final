@@ -19,16 +19,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import businessLayer.BusinessLayerImplementation;
 import businessLayer.IBusinessLayer;
+import dto.IngredientBatchDTO;
+import dto.IngredientDTO;
+import dto.ProductBatchDTO;
 import dto.UserDTO;
 import exceptions.DALException;
+import interfaces.IIngredientBatchDAO;
+import interfaces.IIngredientDAO;
+import interfaces.IRoleDAO;
 import interfaces.IUserDAO;
+import serDAO.SerIngredientBatchDAO;
+import serDAO.SerIngredientDAO;
+import serDAO.SerRoleDAO;
 import serDAO.SerUserDAO;
 
 @Path("weight")
 public class Weight {
 
 	IUserDAO IUD = new SerUserDAO();
-	IBusinessLayer IBL = new BusinessLayerImplementation(IUD);
+	IRoleDAO IRD = new SerRoleDAO();
+	IIngredientDAO IID = new SerIngredientDAO();
+	IIngredientBatchDAO IIBD = new SerIngredientBatchDAO();
+	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD);
 	
 	@POST @Path("login")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -58,9 +70,7 @@ public class Weight {
 				break;
 		}
 		IBL.createUser(data);
-		
 		return true;
-		
 	}
 	
 	@POST @Path("recept")
@@ -70,24 +80,33 @@ public class Weight {
 		return true;
 	}
 	
-	@POST @Path("product")
+	@POST @Path("pb")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean createProduct() {
+	public boolean createProduct(ProductBatchDTO pb) throws DALException {
+		
+		IBL.createProductBatch(pb);
+		
 		return true;
 	}
 
 	@POST @Path("ci")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean createIngredient() {
+	public boolean createIngredient(IngredientDTO ing) throws DALException {
+		
+		IBL.createIngredient(ing);
+		
 		return true;
 	}
 	
 	@POST @Path("ib")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean createIngredientBatch() {
+	public boolean createIngredientBatch(IngredientBatchDTO ib) throws DALException {
+		
+		IBL.createIngredientBatch(ib);
+		
 		return true;
 	}
 	

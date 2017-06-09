@@ -12,7 +12,7 @@ public class IngredientBatchDTO implements Serializable{
 	private String supplier;
 	
 	public IngredientBatchDTO(){}
-	public IngredientBatchDTO(int ingredientBatchID, int ingredientID, double amount, String supplier){
+	public IngredientBatchDTO(int ingredientBatchID, int ingredientID, double amount){
 		this.setIngredientBatchID(ingredientBatchID);
 		this.setIngredientID(ingredientBatchID);
 		this.setAmount(amount);
