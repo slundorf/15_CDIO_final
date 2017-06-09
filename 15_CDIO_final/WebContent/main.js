@@ -6,18 +6,12 @@ var rootURL = "http://localhost:8080/15_CDIO_final/rest/weight";
 
 // Functions for serializing data to a JSON object.
 
-function login() { $('#loginForm').serializeJSON() }
+function login() { return $('#loginForm').serializeJSON() }
 function cu() { return $('#cuForm').serializeJSON() }
-function ci() { $('#ciForm').serializeJSON() }
-function ib() { $('#ibForm').serializeJSON() }
-
-var login = $('#loginForm').serializeJSON();
-var cu = $('#cuForm').serializeJSON();
-var recept = $('#receptForm').serializeJSON();
-var product = $('#productForm').serializeJSON();
-var ci = $('#ciForm').serializeJSON();
-var ib = $('#ibForm').serializeJSON();
-
+function ci() { return $('#ciForm').serializeJSON() }
+function ib() { return $('#ibForm').serializeJSON() }
+function recept() { return $('receptForm').serializeJSON() }
+function product() { return $('productForm').serializeJSON() }
 
 
 // Collection of functions to pick up the event of clicking specific buttons throughout the web application
@@ -32,8 +26,8 @@ $('#loginButton').click(function() {
 });
 
 $('#cuButton').click(function() {
-	var cu = cu();
 	createUser();
+	getUsers();
 	return false;
 });
 
@@ -46,7 +40,6 @@ $('#ciButton').click(function() {
 $('#ibButton').click(function() {
 	var ib = ib();
 	createIngredientBatch();
-	createUser();
 	return false;
 });
 
@@ -86,7 +79,7 @@ function createUser() {
 		contentType: 'application/json',
 		url: rootURL + '/cu',
 		dataType: "json",
-		data: cu,
+		data: cu(),
 		success: function(data, textStatus, jqXHR) {
 			alert('Yay');
 		},
@@ -174,7 +167,7 @@ function getUsers(){
 		dataType: "json",
 		success: function(response) { 
 			$.each(response, function(i, user) {
-				$("#usrTableBody").append(generateUserHTML(user));
+				$("#usertablebody").append(generateUserHTML(user));
 				
 			});
 		},

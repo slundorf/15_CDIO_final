@@ -39,7 +39,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	private IProductBatchDAO productBatchDAO;
 	
 	
-	public BusinessLayerImplementation(IUserDAO userDAO, IRoleDAO roleDAO, IIngredientDAO ingredientDAO, IIngredientBatchDAO ingredientBatchDAO) {
+	public BusinessLayerImplementation(IUserDAO userDAO) {
 		this.userDAO=userDAO;
 		this.roleDAO=roleDAO;
 		this.ingredientDAO=ingredientDAO;
