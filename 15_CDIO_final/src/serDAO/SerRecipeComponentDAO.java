@@ -44,8 +44,7 @@ public class SerRecipeComponentDAO extends SerDAO<RecipeDTO> implements IRecipeC
 
 	@Override
 	public List<RecipeComponentDTO> getRecipeComponentList() throws DALException {
-		if(list.size()==0)
-			throw new DALException("There are no recipe components in the database");
+		loadInfo();
 		List<RecipeComponentDTO> returnList= new ArrayList<RecipeComponentDTO>(); 
 		for(int i=0;i<list.size();i++){
 			for(int j=0;j<list.get(i).getComponents().size();j++){

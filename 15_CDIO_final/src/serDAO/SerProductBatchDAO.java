@@ -24,8 +24,6 @@ public class SerProductBatchDAO extends SerDAO<ProductBatchDTO>implements IProdu
 	@Override
 	public ProductBatchDTO getProductBatch(int pbId) throws DALException {
 		loadInfo();
-		if (list.size() == 0)
-			throw new DALException("The database is empty.");
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getProductBatchID() == pbId) {
 				return list.get(i);
@@ -42,8 +40,6 @@ public class SerProductBatchDAO extends SerDAO<ProductBatchDTO>implements IProdu
 	@Override
 	public List<ProductBatchDTO> getProductBatchList() throws DALException {
 		loadInfo();
-		if (list.size() == 0)
-			throw new DALException("There are no product batches in the database.");
 		return list;
 	}
 
@@ -55,6 +51,11 @@ public class SerProductBatchDAO extends SerDAO<ProductBatchDTO>implements IProdu
 	@Override
 	public void createProductBatch(ProductBatchDTO productbatch) throws DALException {
 		loadInfo();
+		for(int i =0;i<list.size();i++){
+			if(list.get(i).getProductBatchID()==productbatch.getProductBatchID()){
+				throw new DALException("A productbatch with ID: " +productbatch.getProductBatchID()+"already exists");
+			}
+		}
 		list.add(productbatch);
 		saveInfo();
 	}

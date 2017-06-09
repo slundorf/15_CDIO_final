@@ -18,8 +18,6 @@ public class SerRecipeDAO extends SerDAO<RecipeDTO> implements IRecipeDAO{
 	@Override
 	public RecipeDTO getRecipe(int recipeID) throws DALException {
 		loadInfo();
-		if(list.size() == 0)
-			throw new DALException("The database is empty.");
 		for(int i = 0; i < list.size(); i++) {
 			if (list.get(i).getRecipeID() == recipeID) {
 				return list.get(i);
@@ -31,14 +29,16 @@ public class SerRecipeDAO extends SerDAO<RecipeDTO> implements IRecipeDAO{
 	@Override
 	public List<RecipeDTO> getRecipeList() throws DALException {
 		loadInfo();
-		if(list.size() == 0)
-			throw new DALException("There are no recepies in this database");
 		return list;
 	}
 
 	@Override
 	public void createRecipe(RecipeDTO recipe) throws DALException {
 		loadInfo();
+		for(int i=0;i<list.size();i++){
+			if(list.get(i).getRecipeID()==recipe.getRecipeID())
+				throw new DALException("A recipe with id: "+recipe.getRecipeID()+" already exists");
+		}
 		list.add(recipe);
 		saveInfo();
 	}

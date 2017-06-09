@@ -42,7 +42,21 @@ public class Weight {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public boolean createUser(UserDTO data) throws DALException {		
 		
-		System.out.println(data.toString());
+		System.out.println(data);
+		switch(data.getRole().getRoleID()){
+			case 1: 
+				data.getRole().setRoleName("Administrator");
+				break;
+			case 2:
+				data.getRole().setRoleName("Pharmacist");
+				break;
+			case 3: 
+				data.getRole().setRoleName("Foreman");
+				break;
+			case 4: 
+				data.getRole().setRoleName("Operator");
+				break;
+		}
 		IBL.createUser(data);
 		
 		return true;
