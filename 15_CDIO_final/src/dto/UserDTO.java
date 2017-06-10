@@ -122,4 +122,9 @@ public class UserDTO implements Serializable{
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+	public String toString() {
+	String roleString="["+role.getRoleName()+"]";
+	return "User ID:	" + userID + "\n" + "Username:	" + userName + "\n" + "Initials:	" + ini + "\n"
+		+ "CPR:		" + cpr + "\n"+ "Password:	" + password + "\n"+"Role(s):\t" + roleString + "\n" ;
+	}
 }

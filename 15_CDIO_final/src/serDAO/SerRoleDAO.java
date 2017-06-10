@@ -16,8 +16,6 @@ public class SerRoleDAO extends SerDAO<RoleDTO> implements IRoleDAO {
 	@Override
 	public RoleDTO getRole(int roleID) throws DALException {
 		loadInfo();
-		if(list.size() == 0)
-			throw new DALException("The database is empty.");
 		for(int i = 0; i < list.size(); i++) {
 			if (list.get(i).getRoleID() == roleID) {
 				return list.get(i);
@@ -29,14 +27,15 @@ public class SerRoleDAO extends SerDAO<RoleDTO> implements IRoleDAO {
 	@Override
 	public List<RoleDTO> getRoleList() throws DALException {
 		loadInfo();
-		if(list.size() == 0)
-			throw new DALException("There are no roles in this database");
 		return list;
 	}
 
 	@Override
 	public void createRole(RoleDTO Role) throws DALException {
 		loadInfo();
+		for(int i=0;i<list.size();i++)
+			if(list.get(i).getRoleID()==Role.getRoleID())
+				throw new DALException("A role with ID "+Role.getRoleID()+" already exists");
 		list.add(Role);
 		saveInfo();
 	}

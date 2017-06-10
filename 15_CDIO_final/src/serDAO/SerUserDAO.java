@@ -1,6 +1,8 @@
 package serDAO;
 
+
 import java.util.List;
+
 import dto.UserDTO;
 import exceptions.DALException;
 import interfaces.IUserDAO;
@@ -13,15 +15,14 @@ public class SerUserDAO extends SerDAO<UserDTO> implements IUserDAO {
 
 	
 	public SerUserDAO(){
-		super("SerFiles/UserDB.ser");
+//		super("15_CDIO_final\\WebContent\\SerFiles\\UserDB.ser");
+		super("\\SerFiles\\UserDB.ser");
 	}
 
 	
 	@Override
 	public UserDTO getUser(int userID) throws DALException {
 		loadInfo();
-		if (list.size() == 0)
-			throw new DALException("The database is empty.");
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getUserID() == userID) {
 				return list.get(i);
@@ -34,8 +35,8 @@ public class SerUserDAO extends SerDAO<UserDTO> implements IUserDAO {
 	@Override
 	public List<UserDTO> getUserList() throws DALException {
 		loadInfo();
-		if (list.size() == 0)
-			throw new DALException("There are no users in the database.");
+//		if (list.size() == 0)
+//			throw new DALException("There are no users in the database.");
 		return list;
 	}
 	

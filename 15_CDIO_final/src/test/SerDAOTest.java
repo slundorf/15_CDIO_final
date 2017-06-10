@@ -70,12 +70,12 @@ public class SerDAOTest {
 		usr1 = new UserDTO(11, "user1", "usr1", "01012000-1234", "User01", role, true );
 		
 		ingr1 = new IngredientDTO(1, "Tomat", "Tomatkompagniet");
-		inb1 = new IngredientBatchDTO(1, ingr1.getIngredientID(), 2.5, ingr1.getSupplier());
+		inb1 = new IngredientBatchDTO(1, ingr1.getIngredientID(), 2.5);
 		
 		recipe = new RecipeDTO(1, "Flåede tomater");
 		recipeComp = new RecipeComponentDTO(1, 1, 1.5, 0.5);
 		
-		pb = new ProductBatchDTO(1, recipe.getRecipeID(), recipe.getRecipeName(), "06-06-2017", "Not begun" );
+		pb = new ProductBatchDTO(1, recipe.getRecipeID(), recipe.getRecipeName(), "06-06-2017", "Not begun", 11);
 		pbc= new ProductBatchComponentDTO(1, 1, ingr1.getIngredientName(), 1.5, 0.5, 0, 0, 1);
 	}
 
@@ -101,12 +101,12 @@ public class SerDAOTest {
 		usr1 = new UserDTO(11, "user1", "usr1", "01012000-1234", "User01", role, true );
 		
 		ingr1 = new IngredientDTO(1, "Tomat", "Tomatkompagniet");
-		inb1 = new IngredientBatchDTO(1, ingr1.getIngredientID(), 2.5, ingr1.getSupplier());
+		inb1 = new IngredientBatchDTO(1, ingr1.getIngredientID(), 2.5);
 		
 		recipe = new RecipeDTO(1, "Flåede tomater");
 		recipeComp = new RecipeComponentDTO(1, 1, 1.5, 0.5);
 		
-		pb = new ProductBatchDTO(1, recipe.getRecipeID(), recipe.getRecipeName(), "06-06-2017", "Not begun" );
+		pb = new ProductBatchDTO(1, recipe.getRecipeID(), recipe.getRecipeName(), "06-06-2017", "Not begun",11);
 		pbc= new ProductBatchComponentDTO(1, 1, ingr1.getIngredientName(), 1.5, 0.5, 0, 0, 1);
 	}
 

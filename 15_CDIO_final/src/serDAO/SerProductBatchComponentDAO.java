@@ -46,8 +46,7 @@ public class SerProductBatchComponentDAO extends SerDAO<ProductBatchDTO> impleme
 
 	@Override
 	public List<ProductBatchComponentDTO> getProductBatchComponentList() throws DALException {
-		if(list.size()==0)
-			throw new DALException("There are no product batches in the database");
+		loadInfo();
 		List<ProductBatchComponentDTO> returnList= new ArrayList<ProductBatchComponentDTO>(); 
 		for(int i=0;i<list.size();i++){
 			for(int j=0;j<list.get(i).getComponents().size();j++){

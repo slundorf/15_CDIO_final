@@ -17,8 +17,6 @@ public class SerIngredientDAO extends SerDAO<IngredientDTO> implements IIngredie
 	@Override
 	public IngredientDTO getIngredient(int ingredientID) throws DALException {
 			loadInfo();
-			if (list.size() == 0)
-				throw new DALException("The database is empty.");
 			for (int i = 0; i < list.size(); i++) {
 				if (list.get(i).getIngredientID() == ingredientID) {
 					return list.get(i);
@@ -30,8 +28,8 @@ public class SerIngredientDAO extends SerDAO<IngredientDTO> implements IIngredie
 	@Override
 	public List<IngredientDTO> getIngredientList() throws DALException {
 		loadInfo();
-		if (list.size() == 0)
-			throw new DALException("There are no ingredients in the database.");
+//		if (list.size() == 0)
+//			throw new DALException("There are no ingredients in the database.");
 		return list;
 	}
 	

@@ -17,14 +17,12 @@ import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public abstract class SerDAO<E> {
 	protected final String pathName;
 	protected List<E> list = new ArrayList<E>();
 	public SerDAO(String pathName){
 		this.pathName=pathName;
 	}
-	
 	
 	/**
 	 * Loads the data arraylist

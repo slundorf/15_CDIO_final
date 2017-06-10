@@ -52,12 +52,26 @@ public class Weight {
 	@POST @Path("cu")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean createUser(UserDTO user) throws DALException {		
+	public boolean createUser(UserDTO data) throws DALException {		
+		System.out.println(data.toString());
 
-		IBL.createUser(user);
-		
+		switch(data.getRole().getRoleID()){
+			case 1: 
+				data.getRole().setRoleName("Administrator");
+				break;
+			case 2:
+				data.getRole().setRoleName("Pharmacist");
+				break;
+			case 3: 
+				data.getRole().setRoleName("Foreman");
+				break;
+			case 4: 
+				data.getRole().setRoleName("Operator");
+				break;
+		}
+		System.out.println(data.toString());
+		IBL.createUser(data);
 		return true;
-		
 	}
 	
 	@POST @Path("recept")
