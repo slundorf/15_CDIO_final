@@ -1,5 +1,6 @@
 package serDAO;
 
+
 import java.util.List;
 import dto.UserDTO;
 import exceptions.DALException;
@@ -13,9 +14,13 @@ public class SerUserDAO extends SerDAO<UserDTO> implements IUserDAO {
 
 	
 	public SerUserDAO(){
-		super("SerFiles/UserDB.ser");
+		super(helper()+"WebContent\\SerFiles\\UserDB.ser");
+//		super("C:\\Users\\mathi\\git\\15_CDIO_final\\15_CDIO_final\\WebContent\\SerFiles\\UserDB.ser");
 	}
-
+	private static String helper(){
+//		return UserDTO.class.getProtectionDomain().getCodeSource().getLocation().toString();
+		return UserDTO.class.getClassLoader().getResource("").getPath();
+	}
 	
 	@Override
 	public UserDTO getUser(int userID) throws DALException {

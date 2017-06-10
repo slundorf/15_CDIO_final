@@ -65,12 +65,6 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 
 	@Override
 	public void createUser(UserDTO user) throws DALException {
-		
-
-//		for(int i=0;i<roleDAO.getRoleList().size();i++){
-//			if(user.getRole().getRoleName().equals(roleDAO.getRole(i).getRoleName()))
-//				user.getRole().setRoleID(roleDAO.getRole(i).getRoleID());
-//		}
 		user.setPassword(createPassword());
 		checkUser(user);
 		userDAO.createUser(user);
@@ -89,10 +83,10 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	 */
 	private void checkUser(UserDTO user) throws DALException {
 		//Check for ID already taken.
-//		for (int i = 0; i < userDAO.getUserList().size(); i++) {
-//			if (userDAO.getUserList().get(i).getUserID() == user.getUserID())
-//				throw new DALException("UserID already taken.");
-//		}
+		for (int i = 0; i < userDAO.getUserList().size(); i++) {
+			if (userDAO.getUserList().get(i).getUserID() == user.getUserID())
+				throw new DALException("UserID already taken.");
+		}
 //		
 		//Check username
 		if (user.getUserName().length() > 20 || user.getUserName().length() < 2)

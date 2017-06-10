@@ -69,6 +69,7 @@ public class Weight {
 				data.getRole().setRoleName("Operator");
 				break;
 		}
+		System.out.println(data.toString());
 		IBL.createUser(data);
 		return true;
 	}
