@@ -7,7 +7,7 @@ package test;
  * @author jonaslarsen
  *
  */
-public class IntegrationTestScale {
+public class IntegrationTestProcedureController {
 
 	/**
 	 * @param args
