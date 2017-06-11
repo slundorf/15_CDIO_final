@@ -9,15 +9,15 @@ public class IngredientBatchDTO implements Serializable{
 	private String ingredientBatchName;
 	private int ingredientID;
 	private double amount;
-	private String supplier;
+//	private String supplier;
 	
 	public IngredientBatchDTO(){}
-	public IngredientBatchDTO(int ingredientBatchID,String ingredientBatchName, int ingredientID, double amount, String supplier){
+	public IngredientBatchDTO(int ingredientBatchID,String ingredientBatchName, int ingredientID, double amount){
 		this.setIngredientBatchID(ingredientBatchID);
 		this.setIngredientBatchName(ingredientBatchName);
 		this.setIngredientID(ingredientBatchID);
 		this.setAmount(amount);
-		this.setSupplier(supplier);
+//		this.setSupplier(supplier);
 	}
 	/**
 	 * @return the ingredientBatchID
@@ -58,15 +58,15 @@ public class IngredientBatchDTO implements Serializable{
 	/**
 	 * @return the supplier
 	 */
-	public String getSupplier() {
-		return supplier;
-	}
-	/**
-	 * @param supplier the supplier to set
-	 */
-	public void setSupplier(String supplier) {
-		this.supplier = supplier;
-	}
+//	public String getSupplier() {
+//		return supplier;
+//	}
+//	/**
+//	 * @param supplier the supplier to set
+//	 */
+//	public void setSupplier(String supplier) {
+//		this.supplier = supplier;
+//	}
 	/**
 	 * @return the ingredientBatchName
 	 */

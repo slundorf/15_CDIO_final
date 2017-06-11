@@ -1,5 +1,6 @@
 package testData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dto.IngredientDTO;
@@ -7,28 +8,47 @@ import exceptions.DALException;
 import interfaces.IIngredientDAO;
 
 public class FakeIngredientDAO implements IIngredientDAO {
+	List<IngredientDTO> fakeIngredientList;
+	IngredientDTO I1;
+	IngredientDTO I2;
+	
+	public FakeIngredientDAO() {
+	fakeIngredientList = new ArrayList<IngredientDTO>();
+	I1 = new IngredientDTO(1, "Salt", "supplier1");
+	I2 = new IngredientDTO(2, "Water", "supplier2");
+	fakeIngredientList.add(I1);
+	fakeIngredientList.add(I2);
+	}
 
 	@Override
 	public IngredientDTO getIngredient(int ingredientID) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+		for (int i = 0; i < fakeIngredientList.size(); i++) {
+			if (fakeIngredientList.get(i).getIngredientID() == ingredientID) {
+				return fakeIngredientList.get(i);
+			}
+		}
+		throw new DALException("No ingredient has been found with id: " + ingredientID);
 	}
 
 	@Override
 	public List<IngredientDTO> getIngredientList() throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+		return fakeIngredientList;
 	}
 
 	@Override
 	public void createIngredient(IngredientDTO ingredient) throws DALException {
-		// TODO Auto-generated method stub
+		fakeIngredientList.add(ingredient);
 
 	}
 
 	@Override
 	public void updateIngredient(IngredientDTO ingredient) throws DALException {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < fakeIngredientList.size(); i++) {
+			if (ingredient.getIngredientID() == fakeIngredientList.get(i).getIngredientID()) {
+				fakeIngredientList.remove(i);
+				fakeIngredientList.add(ingredient);
+			}
+		}
 
 	}
 
