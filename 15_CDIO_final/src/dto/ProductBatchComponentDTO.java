@@ -15,10 +15,23 @@ public class ProductBatchComponentDTO implements Serializable{
 	private double netto;
 	private int ingredientBatchID;
 	private int productBatchID;
+	private Integer userId;
 	
+	/**
+	 * @return the userId
+	 */
+	public Integer getUserId() {
+		return userId;
+	}
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 	public ProductBatchComponentDTO(){}
 	public ProductBatchComponentDTO(int productBatchID, int ingredientID, String ingredientName
-			, double amount, double tolerance, double tara, double netto, int ingredientBatchID){
+			, double amount, double tolerance, double tara, double netto, int ingredientBatchID,Integer UserId){
 		this.setIngredientID(ingredientID);
 		this.setIngredientName(ingredientName);
 		this.setAmount(amount);
@@ -27,6 +40,7 @@ public class ProductBatchComponentDTO implements Serializable{
 		this.setNetto(netto);
 		this.setIngredientBatchID(ingredientBatchID);
 		this.setProductBatchID(productBatchID);
+		this.setUserId(userId);
 	}
 	
 	public void setProductBatchID(int productBatchID){

@@ -3,8 +3,10 @@
  */
 package testData;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import dto.ProductBatchComponentDTO;
 import dto.ProductBatchDTO;
 import exceptions.DALException;
 import interfaces.IProductBatchDAO;
@@ -15,39 +17,77 @@ import interfaces.IProductBatchDAO;
  */
 public class FakeProductBatchDAO implements IProductBatchDAO {
 
-	/* (non-Javadoc)
+	List<ProductBatchDTO> fakeProductBatchList;
+	List<ProductBatchComponentDTO> fakeProductBatchComponentList;
+	ProductBatchDTO PB1;
+	ProductBatchComponentDTO PBC1;
+	ProductBatchComponentDTO PBC2;
+
+	public FakeProductBatchDAO() {
+		fakeProductBatchList = new ArrayList<ProductBatchDTO>();
+		fakeProductBatchComponentList = new ArrayList<ProductBatchComponentDTO>();
+		PBC1 = new ProductBatchComponentDTO(31, 1, "Salt", 0.25, 0.1, 0, 0, 0, null);
+		PBC2 = new ProductBatchComponentDTO(31, 2, "Water", 4, 0.2, 0, 0, 0, null);
+		fakeProductBatchComponentList.add(PBC1);
+		fakeProductBatchComponentList.add(PBC2);
+		PB1 = new ProductBatchDTO(31, 41, "SaltWater", "090693", "Created", fakeProductBatchComponentList);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see interfaces.IProductBatchDAO#getProductBatch(int)
 	 */
 	@Override
 	public ProductBatchDTO getProductBatch(int pbId) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+		for (int i = 0; i < fakeProductBatchList.size(); i++) {
+			if (fakeProductBatchList.get(i).getProductBatchID() == pbId) {
+				return fakeProductBatchList.get(i);
+			}
+		}
+		throw new DALException("No product batch has been found with id: " + pbId);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see interfaces.IProductBatchDAO#getProductBatchList()
 	 */
 	@Override
 	public List<ProductBatchDTO> getProductBatchList() throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+		return fakeProductBatchList;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see interfaces.IProductBatchDAO#createProductBatch(dto.ProductBatchDTO)
 	 */
 	@Override
 	public void createProductBatch(ProductBatchDTO productbatch) throws DALException {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < fakeProductBatchList.size(); i++) {
+			if (fakeProductBatchList.get(i).getProductBatchID() == productbatch.getProductBatchID()) {
+				throw new DALException(
+						"A productbatch with ID: " + productbatch.getProductBatchID() + "already exists");
+			}
+		}
+		fakeProductBatchList.add(productbatch);
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see interfaces.IProductBatchDAO#updateProductBatch(dto.ProductBatchDTO)
 	 */
 	@Override
 	public void updateProductBatch(ProductBatchDTO productbatch) throws DALException {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < fakeProductBatchList.size(); i++) {
+			if (productbatch.getProductBatchID() == fakeProductBatchList.get(i).getProductBatchID()) {
+				fakeProductBatchList.remove(i);
+				fakeProductBatchList.add(productbatch);
+			}
+		}
 
 	}
 

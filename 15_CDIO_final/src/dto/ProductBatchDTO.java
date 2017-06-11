@@ -1,5 +1,6 @@
 package dto;
 
+import java.awt.Component;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +16,17 @@ public class ProductBatchDTO implements Serializable{
 	private String createdDate;
 	private String status;
 	private List<ProductBatchComponentDTO> components;
-	private int UserId;
 	
 	
 	public ProductBatchDTO(){}
-	public ProductBatchDTO(int productBatchID, int recipeID, String productBatchName, String createdDate,String status, int userId){
+	public ProductBatchDTO(int productBatchID, int recipeID, String productBatchName, String createdDate,String status,List<ProductBatchComponentDTO> components){
 		this.setProductBatchID(productBatchID);
 		this.setRecipeID(recipeID);
 		this.setProductBatchName(productBatchName);
 		this.setCreatedDate(createdDate);
 		this.setStatus(status);
-		this.setComponents(new ArrayList<ProductBatchComponentDTO>());
-		this.setUserId(userId);
+		this.setComponents(components);
+	
 	}
 	/**
 	 * @return the productBatchID
@@ -107,12 +107,12 @@ public class ProductBatchDTO implements Serializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public int getUserId() {
-		return UserId;
-	}
-	public void setUserId(int userId) {
-		UserId = userId;
-	}
+//	public int getUserId() {
+//		return UserId;
+//	}
+//	public void setUserId(int userId) {
+//		UserId = userId;
+//	}
 	
 	
 }
