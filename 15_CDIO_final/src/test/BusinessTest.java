@@ -12,6 +12,7 @@ import dto.UserDTO;
 import exceptions.DALException;
 import interfaces.IUserDAO;
 import serDAO.SerUserDAO;
+import testData.FakeUserDAO;
 
 public class BusinessTest {
 
