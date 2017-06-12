@@ -14,7 +14,7 @@ public class SerRecipeComponentDAO extends SerDAO<RecipeDTO> implements IRecipeC
 	}
 	
 	public SerRecipeComponentDAO(){
-		super("SerFiles/RecipeDB.ser");
+		super("RecipeDB.ser");
 	}
 	@Override
 	public RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException {

@@ -1,6 +1,9 @@
 package serDAO;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import dto.UserDTO;
@@ -16,7 +19,7 @@ public class SerUserDAO extends SerDAO<UserDTO> implements IUserDAO {
 	
 	public SerUserDAO(){
 //		super("15_CDIO_final\\WebContent\\SerFiles\\UserDB.ser");
-		super("\\SerFiles\\UserDB.ser");
+		super("UserDB.ser");
 	}
 
 	

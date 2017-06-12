@@ -11,7 +11,7 @@ public class SerRoleDAO extends SerDAO<RoleDTO> implements IRoleDAO {
 	}
 	
 	public SerRoleDAO(){
-	super("Ser/RoleDB.ser");
+	super("RoleDB.ser");
 	}
 	@Override
 	public RoleDTO getRole(int roleID) throws DALException {
