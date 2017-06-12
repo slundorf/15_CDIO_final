@@ -11,13 +11,16 @@ public class FakeIngredientDAO implements IIngredientDAO {
 	List<IngredientDTO> fakeIngredientList;
 	IngredientDTO I1;
 	IngredientDTO I2;
+	IngredientDTO I3;
 	
 	public FakeIngredientDAO() {
 	fakeIngredientList = new ArrayList<IngredientDTO>();
 	I1 = new IngredientDTO(1, "Salt", "supplier1");
 	I2 = new IngredientDTO(2, "Water", "supplier2");
+	I3 = new IngredientDTO(3, "Lemon", "supplier3");
 	fakeIngredientList.add(I1);
 	fakeIngredientList.add(I2);
+	fakeIngredientList.add(I3);
 	}
 
 	@Override

@@ -20,15 +20,18 @@ public class FakeUserDAO implements IUserDAO {
 	List<UserDTO> fakeUsers;
 	UserDTO user1;
 	UserDTO user2;
+	UserDTO user3;
 	/* (non-Javadoc)
 	 * @see interfaces.IUserDAO#getUser(int)
 	 */
 	public FakeUserDAO() {
 		fakeUsers = new ArrayList<UserDTO>();
-		user1 = new UserDTO(11, "Steve", "STV", "101010-1234","wally", new RoleDTO(3,"Operator"), true);
-		user2 = new UserDTO(12, "Kurt", "Kru", "101110-1234","wally", new RoleDTO(3,"Administrator"), true);
+		user1 = new UserDTO(11, "Steve", "STV", "101010-1234","wally", new RoleDTO(4,"Operator"), true);
+		user2 = new UserDTO(12, "Kurt", "Kru", "101110-1234","wally2", new RoleDTO(1,"Administator"), true);
+		user3 = new UserDTO(13, "Lis", "LIS", "101110-1234","wally3", new RoleDTO(2,"Pharmacist"), false);
 		fakeUsers.add(user1);
 		fakeUsers.add(user2);
+		fakeUsers.add(user3);
 		
 	}
 	
