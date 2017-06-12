@@ -7,7 +7,7 @@ public class RecipeComponentDTO implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -2433687775877282025L;
-	private int recipeID;
+	private int recipeComponentID;
 	private int ingredientID;
 	private double amount;
 	private double tolerance;
@@ -17,6 +17,18 @@ public class RecipeComponentDTO implements Serializable{
 		this.setIngredientID(ingredientID);
 		this.setAmount(amount);
 		this.setTolerance(tolerance);
+	}
+	/**
+	 * @return the recipeComponentID
+	 */
+	public int getRecipeComponentID() {
+		return recipeComponentID;
+	}
+	/**
+	 * @param recipeComponentID the recipeComponentID to set
+	 */
+	public void setRecipeComponentID(int recipeComponentID) {
+		this.recipeComponentID = recipeComponentID;
 	}
 	/**
 	 * @return the ingredientID
