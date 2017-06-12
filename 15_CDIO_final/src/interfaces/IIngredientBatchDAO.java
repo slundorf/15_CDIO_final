@@ -1,6 +1,7 @@
 package interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import dto.IngredientBatchDTO;
 import exceptions.DALException;
@@ -18,7 +19,7 @@ public interface IIngredientBatchDAO {
 	 * @return A list of all ingredient batches
 	 * @throws DALException
 	 */
-    List<IngredientBatchDTO> getIngredientBatchList() throws DALException;
+    Map<Integer, IngredientBatchDTO> getIngredientBatchList() throws DALException;
 	/**
 	 * @param ingredientId 
 	 * @return A list of all ingredient batches that contains the ingredientId
