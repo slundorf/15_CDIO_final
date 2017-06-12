@@ -2,17 +2,17 @@
 <html lang=''>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
-<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="JS.js"></script>
 <meta charset="UTF-8">
 <title>Login side</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="menustyle.css">
 <link rel="stylesheet" href="style.css">
-<script src="http://code.jquery.com/jquery-latest.min.js"
-	type="text/javascript"></script>
-<script src="script.js"></script>
+<script src="jquery-3.2.1.js"></script>
+<script src="jquery.min.js"></script>
+<script src="jquery.serialize-object.min.js"></script>
+<script src="main.js"></script>
+<script src="edit.js"></script>
 <title>Admin frontpage</title>
 
 </head>
@@ -27,7 +27,34 @@
 				<li><a href='showuser.html'><span>Show users</span></a></li>
 			</ul>
 		</div>
-		<div id='box'></div>
+		<div id='box'>
+		
+			<form id="uuForm">
+
+				<input id="eusrID" name="userID" type="hidden" required value="">					
+				<br/>
+				<label for="usrName">Full name:</label>
+				<input id="eusrName" name="userName" type="text" required>
+				<br/>
+				<label for="ini">Initials:</label>
+				<input id="eini" name="ini" type="text" required>
+				<br/>
+				<label for="cpr">Social security number:</label>
+				<input id="ecpr" name="cpr" type="text" required>
+				<br/>
+				<label for="password">Password:</label>
+				<input id="epsword" name="password" type="password" value="" required>
+				<br/>
+				<input type="hidden" name="role[roleID]" id="roleID" value="">
+  				<input type="hidden" name="role[roleName]" id="roleName" value="">
+  				<br/>
+  				<br/>
+				<button id="uuButton">Update user</button>
+
+			</form>
+			
+		</div>
+		
 	</div>
 </body>
 </html>
