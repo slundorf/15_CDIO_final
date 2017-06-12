@@ -75,6 +75,19 @@ public class SerProductBatchComponentDAO extends SerDAO<ProductBatchDTO> impleme
 	@Override
 	public void updateProductBatchComponent(ProductBatchComponentDTO productbatchComponent) throws DALException {
 		loadInfo();
+		for(int i=0;i<list.size();i++) {
+			if()
+		}
+		
+		saveInfo();
+		
+		for (int i = 0; i < list.size(); i++) {
+			if (productbatchComponent.getIngredientBatchID()== list.get(i).getProductBatchID()) {
+				list.remove(i);
+				list.add(user);
+			}
+		}
+		saveInfo();
 		boolean existed =false;
 		for(int i=0;i<list.size();i++){
 			if(list.get(i).getProductBatchID()==productbatchComponent.getProductBatchID()){
