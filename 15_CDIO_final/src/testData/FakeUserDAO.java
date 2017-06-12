@@ -17,7 +17,7 @@ import interfaces.IUserDAO;
  *
  */
 public class FakeUserDAO implements IUserDAO {
-	List<UserDTO> fakeUsers;
+	List<UserDTO> fakeUserList;
 	UserDTO user1;
 	UserDTO user2;
 	UserDTO user3;
@@ -25,13 +25,13 @@ public class FakeUserDAO implements IUserDAO {
 	 * @see interfaces.IUserDAO#getUser(int)
 	 */
 	public FakeUserDAO() {
-		fakeUsers = new ArrayList<UserDTO>();
+		fakeUserList = new ArrayList<UserDTO>();
 		user1 = new UserDTO(11, "Steve", "STV", "101010-1234","wally", new RoleDTO(4,"Operator"), true);
 		user2 = new UserDTO(12, "Kurt", "Kru", "101110-1234","wally2", new RoleDTO(1,"Administator"), true);
 		user3 = new UserDTO(13, "Lis", "LIS", "101110-1234","wally3", new RoleDTO(2,"Pharmacist"), false);
-		fakeUsers.add(user1);
-		fakeUsers.add(user2);
-		fakeUsers.add(user3);
+		fakeUserList.add(user1);
+		fakeUserList.add(user2);
+		fakeUserList.add(user3);
 		
 	}
 	
@@ -41,11 +41,9 @@ public class FakeUserDAO implements IUserDAO {
 		 * ellers returnerer den exception.
 		 */
 		 
-		if (fakeUsers.size() == 0)
-			throw new DALException("The database is empty.");
-		for (int i = 0; i < fakeUsers.size(); i++) {
-			if (fakeUsers.get(i).getUserID() == userID) {
-				return fakeUsers.get(i);
+		for (int i = 0; i < fakeUserList.size(); i++) {
+			if (fakeUserList.get(i).getUserID() == userID) {
+				return fakeUserList.get(i);
 			}
 		}
 		throw new DALException("No user has been found with id: " + userID);
@@ -56,7 +54,7 @@ public class FakeUserDAO implements IUserDAO {
 	 */
 	@Override
 	public List<UserDTO> getUserList() throws DALException {
-		return fakeUsers;
+		return fakeUserList;
 	}
 
 	/* (non-Javadoc)
@@ -64,7 +62,15 @@ public class FakeUserDAO implements IUserDAO {
 	 */
 	@Override
 	public void createUser(UserDTO user) throws DALException {
-		fakeUsers.add(user);
+		if (fakeUserList.size() == 88) {
+			throw new DALException("Database is full");
+		}
+		for(int i=0;i<fakeUserList.size();i++){
+			if(fakeUserList.get(i).getUserID()==user.getUserID()){
+				throw new DALException("A user with ID = " + user.getUserID() + " already exists.");
+			}
+		}
+		fakeUserList.add(user);
 		
 
 	}
@@ -74,10 +80,10 @@ public class FakeUserDAO implements IUserDAO {
 	 */
 	@Override
 	public void updateUser(UserDTO user) throws DALException {
-		for (int i = 0; i < fakeUsers.size(); i++) {
-			if (user.getUserID() == fakeUsers.get(i).getUserID()) {
-				fakeUsers.remove(i);
-				fakeUsers.add(user);
+		for (int i = 0; i < fakeUserList.size(); i++) {
+			if (user.getUserID() == fakeUserList.get(i).getUserID()) {
+				fakeUserList.remove(i);
+				fakeUserList.add(user);
 			}
 		}
 
