@@ -12,11 +12,15 @@ import dto.UserDTO;
 import exceptions.DALException;
 import exceptions.scaleConnectionException;
 import interfaces.IIngredientBatchDAO;
+import interfaces.IIngredientDAO;
 import interfaces.IProductBatchDAO;
+import interfaces.IRecipeDAO;
 import interfaces.IUserDAO;
-import serDAO.SerIngredientBatchDAO;
-import serDAO.SerProductBatchDAO;
-import serDAO.SerUserDAO;
+import testData.FakeIngredientBatchDAO;
+import testData.FakeIngredientDAO;
+import testData.FakeProductBatchDAO;
+import testData.FakeRecipeDAO;
+import testData.FakeUserDAO;
 
 public class ProcedureController {
 
@@ -24,9 +28,11 @@ public class ProcedureController {
 	String answer;
 	boolean existed;
 
-	IUserDAO users = new SerUserDAO();
-	IProductBatchDAO productBatches = new SerProductBatchDAO();
-	IIngredientBatchDAO ingredientBatches = new SerIngredientBatchDAO();
+	IUserDAO users = new FakeUserDAO();
+	IProductBatchDAO productBatches = new FakeProductBatchDAO();
+	IIngredientBatchDAO ingredientBatches = new FakeIngredientBatchDAO();
+	IIngredientDAO ingredients = new FakeIngredientDAO();
+	IRecipeDAO recipes = new FakeRecipeDAO();
 
 	List<UserDTO> UserArray;
 	List<ProductBatchDTO> productBatchArray;
@@ -55,15 +61,17 @@ public class ProcedureController {
 			connection.doTara();
 
 			boolean found = false;
-			String ingredientname = productBatchComponentDTO.getIngredientName();
+			String ingredientname = ingredients.getIngredient(
+					ingredientBatches.getIngredientBatch(
+							productBatchComponentDTO.getIngredientBatchID()).getIngredientID()).getIngredientName();
 			while (!found) {
 				input3 = connection.getInteger("Indtast R�vareBatchID p� " + ingredientname);
 				IngredientBatchDTO ingredientBatch = ingredientBatches.getIngredientBatch(input3);
 
-				if (productBatchComponentDTO.getIngredientID() == ingredientBatch.getIngredientID()) {
+				if (productBatchComponentDTO.getIngredientBatchID() == ingredientBatch.getIngredientID()) {
 					found = true;
 				}
-				connection.setComponentName(productBatchComponentDTO.getIngredientName());
+				connection.setComponentName(ingredientname);
 
 				connection.displayMsg("Place Tara");
 				// save Tara Weight.
@@ -74,8 +82,8 @@ public class ProcedureController {
 				boolean b = false;
 				int nettoweight = 0;
 				while (b) {
-					String ingrdientName = productBatchComponentDTO.getIngredientName();
-					nettoweight = connection.getInteger("Place " + ingrdientName);
+//					String ingrdientName = productBatchComponentDTO.getIngredientName();
+					nettoweight = connection.getInteger("Place " + ingredientname);
 					// NÅr man trykke ok, tager den vægten herefter venter den i
 					// 2 sek og viser vægten på displayet.
 					try {
@@ -86,7 +94,7 @@ public class ProcedureController {
 					}
 
 					// Tjekker om vægten er inde for Tolerancen.
-					double tolereanceWeight = productBatchComponentDTO.getTolerance()
+					double tolereanceWeight = productBatchComponentDTO.getIngredientBatchID().getTolerance()
 							* productBatchComponentDTO.getAmount();
 					double amount = productBatchComponentDTO.getAmount();
 					// Først beregner jeg være den er på, hvorefter jeg om det
@@ -104,6 +112,18 @@ public class ProcedureController {
 		}
 	}
 
+	private double getTolerance(ProductBatchComponentDTO dto){
+		
+		
+		for(int i=0;i<productBatches.getProductBatchList().size();i++){
+			for(int j=0;j<productBatches.getProductBatch(i).getComponents().size();j++){
+				if(productBatches.getProductBatchList().get(i).getComponents().get(j).get
+			}
+		}
+		recipes.getRecipe(recipeID);
+	}
+	
+	
 	// Denne her skal nok væk fordi den komme i interfacet.
 
 	// private void msg(String string) throws IOException, InputException {
