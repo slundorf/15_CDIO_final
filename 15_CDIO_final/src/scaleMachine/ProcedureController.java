@@ -94,9 +94,8 @@ public class ProcedureController {
 					}
 
 					// Tjekker om vægten er inde for Tolerancen.
-					double tolereanceWeight = productBatchComponentDTO.getIngredientBatchID().getTolerance()
-							* productBatchComponentDTO.getAmount();
-					double amount = productBatchComponentDTO.getAmount();
+					double amount = getAmount(productBatchComponentDTO);
+					double tolereanceWeight = getTolerance(productBatchComponentDTO) * amount;
 					// Først beregner jeg være den er på, hvorefter jeg om det
 					// passe med vægten.
 					if (tolereanceWeight + amount >= nettoweight && tolereanceWeight - amount <= nettoweight) {
@@ -112,15 +111,37 @@ public class ProcedureController {
 		}
 	}
 
-	private double getTolerance(ProductBatchComponentDTO dto){
+	private double getTolerance(ProductBatchComponentDTO dto) throws DALException{
 		
 		
 		for(int i=0;i<productBatches.getProductBatchList().size();i++){
 			for(int j=0;j<productBatches.getProductBatch(i).getComponents().size();j++){
-				if(productBatches.getProductBatchList().get(i).getComponents().get(j).get
+				if(productBatches.getProductBatchList().get(i).getComponents().get(j).getPbcId()==dto.getPbcId()){
+					for(int k=0;k<recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID()).getComponents().size();k++){
+						if(recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID()).getComponents().get(k).getIngredientID()==
+								ingredientBatches.getIngredientBatch(dto.getIngredientBatchID()).getIngredientID()){
+							return recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID()).getComponents().get(k).getTolerance();
+						}
+					}
+				}
 			}
 		}
-		recipes.getRecipe(recipeID);
+		throw new DALException("Recipecomponent corresponding to productbatchcomponent "+dto.getPbcId()+" could not be found");
+	}
+	private double getAmount(ProductBatchComponentDTO dto) throws DALException{
+		for(int i=0;i<productBatches.getProductBatchList().size();i++){
+			for(int j=0;j<productBatches.getProductBatch(i).getComponents().size();j++){
+				if(productBatches.getProductBatchList().get(i).getComponents().get(j).getPbcId()==dto.getPbcId()){
+					for(int k=0;k<recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID()).getComponents().size();k++){
+						if(recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID()).getComponents().get(k).getIngredientID()==
+								ingredientBatches.getIngredientBatch(dto.getIngredientBatchID()).getIngredientID()){
+							return recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID()).getComponents().get(k).getAmount();
+						}
+					}
+				}
+			}
+		}
+		throw new DALException("Recipecomponent corresponding to productbatchcomponent "+dto.getPbcId()+" could not be found");
 	}
 	
 	
