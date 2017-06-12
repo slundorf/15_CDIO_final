@@ -161,8 +161,9 @@ public class ScaleConnection implements IScaleConnection {
 		}
 	}
 
-	public void setProductBatchID(String productBatchID){
-		outToServer.println("P112 2 \""+productBatchID+"\"");
+	public void setProductBatchID(int productBatchID){
+		String PBId = String.valueOf(productBatchID);
+		outToServer.println("P112 2 \""+PBId+"\"");
 		outToServer.flush();
 		try{
 			readFromSocket();
