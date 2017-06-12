@@ -12,7 +12,7 @@ public class SerProductBatchDAO extends SerDAO<ProductBatchDTO>implements IProdu
 	}
 	
 	public SerProductBatchDAO(){
-		super("SerFiles/ProductBatchDB.ser");
+		super("ProductBatchDB.ser");
 	}
 
 	/**

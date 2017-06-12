@@ -12,7 +12,7 @@ public class SerIngredientDAO extends SerDAO<IngredientDTO> implements IIngredie
 	}
 	
 	public SerIngredientDAO(){
-		super("SerFiles/IngredientDB.ser");
+		super("IngredientDB.ser");
 	}
 	@Override
 	public IngredientDTO getIngredient(int ingredientID) throws DALException {

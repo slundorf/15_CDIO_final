@@ -54,6 +54,10 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		this.ingredientBatchDAO=ingredientBatchDAO;
 	}
 	@Override
+	public int login(int userID) throws DALException{
+		return userDAO.getUser(userID).getRole().getRoleID();
+	}
+	@Override
 	public UserDTO getUser(int userID) throws DALException {
 		return userDAO.getUser(userID);
 	}
@@ -463,4 +467,5 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	public void updateIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException {
 		ingredientBatchDAO.updateIngredientBatch(ingredientBatch);
 	}
+
 }

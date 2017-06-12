@@ -12,7 +12,7 @@ public class SerRecipeDAO extends SerDAO<RecipeDTO> implements IRecipeDAO{
 	}
 	
 	public SerRecipeDAO(){
-		super("SerFiles/RecipeDB.ser");
+		super("RecipeDB.ser");
 	}
 	
 	@Override
