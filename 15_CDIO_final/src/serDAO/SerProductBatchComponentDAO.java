@@ -15,7 +15,7 @@ public class SerProductBatchComponentDAO extends SerDAO<ProductBatchDTO> impleme
 	}
 	
 	public SerProductBatchComponentDAO(){
-		super("ProductBatchDB.ser");
+		super("SerFiles/ProductBatchDB.ser");
 	}
 
 	@Override
@@ -75,41 +75,21 @@ public class SerProductBatchComponentDAO extends SerDAO<ProductBatchDTO> impleme
 	@Override
 	public void updateProductBatchComponent(ProductBatchComponentDTO productbatchComponent) throws DALException {
 		loadInfo();
-		
+		int pbcId = productbatchComponent.getPbcId();
+		boolean existed = false;
 		for(int i=0;i<list.size();i++) {
-			if(productbatchComponent.getIngredientBatchID()==list.get(i).g
-		}
-		
-		boolean existed =false;
-		for(int i=0;i<list.size();i++) {
-			if(productbatchComponent.getIngredientBatchID()==list.get(i).getProductBatchID()) {
-				
-			}
-				list.get(i).getComponents().remove(i);
-				list.get(i).addComponent(productbatchComponent);
-				existed=true;
-			}
-			if(!existed){
-				throw new DALException("Product batch not found");
-		}
-		saveInfo();
-	
-		saveInfo();
-		boolean existed =false;
-		for(int i=0;i<list.size();i++){
-			if(list.get(i).getProductBatchID()==productbatchComponent.getIngredientBatchID()){
-				for(int j=0;j<list.get(i).getComponents().size();j++){
-					if(list.get(i).getComponents().get(j).getIngredientID()==productbatchComponent.getIngredientID()){
-						list.get(i).getComponents().remove(j);
-						list.get(i).addComponent(productbatchComponent);
-						existed=true;
-					}
+			for(int j=0; j<list.get(i).getComponents().size();j++){
+				if(list.get(i).getComponents().get(j).getPbcId()==pbcId) {
+					list.get(i).getComponents().remove(j);
+					list.get(i).addComponent(productbatchComponent);
+					existed=true;
 				}
-			}
+			} 
+					
+		} if(!existed) {
+			throw new DALException("Product batch component not found");
 		}
-		if(!existed){
-			throw new DALException("Product batch not found");
-		}
+	
 		saveInfo();
 	}
 }
