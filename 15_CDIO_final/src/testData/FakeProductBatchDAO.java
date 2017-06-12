@@ -26,11 +26,11 @@ public class FakeProductBatchDAO implements IProductBatchDAO {
 	public FakeProductBatchDAO() {
 		fakeProductBatchList = new ArrayList<ProductBatchDTO>();
 		fakeProductBatchComponentList = new ArrayList<ProductBatchComponentDTO>();
-		PBC1 = new ProductBatchComponentDTO(31, 1, "Salt", 0.25, 0.1, 0, 0, 0, null);
-		PBC2 = new ProductBatchComponentDTO(31, 2, "Water", 4, 0.2, 0, 0, 0, null);
+		PBC1 = new ProductBatchComponentDTO(null,null,null,null);
+		PBC2 = new ProductBatchComponentDTO(null,null,null,null);
 		fakeProductBatchComponentList.add(PBC1);
 		fakeProductBatchComponentList.add(PBC2);
-		PB1 = new ProductBatchDTO(31, 41, "SaltWater", "090693", "Created", fakeProductBatchComponentList);
+		PB1 = new ProductBatchDTO(41, 31, "090693", "Created", fakeProductBatchComponentList);
 	}
 
 	/*
