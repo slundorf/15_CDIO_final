@@ -1,0 +1,20 @@
+/**
+ * 
+ */
+package test;
+
+/**
+ * @author jonaslarsen
+ *
+ */
+public class IntegrationTestProcedureController {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

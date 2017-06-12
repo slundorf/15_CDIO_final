@@ -18,5 +18,7 @@ public interface IBusinessLayer {
 	void createIngredient(IngredientDTO ing) throws DALException;
 	void createIngredientBatch(IngredientBatchDTO iB) throws DALException;
 	void createProductBatch(ProductBatchDTO pb) throws DALException;  
-	
+	String createPassword() throws DALException;
+	void checkPassword(String password) throws DALException;
+	void checkUpdatedUser(UserDTO user) throws DALException;
 }
