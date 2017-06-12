@@ -21,14 +21,14 @@ public class FakeScaleConnection implements IScaleConnection {
 
 	@Override
 	public double getMass() throws scaleConnectionException {
-		System.out.println("Enter fake mass");
+		System.out.println("Enter fake mass (comma separated)");
 		double mass = input.nextDouble();
 		return mass;
 	}
 
 	@Override
 	public double doTara() throws scaleConnectionException {
-		System.out.println("Enter fake tara");
+		System.out.println("Enter fake tara (comma separated)");
 		double mass = input.nextDouble();
 		return mass;
 	}
@@ -45,9 +45,9 @@ public class FakeScaleConnection implements IScaleConnection {
 
 	@Override
 	public void displayMsg(String msg) throws scaleConnectionException {
-		System.out.println(msg);
+		System.out.println(msg+" (Enter something)");
 		input.next();
-		System.out.println("DisplayMsg done");
+//		System.out.println("DisplayMsg done");
 	}
 
 	@Override

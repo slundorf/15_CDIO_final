@@ -12,6 +12,7 @@ public class ProductBatchComponentDTO implements Serializable{
 	private int pbcId;
 	private Double netto;
 	private Integer ingredientBatchID;
+	private Integer ingredientID;
 	private Integer userId;
 	
 
@@ -80,6 +81,18 @@ public class ProductBatchComponentDTO implements Serializable{
 	 */
 	public void setPbcId(int pbcId) {
 		this.pbcId = pbcId;
+	}
+	/**
+	 * @return the ingredientID
+	 */
+	public Integer getIngredientID() {
+		return ingredientID;
+	}
+	/**
+	 * @param ingredientID the ingredientID to set
+	 */
+	public void setIngredientID(Integer ingredientID) {
+		this.ingredientID = ingredientID;
 	}
 	
 }
