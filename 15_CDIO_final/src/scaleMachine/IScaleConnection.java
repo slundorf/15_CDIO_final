@@ -52,7 +52,7 @@ public interface IScaleConnection {
 	
 	void removeOperatorInitials() throws scaleConnectionException;
 	
-	void setProductBatchID(String productBatchID) throws scaleConnectionException;
+	void setProductBatchID(int productBatchID) throws scaleConnectionException;
 	
 	void removeProductBatchID() throws scaleConnectionException;
 	
