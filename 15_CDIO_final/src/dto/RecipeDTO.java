@@ -14,10 +14,10 @@ public class RecipeDTO implements Serializable{
 	private List<RecipeComponentDTO> components;
 	
 	public RecipeDTO(){}
-	public RecipeDTO(int recipeID, String recipeName){
+	public RecipeDTO(int recipeID, String recipeName, List<RecipeComponentDTO> components){
 		this.setRecipeID(recipeID);
 		this.setRecipeName(recipeName);
-		this.setComponents(new ArrayList<RecipeComponentDTO>());
+		this.setComponents(components);
 		
 	}
 	/**
