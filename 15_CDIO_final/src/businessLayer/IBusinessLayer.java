@@ -11,6 +11,7 @@ import businessLayer.BusinessLayerImplementation;
 import exceptions.DALException;
 
 public interface IBusinessLayer {
+	int login(int userID) throws DALException;
 	UserDTO getUser(int userID) throws DALException; 
 	List<UserDTO> getUserList() throws DALException; 
 	void createUser(UserDTO user) throws DALException; 
