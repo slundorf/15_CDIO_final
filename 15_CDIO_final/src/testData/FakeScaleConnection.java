@@ -61,7 +61,7 @@ public class FakeScaleConnection implements IScaleConnection {
 	}
 
 	@Override
-	public void setProductBatchID(String productBatchID) throws scaleConnectionException {
+	public void setProductBatchID(int productBatchID) throws scaleConnectionException {
 		System.out.println("SetProductBatchId to: " + productBatchID);
 	}
 
