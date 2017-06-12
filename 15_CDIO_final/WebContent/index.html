@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="style.css">
 <meta charset="UTF-8">
-<title>Hello Test</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="menustyle.css">
+<link rel="stylesheet" href="style.css">
 <script src="jquery-3.2.1.js"></script>
 <script src="jquery.min.js"></script>
 <script src="jquery.serialize-object.min.js"></script>
@@ -12,13 +16,22 @@
 <body>
 
 	<div id='container'>
-		<div id='text'>
+		<div id='cssmenu'>
+			<ul>
+				<li><a href='adminindex.html'><span>Home</span></a></li>
+				<li><a href='createuser.html'><span>Create users</span></a></li>
+				<li><a href='edituser.html'><span>Edit users</span></a>
+				<li><a href='removeuser.html'><span>Remove users</span></a></li>
+				<li><a href='showuser.html'><span>Show users</span></a></li>
+			</ul>
+			</div>
+		<div id='box'>
 
 			<form id="loginForm">
 
-				<br /> <br /> <label for="usrName"></label> <input id="usrName"
+				<br /> <br /> <label for="usrName">Enter user ID:</label> <input id="usrName"
 					name="Username" type="text" required placeholder="Username" value="admin">
-					<br /> <br /> <label for="pass"></label> <input id="pass"
+					<br /> <br /> <label for="pass">Enter password:</label> <input id="pass"
 					name="Password" type="password" required placeholder="Password" value="root">
 					
 					<br /> <br /> <button id="loginButton">Login</button>
