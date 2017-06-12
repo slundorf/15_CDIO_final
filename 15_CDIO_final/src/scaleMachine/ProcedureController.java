@@ -57,6 +57,7 @@ public class ProcedureController {
 		// Start Weighing
 		for (ProductBatchComponentDTO productBatchComponentDTO : productBatch.getComponents()) {
 			// Unload weight
+			productBatchComponentDTO.setUserId(user.getUserID());
 			connection.displayMsg("Unload weigth");
 			connection.doTara();
 
@@ -80,8 +81,8 @@ public class ProcedureController {
 
 				// Weigh something
 				boolean b = false;
-				int nettoweight = 0;
-				while (b) {
+				double nettoweight = 0;
+				while (!b) {
 //					String ingrdientName = productBatchComponentDTO.getIngredientName();
 					nettoweight = connection.getInteger("Place " + ingredientname);
 					// NÅr man trykke ok, tager den vægten herefter venter den i
@@ -169,8 +170,8 @@ public class ProcedureController {
 			attempt = false;
 		}
 		productBatch.setStatus("Producing");
-		connection.setProductBatchID(productBatch.getProductBatchName());
-		productBatch.setUserId(user.getUserID());
+		connection.setProductBatchID(productBatch.getProductBatchID());
+		
 
 	}
 
