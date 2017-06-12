@@ -18,6 +18,7 @@ import interfaces.IRecipeDAO;
 public class FakeRecipeDAO implements IRecipeDAO {
 	
 	List<RecipeDTO> fakeRecipeList;
+	List<RecipeComponentDTO> fakeRecipeComponentList;
 	RecipeDTO R1;
 	RecipeComponentDTO RC1;
 	RecipeComponentDTO RC2;
@@ -26,11 +27,11 @@ public class FakeRecipeDAO implements IRecipeDAO {
 		fakeRecipeList = new ArrayList<RecipeDTO>();
 		RC1 = new RecipeComponentDTO(1, 0.2, 0.1);
 		RC2 = new RecipeComponentDTO(2, 2, 0.1);
+		fakeRecipeComponentList.add(RC1);
+		fakeRecipeComponentList.add(RC2);
 		
-		R1 = new RecipeDTO(31, "SaltWater");
+		R1 = new RecipeDTO(31, "SaltWater",fakeRecipeComponentList);
 
-		R1.addComponent(RC1);
-		R1.addComponent(RC2);
 		
 		
 		// TODO Auto-generated constructor stub
