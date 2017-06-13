@@ -83,8 +83,10 @@ public class FakeScaleConnection implements IScaleConnection {
 	}
 
 	@Override
-	public void setSoftBotton() throws scaleConnectionException {
-		System.out.println("setSoftBotton");		
+	public void setSoftKey() throws scaleConnectionException {
+		System.out.println("setSoftKey");
+		
 	}
 
+	
 }
