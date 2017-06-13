@@ -3,7 +3,6 @@
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
 <meta charset="UTF-8">
-<title>Login side</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="menustyle.css">
@@ -12,8 +11,11 @@
 <script src="jquery.min.js"></script>
 <script src="jquery.serialize-object.min.js"></script>
 <script src="main.js"></script>
+<title>Edit user</title>
+
 <script src="adminedit.js"></script>
-<title>Admin frontpage</title>
+
+
 
 </head>
 <body>
@@ -23,7 +25,6 @@
 				<li><a href='adminindex.html'><span>Home</span></a></li>
 				<li><a href='createuser.html'><span>Create users</span></a></li>
 				<li><a href='edituser.html'><span>Edit users</span></a>
-				<li><a href='removeuser.html'><span>Remove users</span></a></li>
 				<li><a href='showuser.html'><span>Show users</span></a></li>
 			</ul>
 		</div>
@@ -31,8 +32,8 @@
 		
 			<form id="uuuform">
 			
-			<label for="changeUser">Enter the ID of the user you wish to administrate:</label>
-			<input id="cU" name="changeUser" type="number" required min="11" max="99">
+			<label for="changeUser">Enter the ID of the user you wish to administrate:</label> <br/><br/>
+			<input id="cU" name="changeUser" type="number" required min="11" max="99"><br/><br/>
 			<button id="uuuButton">Enter</button>
 			
 			</form>
@@ -41,17 +42,20 @@
 
 				<input id="eusrID" name="userID" type="hidden" required value="">					
 				<br/>
+				<br/>
 				<label for="usrName">Full name:</label>
 				<input id="eusrName" name="userName" type="text" required value="">
 				<br/>
+				<br/>
 				<label for="ini">Initials:</label>
 				<input id="eini" name="ini" type="text" required>
-				<br/>
+				<br/><br/>
 				<label for="cpr">Social security number:</label>
 				<input id="ecpr" name="cpr" type="text" required>
-				<br/>
+				<br/><br/>
 				<label for="password">Password:</label>
 				<input id="epsword" name="password" type="password" value="" required>
+<br/>
 				<br/>
 				<label for="role">Choose a role</label>
 				<select name="role[roleID]" id="roleID">

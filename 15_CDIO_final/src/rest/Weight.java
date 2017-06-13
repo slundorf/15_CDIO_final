@@ -50,7 +50,7 @@ public class Weight {
 	IRecipeComponentDAO recipecDAO = new SerRecipeComponentDAO();
 	IProductBatchDAO IPB = new SerProductBatchDAO();
 	IProductBatchComponentDAO IPBC = new SerProductBatchComponentDAO();
-	IBusinessLayer IBL = new BusinessLayerImplementation(FIUD, IRD, IID, IIBD, recipeDAO,IPB,IPBC,recipecDAO);
+	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD, recipeDAO,IPB,IPBC,recipecDAO);
 	int currentUserID;
 	
 	@POST @Path("login/{id}/{pass}")
@@ -175,8 +175,22 @@ public class Weight {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public int getCurrentUserID() {
-		
 		return currentUserID;
+	}
+	
+	@POST @Path("toggleStatus/{id}")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean toggleStatus(@PathParam("id") int userID) throws DALException{
+		UserDTO temp = IBL.getUser(userID);
+		if(temp.isStatus()){
+			temp.setStatus(false);
+		}else{
+			temp.setStatus(true);
+		}
+		IBL.updateUser(temp);
+		
+		return true;
 		
 	}
 	

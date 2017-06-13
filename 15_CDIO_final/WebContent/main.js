@@ -50,6 +50,9 @@ $('#pbButton').click(function() {
 	return false;
 });
 
+getUsers() ;
+
+
 });
 
 function validateLogin() {
@@ -197,19 +200,45 @@ function getUsers(){
 }
 
 function generateUserHTML(user){
-	var deleteId = user.usrId;
-	console.log("user id "+deleteId);
-	console.log("user id " + user.usrId);
-	return 	'<tr><td>' + user.usrId + '</td>' +
-				'<td>' + user.usrName + '</td>'+
+	var deleteId = user.userID;
+	return 	'<tr><td>' + user.userID + '</td>' +
+				'<td>' + user.userName + '</td>'+
 				'<td>' + user.ini+'</td>'+
 				'<td>' + user.cpr+'</td>'+
-				'<td>' + user.psword+'</td>'+
-				'<td>' + user.roles+'</td>'+
-				'<td><button data-userid="' + user.usrId + '" onclick="deleteUser2(this);">Slet bruger</button></td>' +
+				'<td>' + user.password+'</td>'+
+				'<td>' + user.role.roleName+'</td>'+
+				'<td>' + generateToggle(user)+'</td>' +
 				'</tr>';
 }
+function generateToggle(user){
+	var toggle = '<select  data-userid="'+user.userID+'" onchange=toggleStatus(this); id="status">';
+		if(user.status==true){
+			toggle += '<option value=true>Active</option>';
+			toggle += '<option value=false>Inactive</option>';
+		}else{
+			toggle += '<option value=false>Inactive</option>';
+			toggle += '<option value=true>Active</option>';
+		}
+		toggle += '</select>';
+		return toggle;
+}
 
+function toggleStatus(element){
+	$.ajax({
+		method: "POST",
+		url: rootURL +"/toggleStatus/"+$(element).data("userid"),
+		data: " ",
+		contentType: "application/json",
+		dataType: "json",
+		success: function(response) { 
+			console.log("Success changing status");
+			getUsers();
+		},
+		error: function() {
+			console.log("Error changing status");
+		}
+	});
+}
 
 //function deleteUser2(element){
 //	var userid = $(element).data("userid")
