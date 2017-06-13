@@ -12,7 +12,7 @@
 <script src="jquery.min.js"></script>
 <script src="jquery.serialize-object.min.js"></script>
 <script src="main.js"></script>
-<script src="adminedit.js"></script>
+<script src="edit.js"></script>
 <title>Admin frontpage</title>
 
 </head>
@@ -29,15 +29,7 @@
 		</div>
 		<div id='box'>
 		
-			<form id="uuuform">
-			
-			<label for="changeUser">Enter the ID of the user you wish to administrate:</label>
-			<input id="cU" name="changeUser" type="number" required min="11" max="99">
-			<button id="uuuButton">Enter</button>
-			
-			</form>
-		
-			<form id="uuForm">
+			<form id="esForm">
 
 				<input id="eusrID" name="userID" type="hidden" required value="">					
 				<br/>
@@ -52,18 +44,11 @@
 				<br/>
 				<label for="password">Password:</label>
 				<input id="epsword" name="password" type="password" value="" required>
-				<br/>
-				<label for="role">Choose a role</label>
-				<select name="role[roleID]" id="roleID">
-				<option value="1">Administrator</option>
-    			<option value="2">Pharmacist</option>
-    			<option value="3">Foreman</option>
-   				<option value="4">Operator</option>
-  				</select>
+				<input type="hidden" name="role[roleID" id="roleID" value="" />
   				<input type="hidden" name="role[roleName]" id="roleName" value="" />
   				<br/>
   				<br/>
-				<button id="uuButton">Update user</button>
+				<button id="esButton">Update user</button>
 
 			</form>
 			
