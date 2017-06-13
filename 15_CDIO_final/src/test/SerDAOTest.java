@@ -72,8 +72,8 @@ public class SerDAOTest {
 		ingr1 = new IngredientDTO(1, "Tomat", "Tomatkompagniet");
 		inb1 = new IngredientBatchDTO(1, ingr1.getIngredientID(), 2.5);
 		
-		recipe = new RecipeDTO(1, "Flåede tomater");
-		recipeComp = new RecipeComponentDTO(1, 1, 1.5, 0.5);
+		recipe = new RecipeDTO(1, "Flåede tomater", null);
+		recipeComp = new RecipeComponentDTO(1, 1, 1.5);
 		
 		pb = new ProductBatchDTO(1, recipe.getRecipeID(), recipe.getRecipeName(), "06-06-2017", "Not begun", 11);
 		pbc= new ProductBatchComponentDTO(1, 1, ingr1.getIngredientName(), 1.5, 0.5, 0, 0, 1);

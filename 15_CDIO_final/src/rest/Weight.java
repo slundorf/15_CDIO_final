@@ -1,35 +1,38 @@
 package rest;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import businessLayer.BusinessLayerImplementation;
 import businessLayer.IBusinessLayer;
 import dto.IngredientBatchDTO;
 import dto.IngredientDTO;
+import dto.ProductBatchComponentDTO;
 import dto.ProductBatchDTO;
+import dto.RecipeComponentDTO;
+import dto.RecipeDTO;
 import dto.UserDTO;
 import exceptions.DALException;
 import interfaces.IIngredientBatchDAO;
 import interfaces.IIngredientDAO;
+import interfaces.IProductBatchComponentDAO;
+import interfaces.IProductBatchDAO;
+import interfaces.IRecipeComponentDAO;
+import interfaces.IRecipeDAO;
 import interfaces.IRoleDAO;
 import interfaces.IUserDAO;
 import serDAO.SerIngredientBatchDAO;
 import serDAO.SerIngredientDAO;
+import serDAO.SerProductBatchComponentDAO;
+import serDAO.SerProductBatchDAO;
+import serDAO.SerRecipeComponentDAO;
+import serDAO.SerRecipeDAO;
 import serDAO.SerRoleDAO;
 import serDAO.SerUserDAO;
 
@@ -40,7 +43,11 @@ public class Weight {
 	IRoleDAO IRD = new SerRoleDAO();
 	IIngredientDAO IID = new SerIngredientDAO();
 	IIngredientBatchDAO IIBD = new SerIngredientBatchDAO();
-	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD);
+	IRecipeDAO recipeDAO = new SerRecipeDAO();
+	IRecipeComponentDAO recipecDAO = new SerRecipeComponentDAO();
+	IProductBatchDAO IPB = new SerProductBatchDAO();
+	IProductBatchComponentDAO IPBC = new SerProductBatchComponentDAO();
+	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD, recipeDAO,IPB,IPBC,recipecDAO);
 	
 	@POST @Path("login")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -77,17 +84,37 @@ public class Weight {
 	@POST @Path("recept")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean createRecept() {
+	public boolean createRecipe() {
+		return true;
+	}
+	
+	@POST @Path("rc")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean createRecipeComponent(RecipeComponentDTO rc, int recipeId) throws DALException {
+		RecipeDTO temp = IBL.getRecipe(recipeId);
+		temp.addComponent(rc);
+		IBL.updateRecipe(temp);
 		return true;
 	}
 	
 	@POST @Path("pb")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean createProduct(ProductBatchDTO pb) throws DALException {
+	public boolean createProductBatch(ProductBatchDTO pb) throws DALException {
 		
 		IBL.createProductBatch(pb);
 		
+		return true;
+	}
+	
+	@POST @Path("pbc")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean createProductBatchComponent(ProductBatchComponentDTO pbc, int pbId) throws DALException {
+		ProductBatchDTO temp = IBL.getProductBatch(pbId);
+		temp.addComponent(pbc);
+		IBL.updateProductBatch(temp);
 		return true;
 	}
 
