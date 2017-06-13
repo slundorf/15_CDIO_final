@@ -57,8 +57,8 @@ public class ScaleConnection implements IScaleConnection {
 				return Integer.valueOf(readLine.split("\"")[1]);
 			} else if (readLine.startsWith("RM20 C")) {
 				getInteger(msg);
-			} else {
-				throw new scaleConnectionException("unexpected answer readline = "+readLine+"msg = " + msg);
+			}else {
+				throw new scaleConnectionException("unexpected answer readline = "+readLine+" msg = " + msg);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -100,7 +100,7 @@ public class ScaleConnection implements IScaleConnection {
 				outToServer.flush();
 				readLine = readFromSocket();
 			}
-			return Double.valueOf(readLine.split("S")[2].split("kg")[0]);
+			return Double.valueOf(readLine.split("S")[1].split("kg")[0]);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -153,7 +153,7 @@ public class ScaleConnection implements IScaleConnection {
 		outToServer.println("P112 1 \"" + operatorInitials + "\"");
 		outToServer.flush();
 		try {
-			readFromSocket();
+			inFromServer.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -163,7 +163,7 @@ public class ScaleConnection implements IScaleConnection {
 		outToServer.println("P113 1");
 		outToServer.flush();
 		try {
-			readFromSocket();
+			inFromServer.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -174,7 +174,7 @@ public class ScaleConnection implements IScaleConnection {
 		outToServer.println("P112 2 \"" + PBId + "\"");
 		outToServer.flush();
 		try {
-			readFromSocket();
+			inFromServer.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -184,7 +184,7 @@ public class ScaleConnection implements IScaleConnection {
 		outToServer.println("P113 2");
 		outToServer.flush();
 		try {
-			readFromSocket();
+			inFromServer.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

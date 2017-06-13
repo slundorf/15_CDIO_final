@@ -78,11 +78,12 @@ public class ProcedureController {
 	
 	
 	public void startScaleProcess() throws DALException, IOException, scaleConnectionException {
+		enterUserId(connection);
 		connection.setSoftKey();
 		connection.removeProductBatchID();
 		connection.removeOperatorInitials();
 		
-		enterUserId(connection);
+		
 		enterProductBatchId(connection);
 		// Start Weighing
 		
@@ -248,43 +249,31 @@ public class ProcedureController {
 	
     private double getTolerance(ProductBatchComponentDTO dto) throws DALException {
 		
-		for (int i = 0; i < productBatches.getProductBatchList().size(); i++) {
-			for (int j = 0; j < productBatches.getProductBatchList().get(i).getComponents().size(); j++) {
-				if (productBatches.getProductBatchList().get(i).getComponents().get(j).getPbcId() == dto.getPbcId()) {
-					for (int k = 0; k < recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID())
-							.getComponents().size(); k++) {
-						if (recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID()).getComponents()
-								.get(k).getIngredientID() == ingredientBatches
-								.getIngredientBatch(dto.getIngredientBatchID()).getIngredientID()) {
-							return recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID())
-									.getComponents().get(k).getTolerance();
-						}
-					}
-				}
+    	for (int k = 0; k < recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID())
+				.getComponents().size(); k++) {
+			if (recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID()).getComponents()
+					.get(k).getIngredientID() == ingredientBatches
+					.getIngredientBatch(dto.getIngredientBatchID()).getIngredientID()) {
+				return recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID())
+						.getComponents().get(k).getTolerance();
 			}
 		}
 		throw new DALException(
-				"Recipecomponent corresponding to productbatchcomponent " + dto.getPbcId() + " could not be found");
+				"Recipecomponent corresponding to productbatchcomponent  could not be found");
 	}
 	
 	private double getAmount(ProductBatchComponentDTO dto) throws DALException {
-		for (int i = 0; i < productBatches.getProductBatchList().size(); i++) {
-			for (int j = 0; j < productBatches.getProductBatchList().get(i).getComponents().size(); j++) {
-				if (productBatches.getProductBatchList().get(i).getComponents().get(j).getPbcId() == dto.getPbcId()) {
-					for (int k = 0; k < recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID())
-							.getComponents().size(); k++) {
-						if (recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID()).getComponents()
-								.get(k).getIngredientID() == ingredientBatches
-								.getIngredientBatch(dto.getIngredientBatchID()).getIngredientID()) {
-							return recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID())
-									.getComponents().get(k).getAmount();
-						}
-					}
-				}
+    	for (int k = 0; k < recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID())
+				.getComponents().size(); k++) {
+			if (recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID()).getComponents()
+					.get(k).getIngredientID() == ingredientBatches
+					.getIngredientBatch(dto.getIngredientBatchID()).getIngredientID()) {
+				return recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID())
+						.getComponents().get(k).getAmount();
 			}
 		}
 		throw new DALException(
-				"Recipecomponent corresponding to productbatchcomponent " + dto.getPbcId() + " could not be found");
+				"Recipecomponent corresponding to productbatchcomponent  could not be found");
 	}
 }
 
