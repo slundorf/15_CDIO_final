@@ -13,6 +13,7 @@ function ci() { return $('#ciForm').serializeJSON() }
 function ib() { return $('#ibForm').serializeJSON() }
 function recept() { return $('#receptForm').serializeJSON() }
 function pb() { return $('#pbForm').serializeJSON() }
+function pbc() { return $('#pbcForm').serializeJSON() }
 
 
 // Collection of functions to pick up the event of clicking specific buttons throughout the web application
@@ -21,7 +22,11 @@ function pb() { return $('#pbForm').serializeJSON() }
 $(document).ready(function() { // Prevents anything from running until the actual event happens.
 
 $('#loginButton').click(function() {
+	if($('#usrName').val()=="admin" && $('#pass').val()=="root") {
+		window.location.href = "http://localhost:8080/15_CDIO_final/rootadminindex.html";
+	} else {
 	validateLogin();
+	}
 	return false;
 });
 
@@ -47,6 +52,11 @@ $('#receptButton').click(function() {
 
 $('#pbButton').click(function() {
 	createProductBatch();
+	return false;
+});
+
+$('#pbcButton').click(function() {
+	createProductBatchComponent();
 	return false;
 });
 
@@ -130,13 +140,30 @@ function createRecept() {
 }
 
 function createProductBatch() {
-	console.log('createProduct');
+	console.log('createProductBatch');
 	$.ajax({
 		type: 'POST',
 		contentType: 'application/json',
 		url: rootURL + '/pb',
 		dataType: "json",
 		data: pb(),
+		success: function(data, textStatus, jqXHR) {
+			alert('Yay');
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert('Idiot');
+		}
+	});
+}
+
+function createProductBatchComponent() {
+	console.log('createProducBatchComponentt');
+	$.ajax({
+		type: 'POST',
+		contentType: 'application/json',
+		url: rootURL + '/pbc',
+		dataType: "json",
+		data: pbc(),
 		success: function(data, textStatus, jqXHR) {
 			alert('Yay');
 		},

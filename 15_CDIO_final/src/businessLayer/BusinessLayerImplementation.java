@@ -144,9 +144,10 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		}
 
 		for (int i = 0; i < userDAO.getUserList().size(); i++) {
-			if (user.getIni().equals(userDAO.getUserList().get(i).getIni()))
-				if (!(userDAO.getUserList().get(i).getUserID() == user.getUserID()))
-					throw new DALException("Initials already taken");
+			if (user.getIni().equals(userDAO.getUserList().get(i).getIni())) {
+				if (!(userDAO.getUserList().get(i).getUserID() == user.getUserID())) {
+					throw new DALException("Initials already taken"); }
+			}
 		}
 		
 		//Check CPR number
