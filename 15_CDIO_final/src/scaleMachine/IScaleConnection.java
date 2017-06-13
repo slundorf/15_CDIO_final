@@ -58,7 +58,8 @@ public interface IScaleConnection {
 	
 	void waitForAnswer() throws scaleConnectionException;
 	
-	void setSoftBotton() throws scaleConnectionException; 
+	void setSoftKey() throws scaleConnectionException; 
+	
 	
 	 
 }

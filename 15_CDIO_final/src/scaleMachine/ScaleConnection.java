@@ -42,7 +42,7 @@ public class ScaleConnection implements IScaleConnection {
 	public int getInteger(String msg) throws scaleConnectionException {
 		
 		if(msg.length()>24){
-			throw new scaleConnectionException("msg too long. getInteger");
+			throw new scaleConnectionException("msg too long: \""+msg+"\"");
 		}
 		
 		outToServer.println("RM20 8 \"" + msg + "\" \"\" \"&3\"");
@@ -58,7 +58,7 @@ public class ScaleConnection implements IScaleConnection {
 			} else if (readLine.startsWith("RM20 C")) {
 				getInteger(msg);
 			} else {
-				throw new scaleConnectionException("unexpected answer");
+				throw new scaleConnectionException("unexpected answer readline = "+readLine+"msg = " + msg);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -80,7 +80,7 @@ public class ScaleConnection implements IScaleConnection {
 				outToServer.flush();
 				readLine = readFromSocket();
 			}
-			return Double.valueOf(readLine.split("S")[1].split("kg")[0]);
+			return Double.valueOf(readLine.split("S")[2].split("kg")[0]);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -100,7 +100,7 @@ public class ScaleConnection implements IScaleConnection {
 				outToServer.flush();
 				readLine = readFromSocket();
 			}
-			return Double.valueOf(readLine.split("S")[1].split("kg")[0]);
+			return Double.valueOf(readLine.split("S")[2].split("kg")[0]);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -132,7 +132,7 @@ public class ScaleConnection implements IScaleConnection {
 	@Override
 	public void displayMsg(String msg) throws scaleConnectionException {
 		if(msg.length()>24){
-			throw new scaleConnectionException("msg too long. DisplayMsg");
+			throw new scaleConnectionException("msg too long: \""+msg+"\"");
 		}
 		outToServer.println("RM20 8 \"" + msg + "\" \"\" \"&3\"");
 		outToServer.flush();
@@ -298,31 +298,51 @@ public class ScaleConnection implements IScaleConnection {
 		}
 	}
 
-	public void setSoftBotton() throws scaleConnectionException {
-		outToServer.println("RM30 \"Ok\"");
-		outToServer.flush();
+	public void setSoftKey() throws scaleConnectionException {
+		
+		outToServer.println("RM30 \"OK\"");
 		String answerFromServer;
-
 		try {
 			answerFromServer = inFromServer.readLine();
-
 			if (answerFromServer.startsWith("RM30 B")) {
-				outToServer.print("RM39 5");
-				outToServer.flush();
-				answerFromServer = inFromServer.readLine();
-				if (!answerFromServer.startsWith("RM39 A"))
-					setSoftBotton();
-			} else if (!answerFromServer.startsWith("RM30 B")) {
-				setSoftBotton();
+				outToServer.println("RM39 1");
+				inFromServer.readLine();
 			} else {
-				throw new scaleConnectionException("unexpected answer setSoftBotton");
+				setSoftKey();
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Error in outputToServer method");
+			// this is only to fulfill compiler demands.
 		}
-
 	}
+		
+		
+		
+//		outToServer.println("RM30 \"Ok\"");
+//		outToServer.flush();
+//		String answerFromServer;
+//
+//		try {
+//			answerFromServer = inFromServer.readLine();
+//
+//			if (answerFromServer.startsWith("RM30 B")) {
+//				outToServer.print("RM39 5");
+//				outToServer.flush();
+//				answerFromServer = inFromServer.readLine();
+//				if (!answerFromServer.startsWith("RM39 A"))
+//					setSoftBotton();
+//			} else if (!answerFromServer.startsWith("RM30 B")) {
+//				setSoftBotton();
+//			} else {
+//				throw new scaleConnectionException("unexpected answer setSoftBotton");
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
+	
 
 	@Override
 	public void waitForAnswer() throws scaleConnectionException {
@@ -330,21 +350,15 @@ public class ScaleConnection implements IScaleConnection {
 		while (true) {
 			String answerFromServer;
 
-			Thread wait = new Thread();
-
 			try {
 				answerFromServer = inFromServer.readLine();
 				if (answerFromServer.startsWith("RM30")) {
 					break;
-				} else {
-					throw new scaleConnectionException("unexpected answer");
 				}
+				Thread.currentThread().sleep(555);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			try {
-				wait.sleep(200);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -352,4 +366,26 @@ public class ScaleConnection implements IScaleConnection {
 		}
 
 	}
+
+//	public void num1() throws scaleConnectionException {
+//		outToServer.println("RM30 \"OK\"");
+//		outToServer.flush();
+//		try {
+//			readFromSocket();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	public void num2() throws scaleConnectionException{
+//		outToServer.println("RM39 1");
+//		outToServer.flush();
+//		try {
+//			readFromSocket();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+
+	
 }
