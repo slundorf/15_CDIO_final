@@ -43,14 +43,19 @@ public class ProcedureController {
 	List<UserDTO> UserArray;
 	List<ProductBatchDTO> productBatchArray;
 	List<IngredientBatchDTO> ingredientBatchArray;
+	
 
 	PrintWriter outToServer;
 	BufferedReader inFromServer;
 	private ProductBatchDTO productBatch;
 	private int input3;
 	IScaleConnection connection;
+	
+	//DTO
 	UserDTO user;
-
+	
+	
+	
 	public ProcedureController(IScaleConnection connection, boolean test) {
 		this.connection = connection;
 		if (test) {
@@ -70,86 +75,174 @@ public class ProcedureController {
 		// connection = new FakeScaleConnection();
 		// }
 	}
-
+	
+	
 	public void startScaleProcess() throws DALException, IOException, InputException, scaleConnectionException {
-
+		connection.setSoftBotton();
+		
 		enterUserId(connection);
 		enterProductBatchId(connection);
 		// Start Weighing
+		
 		for (ProductBatchComponentDTO productBatchComponentDTO : productBatch.getComponents()) {
-			// Unload weight
-			productBatchComponentDTO.setUserId(user.getUserID());
-			connection.displayMsg("Unload weigth");
-			connection.doTara();
-			IngredientBatchDTO ingredientBatch = null;
-
-			boolean found = false;
-			String ingredientname = ingredients.getIngredient(productBatchComponentDTO.getIngredientID())
-					.getIngredientName();
-			while (!found) {
-				input3 = connection.getInteger("Enter ingredientbatch ID of " + ingredientname);
-				ingredientBatch = ingredientBatches.getIngredientBatch(input3);
-
-				if (productBatchComponentDTO.getIngredientID() == ingredientBatch.getIngredientID()) {
-					found = true;
-					productBatchComponentDTO.setIngredientBatchID(input3);
-				}
-				connection.setComponentName(ingredientname);
-
-			}
-			// Place Tara and note the mass.
-			connection.displayMsg("Place Tara");
-			// save Tara Weight.
-			double taraweight = connection.doTara();
-			productBatchComponentDTO.setTara(taraweight);
+		
+			IngredientBatchDTO ingredientBatch = enterIngredientBatch(connection, productBatchComponentDTO);
 			
-			
-			// Weigh something
-			boolean b = false;
-			double nettoweight = 0;
-			while (!b) {
-				// String ingrdientName =
-				// productBatchComponentDTO.getIngredientName();
-				connection.displayMsg("Place " + ingredientname);
-				nettoweight = connection.getMass();
-				// NÅr man trykke ok, tager den vægten herefter venter den i
-				// 2 sek og viser vægten på displayet.
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				// Calculate tolerancewaight of the ingredientbatch amount.
-				double amount = getAmount(productBatchComponentDTO);
-				double toleranceWeight = getTolerance(productBatchComponentDTO) * amount;
-				// Weighed mass comply with the tolerance do this
-				if (toleranceWeight + amount >= nettoweight && toleranceWeight - amount <= nettoweight) {
-					b = true;
-					// Get current amount from IngredientBatch
-					int IBId = ingredientBatch.getIngredientBatchID();
-					IngredientBatchDTO IBDTO = ingredientBatches.getIngredientBatch(IBId);
-					double currentAmount = IBDTO.getAmount();
-					// Set new amount for IngredientBatch
-					IBDTO.setAmount(currentAmount - nettoweight);
-					// Update DAO
-					ingredientBatches.updateIngredientBatch(ingredientBatch);
-					break;
-				}
-				connection.displayMsg("Incorrect weight. Breaks tolerance.");
-			}
-			productBatchComponentDTO.setNetto(nettoweight);
-			connection.displayMsg("Weight noted as " + nettoweight);
-			connection.removeComponentName();
+			startweighing(connection, productBatchComponentDTO, ingredientBatch);
 		}
 		productBatches.updateProductBatch(productBatch);
 		connection.displayMsg("Your done with the procedure");
 
 	}
+	
+	
+	private void startweighing(IScaleConnection connection, ProductBatchComponentDTO productBatchComponentDTO, IngredientBatchDTO ingredientBatch )throws scaleConnectionException, DALException{
+		// Place Tara and note the mass.
+		connection.displayMsg("Place Tara");
+		// save Tara Weight.
+		connection.waitForAnswer();
+		double taraweight = connection.doTara();
+		productBatchComponentDTO.setTara(taraweight);
+		
+		String ingredientname = ingredients.getIngredient(productBatchComponentDTO.getIngredientID()).getIngredientName();
+		// Weigh something
+		boolean b = false;
+		boolean attempt = true;
+		double nettoweight = 0;
+		String msg= null;
+		while (!b) {
+			// String ingrdientName =
+			// productBatchComponentDTO.getIngredientName();
+			connection.displayMsg((attempt ? "Place " : "Change amount of ") + ingredientname);
+			connection.waitForAnswer();
+			nettoweight = connection.getMass();
+			// NÅr man trykke ok, tager den vægten herefter venter den i
+			// 2 sek og viser vægten på displayet.
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-	private double getTolerance(ProductBatchComponentDTO dto) throws DALException {
+			// Calculate tolerancewaight of the ingredientbatch amount.
+			double amount = getAmount(productBatchComponentDTO);
+			double toleranceWeight = getTolerance(productBatchComponentDTO) * amount;
+			// Weighed mass comply with the tolerance do this
+			if (amount + toleranceWeight >= nettoweight &&  nettoweight>= amount- toleranceWeight) {
+				b = true;
+				// Get current amount from IngredientBatch
+				int IBId = ingredientBatch.getIngredientBatchID();
+				IngredientBatchDTO IBDTO = ingredientBatches.getIngredientBatch(IBId);
+				double currentAmount = IBDTO.getAmount();
+				// Set new amount for IngredientBatch
+				IBDTO.setAmount(currentAmount - nettoweight);
+				// Update DAO
+				ingredientBatches.updateIngredientBatch(ingredientBatch);
+				break;
+			}
+			connection.displayMsg("Incorrect weight. Breaks tolerance.");
+			attempt = false;
+		}
+		productBatchComponentDTO.setNetto(nettoweight);
+		connection.displayMsg("Weight noted as " + nettoweight);
+		connection.removeComponentName();
+	}
+	
 
+	private IngredientBatchDTO enterIngredientBatch(IScaleConnection connection, ProductBatchComponentDTO productBatchComponentDTO) throws scaleConnectionException{
+		
+		
+		connection.displayMsg("Unload weigth");
+		connection.doTara();
+		
+		IngredientBatchDTO ingredientBatch = null;
+		
+		String ingredientname = null;
+		try {
+			ingredientname = ingredients.getIngredient(productBatchComponentDTO.getIngredientID())
+					.getIngredientName();
+		} catch (DALException e1) {
+			System.out.println("error ingredients.getIngredient(-----)");			
+			e1.printStackTrace();
+		}
+		boolean attempt = true;
+		String msg = null;
+		while (true) {
+			input3 = connection.getInteger((attempt ? "" : msg )+"Enter ingredientbatch ID of " + ingredientname);
+			try {
+				ingredientBatch = ingredientBatches.getIngredientBatch(input3);
+				
+				if (productBatchComponentDTO.getIngredientID() == ingredientBatch.getIngredientID()) {
+					productBatchComponentDTO.setIngredientBatchID(input3);
+					connection.setComponentName(ingredientname);
+					productBatchComponentDTO.setUserId(user.getUserID());
+					return ingredientBatch;
+					
+				}
+				else{
+					msg = "Wrong ingredient. Try again: ";
+					attempt = false;
+				}
+			} catch (DALException e) {
+				msg = "Ingredient Batch doesn't exist. ";
+				attempt = false;
+			}
+			
+			
+			
+			
+		}
+		
+	}
+	
+
+	private void enterProductBatchId(IScaleConnection connection) throws scaleConnectionException
+			 {
+		productBatch = null;
+		boolean attempt = true;
+
+		while (productBatch == null) {
+			int productBatchId = connection.getInteger((attempt ? "" : "Try again: ") + "Enter Product Batch ID");
+
+			try {
+				productBatch = productBatches.getProductBatch(productBatchId);
+			} catch (DALException e) {
+				attempt = false;
+			}
+			
+		}
+		productBatch.setStatus("Producing");
+		connection.setProductBatchID(productBatch.getProductBatchID());
+
+	}
+
+	private void enterUserId(IScaleConnection connection)
+			throws scaleConnectionException {
+		user = null;
+		boolean attempt = true;
+		while (user == null ) {
+			int userId = connection.getInteger((attempt ? "" : "Try again: ") + "Enter User ID");
+
+			// validate user;
+			try {
+				user = users.getUser(userId);
+				
+				if(!user.isStatus()){
+					user=null;
+					attempt = false;
+				}
+				
+			} catch (DALException e) {
+				// Try again
+				attempt = false;
+			}
+		}
+		connection.setOperatorInitials(user.getIni());
+	}
+	
+    private double getTolerance(ProductBatchComponentDTO dto) throws DALException {
+		
 		for (int i = 0; i < productBatches.getProductBatchList().size(); i++) {
 			for (int j = 0; j < productBatches.getProductBatchList().get(i).getComponents().size(); j++) {
 				if (productBatches.getProductBatchList().get(i).getComponents().get(j).getPbcId() == dto.getPbcId()) {
@@ -157,7 +250,7 @@ public class ProcedureController {
 							.getComponents().size(); k++) {
 						if (recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID()).getComponents()
 								.get(k).getIngredientID() == ingredientBatches
-										.getIngredientBatch(dto.getIngredientBatchID()).getIngredientID()) {
+								.getIngredientBatch(dto.getIngredientBatchID()).getIngredientID()) {
 							return recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID())
 									.getComponents().get(k).getTolerance();
 						}
@@ -168,7 +261,7 @@ public class ProcedureController {
 		throw new DALException(
 				"Recipecomponent corresponding to productbatchcomponent " + dto.getPbcId() + " could not be found");
 	}
-
+	
 	private double getAmount(ProductBatchComponentDTO dto) throws DALException {
 		for (int i = 0; i < productBatches.getProductBatchList().size(); i++) {
 			for (int j = 0; j < productBatches.getProductBatchList().get(i).getComponents().size(); j++) {
@@ -177,7 +270,7 @@ public class ProcedureController {
 							.getComponents().size(); k++) {
 						if (recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID()).getComponents()
 								.get(k).getIngredientID() == ingredientBatches
-										.getIngredientBatch(dto.getIngredientBatchID()).getIngredientID()) {
+								.getIngredientBatch(dto.getIngredientBatchID()).getIngredientID()) {
 							return recipes.getRecipe(productBatches.getProductBatchList().get(i).getRecipeID())
 									.getComponents().get(k).getAmount();
 						}
@@ -187,53 +280,6 @@ public class ProcedureController {
 		}
 		throw new DALException(
 				"Recipecomponent corresponding to productbatchcomponent " + dto.getPbcId() + " could not be found");
-	}
-
-	// Denne her skal nok væk fordi den komme i interfacet.
-
-	// private void msg(String string) throws IOException, InputException {
-	// Boolean b = false;
-	//
-	// while(b){
-	// String input3 = connection.getInput(string);
-	// if(input3.startsWith("RM20 A")){
-	// b = true;
-	// }
-	// }
-	// }
-
-	private void enterProductBatchId(IScaleConnection connection)
-			throws IOException, InputException, DALException, scaleConnectionException {
-		productBatch = null;
-		boolean attempt = true;
-
-		while (productBatch == null) {
-			int productBatchId = connection.getInteger((attempt ? "" : "Try again:") + "Enter Product Batch ID");
-
-			productBatch = productBatches.getProductBatch(productBatchId);
-			attempt = false;
-		}
-		productBatch.setStatus("Producing");
-		connection.setProductBatchID(productBatch.getProductBatchID());
-
-	}
-
-	private void enterUserId(IScaleConnection connection)
-			throws IOException, InputException, DALException, scaleConnectionException {
-		user = null;
-		boolean attempt = true;
-		while (user == null) {
-			int userId = connection.getInteger((attempt ? "" : "Try again: ") + "Enter User ID");
-
-			// validate user;
-			try {
-				user = users.getUser(userId);
-			} catch (DALException e) {
-				// Try again
-			}
-			attempt = false;
-		}
-		connection.setOperatorInitials(user.getIni());
 	}
 }
 

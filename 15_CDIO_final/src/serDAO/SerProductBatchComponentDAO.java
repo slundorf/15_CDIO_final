@@ -15,7 +15,7 @@ public class SerProductBatchComponentDAO extends SerDAO<ProductBatchDTO> impleme
 	}
 	
 	public SerProductBatchComponentDAO(){
-		super("SerFiles/ProductBatchDB.ser");
+		super("ProductBatchDB.ser");
 	}
 
 	@Override
