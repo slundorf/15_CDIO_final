@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -35,26 +36,34 @@ import serDAO.SerRecipeComponentDAO;
 import serDAO.SerRecipeDAO;
 import serDAO.SerRoleDAO;
 import serDAO.SerUserDAO;
+import testData.FakeUserDAO;
 
 @Path("weight")
 public class Weight {
 
 	IUserDAO IUD = new SerUserDAO();
 	IRoleDAO IRD = new SerRoleDAO();
+	IUserDAO FIUD = new FakeUserDAO();
 	IIngredientDAO IID = new SerIngredientDAO();
 	IIngredientBatchDAO IIBD = new SerIngredientBatchDAO();
 	IRecipeDAO recipeDAO = new SerRecipeDAO();
 	IRecipeComponentDAO recipecDAO = new SerRecipeComponentDAO();
 	IProductBatchDAO IPB = new SerProductBatchDAO();
 	IProductBatchComponentDAO IPBC = new SerProductBatchComponentDAO();
-	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD, recipeDAO,IPB,IPBC,recipecDAO);
+	IBusinessLayer IBL = new BusinessLayerImplementation(FIUD, IRD, IID, IIBD, recipeDAO,IPB,IPBC,recipecDAO);
+	int currentUserID;
 	
-	@POST @Path("login")
+	@POST @Path("login/{id}/{pass}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public int loginUser(String id) throws DALException {
+	public int loginUser(@PathParam("id") Integer id, @PathParam("pass") String pass) throws DALException {
+		
+		currentUserID = id;
+		
 		System.out.println(id);
-		return 1;
+		System.out.println(pass);
+		
+		return IBL.getUser(id).getRole().getRoleID();
 	}
 	
 	@POST @Path("cu")
@@ -88,15 +97,15 @@ public class Weight {
 		return true;
 	}
 	
-	@POST @Path("rc")
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean createRecipeComponent(RecipeComponentDTO rc, int recipeId) throws DALException {
-		RecipeDTO temp = IBL.getRecipe(recipeId);
-		temp.addComponent(rc);
-		IBL.updateRecipe(temp);
-		return true;
-	}
+//	@POST @Path("rc")
+//	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	public boolean createRecipeComponent(RecipeComponentDTO rc, int recipeId) throws DALException {
+//		RecipeDTO temp = IBL.getRecipe(recipeId);
+//		temp.addComponent(rc);
+//		IBL.updateRecipe(temp);
+//		return true;
+//	}
 	
 	@POST @Path("pb")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -108,15 +117,15 @@ public class Weight {
 		return true;
 	}
 	
-	@POST @Path("pbc")
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean createProductBatchComponent(ProductBatchComponentDTO pbc, int pbId) throws DALException {
-		ProductBatchDTO temp = IBL.getProductBatch(pbId);
-		temp.addComponent(pbc);
-		IBL.updateProductBatch(temp);
-		return true;
-	}
+//	@POST @Path("pbc")
+//	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	public boolean createProductBatchComponent(ProductBatchComponentDTO pbc, int pbId) throws DALException {
+//		ProductBatchDTO temp = IBL.getProductBatch(pbId);
+//		temp.addComponent(pbc);
+//		IBL.updateProductBatch(temp);
+//		return true;
+//	}
 
 	@POST @Path("ci")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -154,12 +163,21 @@ public class Weight {
 		return IBL.getUser(id).getRole().getRoleID();
 	}
 	
-	@GET @Path("getUsr")
+	@POST @Path("getUsr/{id}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public UserDTO getUsr(int id) throws DALException {
+	public UserDTO getUsr(@PathParam("id") Integer uid) throws DALException {
 		
-		return IBL.getUser(id);
+		return IBL.getUser(uid);
+	}
+	
+	@GET @Path("currentUserID")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public int getCurrentUserID() {
+		
+		return currentUserID;
+		
 	}
 	
 }
