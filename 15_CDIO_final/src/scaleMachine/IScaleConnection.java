@@ -56,5 +56,9 @@ public interface IScaleConnection {
 	
 	void removeProductBatchID() throws scaleConnectionException;
 	
+	void waitForAnswer() throws scaleConnectionException;
+	
+	void setSoftBotton() throws scaleConnectionException; 
+	
 	 
 }

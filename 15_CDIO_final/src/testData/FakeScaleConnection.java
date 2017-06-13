@@ -70,4 +70,15 @@ public class FakeScaleConnection implements IScaleConnection {
 		System.out.println("removeProductBatchID");
 	}
 
+	@Override
+	public void waitForAnswer() throws scaleConnectionException {
+		System.out.println("Wait for fake botton pressed (Enter something)");
+		input.next();		
+	}
+
+	@Override
+	public void setSoftBotton() throws scaleConnectionException {
+		System.out.println("setSoftBotton");		
+	}
+
 }
