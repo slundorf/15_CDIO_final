@@ -78,7 +78,7 @@ public class ProcedureController {
 	
 	
 	public void startScaleProcess() throws DALException, IOException, scaleConnectionException {
-//		connection.setSoftBotton();
+		connection.setSoftKey();
 		connection.removeProductBatchID();
 		connection.removeOperatorInitials();
 		
@@ -104,7 +104,7 @@ public class ProcedureController {
 		// Place Tara and note the mass.
 		connection.displayMsg("Place Tara");
 		// save Tara Weight.
-//		connection.waitForAnswer();
+		connection.waitForAnswer();
 		double taraweight = connection.doTara();
 		productBatchComponentDTO.setTara(taraweight);
 		
@@ -118,7 +118,7 @@ public class ProcedureController {
 			// String ingrdientName =
 			// productBatchComponentDTO.getIngredientName();
 			connection.displayMsg(attempt ? "Place "+ingredientname : "Change amount");
-//			connection.waitForAnswer();
+			connection.waitForAnswer();
 			nettoweight = connection.getMass();
 			// NÅr man trykke ok, tager den vægten herefter venter den i
 			// 2 sek og viser vægten på displayet.
@@ -208,7 +208,7 @@ public class ProcedureController {
 		boolean attempt = true;
 
 		while (productBatch == null) {
-			int productBatchId = connection.getInteger((attempt ? "" : "Try again: ") + "Enter Product Batch ID");
+			int productBatchId = connection.getInteger(attempt ? "Enter ProductBatch ID" : "Try again" );
 
 			try {
 				productBatch = productBatches.getProductBatch(productBatchId);
