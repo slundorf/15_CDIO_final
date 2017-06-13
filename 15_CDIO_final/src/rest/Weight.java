@@ -120,10 +120,8 @@ public class Weight {
 //	@POST @Path("pbc")
 //	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 //	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-//	public boolean createProductBatchComponent(ProductBatchComponentDTO pbc, int pbId) throws DALException {
-//		ProductBatchDTO temp = IBL.getProductBatch(pbId);
-//		temp.addComponent(pbc);
-//		IBL.updateProductBatch(temp);
+//	public boolean createProductBatchComponent(ProductBatchComponentDTO pbc) throws DALException {;
+//		IBL.updateProductBatch(pbc);
 //		return true;
 //	}
 
@@ -192,6 +190,30 @@ public class Weight {
 		
 		return true;
 		
+	}
+	
+	@POST @Path("uu")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean updateUser(UserDTO data) throws DALException {		;
+
+		switch(data.getRole().getRoleID()){
+			case 1: 
+				data.getRole().setRoleName("Administrator");
+				break;
+			case 2:
+				data.getRole().setRoleName("Pharmacist");
+				break;
+			case 3: 
+				data.getRole().setRoleName("Foreman");
+				break;
+			case 4: 
+				data.getRole().setRoleName("Operator");
+				break;
+		}
+
+		IBL.updateUser(data);
+		return true;
 	}
 	
 }

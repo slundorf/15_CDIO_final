@@ -5,19 +5,16 @@
 var rootURL = "http://localhost:8080/15_CDIO_final/rest/weight";
 
 $( 'window ').load(function() {
-	getUser();
+	getCurrentID();
 });
 
 function getCurrentID() {
 	$.ajax({
 		method: "GET",
-		url: rootURL + '/getUsrs',
+		url: rootURL + '/currentUserID',
 		dataType: "json",
 		success: function(response) { 
-			$.each(response, function(i, user) {
-				$("#usertablebody").append(generateUserHTML(user));
-				
-			});
+			getUser();
 		},
 		error: function() {
 			console.log("Error loading users");
