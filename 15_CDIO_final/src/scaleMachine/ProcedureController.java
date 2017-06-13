@@ -77,8 +77,10 @@ public class ProcedureController {
 	}
 	
 	
-	public void startScaleProcess() throws DALException, IOException, InputException, scaleConnectionException {
-		connection.setSoftBotton();
+	public void startScaleProcess() throws DALException, IOException, scaleConnectionException {
+//		connection.setSoftBotton();
+		connection.removeProductBatchID();
+		connection.removeOperatorInitials();
 		
 		enterUserId(connection);
 		enterProductBatchId(connection);
@@ -92,6 +94,8 @@ public class ProcedureController {
 		}
 		productBatches.updateProductBatch(productBatch);
 		connection.displayMsg("Your done with the procedure");
+		
+		;
 
 	}
 	
@@ -100,7 +104,7 @@ public class ProcedureController {
 		// Place Tara and note the mass.
 		connection.displayMsg("Place Tara");
 		// save Tara Weight.
-		connection.waitForAnswer();
+//		connection.waitForAnswer();
 		double taraweight = connection.doTara();
 		productBatchComponentDTO.setTara(taraweight);
 		
@@ -113,8 +117,8 @@ public class ProcedureController {
 		while (!b) {
 			// String ingrdientName =
 			// productBatchComponentDTO.getIngredientName();
-			connection.displayMsg((attempt ? "Place " : "Change amount of ") + ingredientname);
-			connection.waitForAnswer();
+			connection.displayMsg(attempt ? "Place "+ingredientname : "Change amount");
+//			connection.waitForAnswer();
 			nettoweight = connection.getMass();
 			// NÅr man trykke ok, tager den vægten herefter venter den i
 			// 2 sek og viser vægten på displayet.
@@ -141,7 +145,7 @@ public class ProcedureController {
 				ingredientBatches.updateIngredientBatch(ingredientBatch);
 				break;
 			}
-			connection.displayMsg("Incorrect weight. Breaks tolerance.");
+			connection.displayMsg("Exceeds tolerance");
 			attempt = false;
 		}
 		productBatchComponentDTO.setNetto(nettoweight);
@@ -169,7 +173,8 @@ public class ProcedureController {
 		boolean attempt = true;
 		String msg = null;
 		while (true) {
-			input3 = connection.getInteger((attempt ? "" : msg )+"Enter ingredientbatch ID of " + ingredientname);
+			input3 = connection.getInteger((attempt ? "Enter ingredientBatch ID": msg ));
+			
 			try {
 				ingredientBatch = ingredientBatches.getIngredientBatch(input3);
 				
@@ -181,11 +186,11 @@ public class ProcedureController {
 					
 				}
 				else{
-					msg = "Wrong ingredient. Try again: ";
+					msg = "Wrong ingredient. ";
 					attempt = false;
 				}
 			} catch (DALException e) {
-				msg = "Ingredient Batch doesn't exist. ";
+				msg = "ID doesn't exist. ";
 				attempt = false;
 			}
 			

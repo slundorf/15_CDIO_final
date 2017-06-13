@@ -14,6 +14,9 @@ public class FakeScaleConnection implements IScaleConnection {
 
 	@Override
 	public int getInteger(String msg) throws scaleConnectionException {
+		if(msg.length()>24){
+			throw new scaleConnectionException("msg too long. DisplayMsg");
+		}
 		System.out.println(msg);
 		int integer = input.nextInt();
 		return integer;
@@ -45,6 +48,9 @@ public class FakeScaleConnection implements IScaleConnection {
 
 	@Override
 	public void displayMsg(String msg) throws scaleConnectionException {
+		if(msg.length()>24){
+			throw new scaleConnectionException("msg too long. DisplayMsg");
+		}
 		System.out.println(msg+" (Enter something)");
 		input.next();
 //		System.out.println("DisplayMsg done");
