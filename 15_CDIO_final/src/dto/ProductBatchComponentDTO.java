@@ -9,7 +9,6 @@ public class ProductBatchComponentDTO implements Serializable{
 	private static final long serialVersionUID = -8505275367940949745L;
 
 	private Double tara;
-	private int pbcId;
 	private Double netto;
 	private Integer ingredientBatchID;
 	private Integer ingredientID;
@@ -19,13 +18,9 @@ public class ProductBatchComponentDTO implements Serializable{
 
 	
 	public ProductBatchComponentDTO(){}
-	public ProductBatchComponentDTO( int pbcId, Double tara, Double netto, Integer ingredientBatchID, Integer UserId){
+	public ProductBatchComponentDTO( int pbId,int ingredientID){
 		this.setPbId(pbId);
-		this.setTara(tara);
-		this.setPbcId(pbcId);
-		this.setNetto(netto);
-		this.setIngredientBatchID(ingredientBatchID);
-		this.setUserId(userId);
+		this.setIngredientID(ingredientID);
 	}
 	
 	public void setPbId(int pbId) {
@@ -80,18 +75,6 @@ public class ProductBatchComponentDTO implements Serializable{
 	 */
 	public void setUserId(Integer userId) {
 		this.userId = userId;
-	}
-	/**
-	 * @return the pbcId
-	 */
-	public int getPbcId() {
-		return pbcId;
-	}
-	/**
-	 * @param pbcId the pbcId to set
-	 */
-	public void setPbcId(int pbcId) {
-		this.pbcId = pbcId;
 	}
 	/**
 	 * @return the ingredientID
