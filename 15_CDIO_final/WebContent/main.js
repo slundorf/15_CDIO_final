@@ -239,32 +239,3 @@ function toggleStatus(element){
 		}
 	});
 }
-
-//function deleteUser2(element){
-//	var userid = $(element).data("userid")
-//	console.log(userid);
-//	deleteUserById(userid);
-//	return false;
-//}
-//function deleteUserById(deleteId) {
-//	var dto =  { userId: deleteId };
-//	var json = JSON.stringify(dto);
-//	
-//	$.ajax({
-//		method: "DELETE",
-//		url: "rest/json/deleteUser",
-//		data: json,
-//		contentType: "application/json",
-//		success: function(response) { 
-//			if (response === "true") {
-//				console.log("Success deleting user");
-//				loadUsers();
-//			} else {
-//				console.log("User does not exist");
-//			}
-//		},
-//		error: function() {
-//			console.log("Error deleting user");
-//		}
-//	});
-//}		
