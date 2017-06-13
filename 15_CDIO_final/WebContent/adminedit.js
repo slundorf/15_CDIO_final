@@ -5,9 +5,15 @@
 var rootURL = "http://localhost:8080/15_CDIO_final/rest/weight";
 
 function uuub() { return $('#uuuForm').serializeJSON() }
+function uub() { return $('#uuForm').serializeJSON() }
 
 $(document).ready(function() {
 
+$('#uuButton').click(function() {
+	updateUser();
+	return false;
+})	
+	
 $('#uuuButton').click(function() {
 	getUser();
 	return false;
@@ -33,6 +39,23 @@ function getUser(){
 					},
 		error: function() {
 			console.log("Error loading users");
+		}
+	});
+}
+
+function updateUser() {
+	console.log('updateUser');
+	$.ajax({
+		type: 'POST',
+		contentType: 'application/json',
+		url: rootURL + '/uu',
+		dataType: "json",
+		data: uub(),
+		success: function(data, textStatus, jqXHR) {
+			alert(textStatus);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert(textStatus);
 		}
 	});
 }

@@ -14,17 +14,28 @@ public class ProductBatchComponentDTO implements Serializable{
 	private Integer ingredientBatchID;
 	private Integer ingredientID;
 	private Integer userId;
+	private Integer pbId;
 	
 
 	
 	public ProductBatchComponentDTO(){}
 	public ProductBatchComponentDTO( int pbcId, Double tara, Double netto, Integer ingredientBatchID, Integer UserId){
+		this.setPbId(pbId);
 		this.setTara(tara);
 		this.setPbcId(pbcId);
 		this.setNetto(netto);
 		this.setIngredientBatchID(ingredientBatchID);
 		this.setUserId(userId);
 	}
+	
+	public void setPbId(int pbId) {
+		this.pbId =pbId;
+	}
+	
+	public int getPbId() {
+		return pbId;
+	}
+	
 	public Double getTara() {
 		return tara;
 	}

@@ -50,7 +50,7 @@ public class Weight {
 	IRecipeComponentDAO recipecDAO = new SerRecipeComponentDAO();
 	IProductBatchDAO IPB = new SerProductBatchDAO();
 	IProductBatchComponentDAO IPBC = new SerProductBatchComponentDAO();
-	IBusinessLayer IBL = new BusinessLayerImplementation(FIUD, IRD, IID, IIBD, recipeDAO,IPB,IPBC,recipecDAO);
+	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD, recipeDAO,IPB,IPBC,recipecDAO);
 	int currentUserID;
 	
 	@POST @Path("login/{id}/{pass}")
@@ -120,10 +120,8 @@ public class Weight {
 //	@POST @Path("pbc")
 //	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 //	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-//	public boolean createProductBatchComponent(ProductBatchComponentDTO pbc, int pbId) throws DALException {
-//		ProductBatchDTO temp = IBL.getProductBatch(pbId);
-//		temp.addComponent(pbc);
-//		IBL.updateProductBatch(temp);
+//	public boolean createProductBatchComponent(ProductBatchComponentDTO pbc) throws DALException {;
+//		IBL.updateProductBatch(pbc);
 //		return true;
 //	}
 
@@ -178,6 +176,30 @@ public class Weight {
 		
 		return currentUserID;
 		
+	}
+	
+	@POST @Path("uu")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean updateUser(UserDTO data) throws DALException {		;
+
+		switch(data.getRole().getRoleID()){
+			case 1: 
+				data.getRole().setRoleName("Administrator");
+				break;
+			case 2:
+				data.getRole().setRoleName("Pharmacist");
+				break;
+			case 3: 
+				data.getRole().setRoleName("Foreman");
+				break;
+			case 4: 
+				data.getRole().setRoleName("Operator");
+				break;
+		}
+
+		IBL.updateUser(data);
+		return true;
 	}
 	
 }

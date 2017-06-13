@@ -2,17 +2,16 @@
 <html lang=''>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
-<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="JS.js"></script>
 <meta charset="UTF-8">
 <title>Login side</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="menustyle.css">
 <link rel="stylesheet" href="style.css">
-<script src="http://code.jquery.com/jquery-latest.min.js"
-	type="text/javascript"></script>
-<script src="script.js"></script>
+<script src="jquery-3.2.1.js"></script>
+<script src="jquery.min.js"></script>
+<script src="jquery.serialize-object.min.js"></script>
+<script src="main.js"></script>
 <title>Pharmacist frontpage</title>
 
 </head>
@@ -39,15 +38,15 @@
 					<form id="ciForm">
 
 					<label for="ingID">Ingredient ID:</label>
-					<input id="ingID" name="IngredientID" type="number" required min="11" max="99">					
+					<input id="ingID" name="ingredientID" type="number" required min="100" max="199">					
 					<br/>
 					<br/>
 					<label for="ingName">Ingredient name:</label>
-					<input id="ingName" name="IngredientName" type="text" required>
+					<input id="ingName" name="ingredientName" type="text" required>
 					<br/>
 					<br/>
 					<label for="supp">Supplier:</label>
-					<input id="supp" name="Supplier" type="text" required>
+					<input id="supp" name="supplier" type="text" required>
 					<br/>
 					<br/>
 					<button id="ciButton">Create ingredient</button>

@@ -35,10 +35,19 @@
 		</div>
 		<div id='box'>
 			<form id="pbcForm">
+				
+				<label for=pbID">Product batch ID</label>
+				<input id="pbID" name="pbID" type="number" required min="1" max="99"></br></br>
+				
+				<label for=pbcID">Product batch component ID</label>
+				<input id="pbcID" name="pbcID" type="number" required min="1" max="99"></br></br>
 					
 				<label for="rbID">Ingredient batch ID:</label> <input
 					id="rbID" name="rbID" type="number" required min="1"
 					max="99999999"><br /> <br/>
+					
+				<label for=usrID">User ID</label>
+				<input id="usrID" name="usrID" type="number" required min="1" max="99"></br></br>
 					
 				<label for="netto">Netto (in kg and 4 decimals):</label> <input
 					id="netto" name="netto" type="number" required min="0"
@@ -76,7 +85,6 @@
 					<button id="pbButton">Create product batch</button>
 					</form>
 					
-
 		</div>
 	</div>
 </body>
