@@ -32,22 +32,30 @@ import serDAO.SerIngredientBatchDAO;
 import serDAO.SerIngredientDAO;
 import serDAO.SerRoleDAO;
 import serDAO.SerUserDAO;
+import testData.FakeUserDAO;
 
 @Path("weight")
 public class Weight {
 
 	IUserDAO IUD = new SerUserDAO();
 	IRoleDAO IRD = new SerRoleDAO();
+	IUserDAO FIUD = new FakeUserDAO();
 	IIngredientDAO IID = new SerIngredientDAO();
 	IIngredientBatchDAO IIBD = new SerIngredientBatchDAO();
-	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD);
+	IBusinessLayer IBL = new BusinessLayerImplementation(FIUD, IRD, IID, IIBD);
+	int currentUserID;
 	
-	@POST @Path("login")
+	@POST @Path("login/{id}/{pass}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public int loginUser(String id) throws DALException {
+	public int loginUser(@PathParam("id") Integer id, @PathParam("pass") String pass) throws DALException {
+		
+		currentUserID = id;
+		
 		System.out.println(id);
-		return 1;
+		System.out.println(pass);
+		
+		return IBL.getUser(id).getRole().getRoleID();
 	}
 	
 	@POST @Path("cu")
@@ -127,12 +135,21 @@ public class Weight {
 		return IBL.getUser(id).getRole().getRoleID();
 	}
 	
-	@GET @Path("getUsr")
+	@POST @Path("getUsr/{id}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public UserDTO getUsr(int id) throws DALException {
+	public UserDTO getUsr(@PathParam("id") Integer uid) throws DALException {
 		
-		return IBL.getUser(id);
+		return IBL.getUser(uid);
+	}
+	
+	@GET @Path("currentUserID")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public int getCurrentUserID() {
+		
+		return currentUserID;
+		
 	}
 	
 }

@@ -57,13 +57,11 @@ function validateLogin() {
 	$.ajax({
 		type: 'POST',
 		contentType: 'application/json',
-		url: rootURL + '/login',
+		url: rootURL + '/login/' + $('#usrName').val() + "/" + $('#pass').val(),
 		dataType: "json",
 		data: login(),
 		success: function(data, textStatus, jqXHR) {
-			alert(data);
 			changePage(data);
-			alert('Yay');
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			alert('Idiot');
