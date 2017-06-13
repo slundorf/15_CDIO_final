@@ -326,10 +326,10 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 			throw new DALException("Invalid ID");
 		}
 		for(int i=0;i<ingredientDAO.getIngredientList().size();i++){
-			if(ingredientDAO.getIngredient(i).getIngredientID()==ingredient.getIngredientID()){
+			if(ingredientDAO.getIngredientList().get(i).getIngredientID()==ingredient.getIngredientID()){
 				throw new DALException("ID already taken");
-			}else if(ingredientDAO.getIngredient(i).getIngredientName().equals(ingredient.getIngredientName()) 
-					&& ingredientDAO.getIngredient(i).getSupplier().equals(ingredient.getSupplier())){
+			}else if(ingredientDAO.getIngredientList().get(i).getIngredientName().equals(ingredient.getIngredientName()) 
+					&& ingredientDAO.getIngredientList().get(i).getSupplier().equals(ingredient.getSupplier())){
 				throw new DALException("This combination of ingredient and Supplier already exists.");
 			}
 		}
@@ -337,8 +337,8 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	}
 	public void updateIngredient(IngredientDTO ingredient) throws DALException{
 		for(int i=0;i<ingredientDAO.getIngredientList().size();i++){
-			if(ingredientDAO.getIngredient(i).getIngredientName().equals(ingredient.getIngredientName()) 
-					&& ingredientDAO.getIngredient(i).getSupplier().equals(ingredient.getSupplier())){
+			if(ingredientDAO.getIngredientList().get(i).getIngredientName().equals(ingredient.getIngredientName()) 
+					&& ingredientDAO.getIngredientList().get(i).getSupplier().equals(ingredient.getSupplier())){
 				throw new DALException("This combination of ingredient and Supplier already exists.");
 			}
 		}
