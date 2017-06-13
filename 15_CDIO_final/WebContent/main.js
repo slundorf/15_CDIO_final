@@ -59,8 +59,9 @@ function validateLogin() {
 		contentType: 'application/json',
 		url: rootURL + '/login',
 		dataType: "json",
-		data: login,
+		data: login(),
 		success: function(data, textStatus, jqXHR) {
+			alert(data);
 			changePage(data);
 			alert('Yay');
 		},

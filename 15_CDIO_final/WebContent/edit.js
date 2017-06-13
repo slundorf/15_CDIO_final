@@ -4,10 +4,10 @@
 
 var rootURL = "http://localhost:8080/15_CDIO_final/rest/weight";
 
-$( window ).on( "load", function() {
+$( 'edituser.html' ).on( "load", function() {
 	console.log( "window loaded" );
 	document.getElementById('eusrID').value ="";
-	document.getElementById('eusrName').value = "Simon";
+	document.getElementById('eusrName').value = "userData";
 	document.getElementById('eini').value ="";
 	document.getElementById('ecpr').value ="";
 	document.getElementById('epsword').value="";

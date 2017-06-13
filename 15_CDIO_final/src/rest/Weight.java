@@ -45,8 +45,9 @@ public class Weight {
 	@POST @Path("login")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean loginUser() {
-		return true;
+	public int loginUser(String id) throws DALException {
+		System.out.println(id);
+		return 1;
 	}
 	
 	@POST @Path("cu")
