@@ -56,29 +56,7 @@ public class BusinessTest {
 		
 	@Test
 	public void test() throws DALException {
-		
-		//READ
-			assertEquals(userDB.getUser(11).getUserID(),usr1.getUserID());
-			assertEquals(userDB.getUser(11).getUserName(), usr1.getUserName());
-			assertEquals(userDB.getUser(11).getCpr(),usr1.getCpr());
-			assertEquals(userDB.getUser(11).getIni(),usr1.getIni());
-			assertEquals(userDB.getUser(11).getPassword(),usr1.getPassword());
-			assertEquals(userDB.getUser(11).getRole().getRoleID(),usr1.getRole().getRoleID());
-			assertEquals(userDB.getUser(11).getRole().getRoleName(),usr1.getRole().getRoleName());
-				
-		//UPDATE
-			usr1.setUserName("updatedName");
-			userDB.updateUser(usr1);
-			assertTrue(userDB.getUser(11));
-		
-			
-		IUserDAO IUD = new FakeUserDAO();
-		IRoleDAO IRD = new SerRoleDAO();
-		IIngredientDAO IID = new SerIngredientDAO();
-		IIngredientBatchDAO IIBD = new SerIngredientBatchDAO();
-		IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD);
-		
-		
+	
 		
 		
 		/**
