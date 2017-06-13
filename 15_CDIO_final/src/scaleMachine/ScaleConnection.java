@@ -40,6 +40,11 @@ public class ScaleConnection implements IScaleConnection {
 
 	@Override
 	public int getInteger(String msg) throws scaleConnectionException {
+		
+		if(msg.length()>24){
+			throw new scaleConnectionException("msg too long. getInteger");
+		}
+		
 		outToServer.println("RM20 8 \"" + msg + "\" \"\" \"&3\"");
 		outToServer.flush();
 		String readLine;
@@ -126,13 +131,16 @@ public class ScaleConnection implements IScaleConnection {
 
 	@Override
 	public void displayMsg(String msg) throws scaleConnectionException {
+		if(msg.length()>24){
+			throw new scaleConnectionException("msg too long. DisplayMsg");
+		}
 		outToServer.println("RM20 8 \"" + msg + "\" \"\" \"&3\"");
 		outToServer.flush();
 		String readLine;
 		try {
 			readLine = readFromSocket();
-			if ("RM20 B".equals(readLine)) {
-				String readLine2 = readFromSocket();
+			if (readLine.startsWith("RM20 A")) {
+				
 			} else {
 				throw new scaleConnectionException("unexpected answer");
 			}
