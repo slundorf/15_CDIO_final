@@ -3,6 +3,7 @@
  */
 
 var rootURL = "http://localhost:8080/15_CDIO_final/rest/weight";
+var webURL = "http://localhost:8080/15_CDIO_final";
 
 // Functions for serializing data to a JSON object.
 
@@ -58,14 +59,38 @@ function validateLogin() {
 		contentType: 'application/json',
 		url: rootURL + '/login',
 		dataType: "json",
-		data: login,
+		data: login(),
 		success: function(data, textStatus, jqXHR) {
+			alert(data);
+			changePage(data);
 			alert('Yay');
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			alert('Idiot');
 		}
 	});
+}
+
+function changePage(data) {
+	switch(data) {
+	
+	case 1:
+	window.location.href = "http://localhost:8080/15_CDIO_final/adminindex.html";
+	break;
+	
+	case 2:
+	window.location.href = "http://localhost:8080/15_CDIO_final/pharmaindex.html";
+	break;
+	
+	case 3:
+	window.location.href = "http://localhost:8080/15_CDIO_final/formanindex.html";
+	break;
+	
+	case 4:
+	window.location.href = "http://localhost:8080/15_CDIO_final/operatorindex.html";
+	break;
+	
+	}
 }
 
 function createUser() {
@@ -77,10 +102,10 @@ function createUser() {
 		dataType: "json",
 		data: cu(),
 		success: function(data, textStatus, jqXHR) {
-			alert('Yay');
+			alert(textStatus);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-			alert('Idiot');
+			alert(textStatus);
 		}
 	});
 }
@@ -159,7 +184,7 @@ function getUsers(){
 	$("#usertablebody").html(""); //tømmer element
 	$.ajax({
 		method: "GET",
-		url: rootURL + '/getUsr',
+		url: rootURL + '/getUsrs',
 		dataType: "json",
 		success: function(response) { 
 			$.each(response, function(i, user) {

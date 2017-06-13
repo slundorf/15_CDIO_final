@@ -45,15 +45,15 @@ public class Weight {
 	@POST @Path("login")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean loginUser() {
-		return true;
+	public int loginUser(String id) throws DALException {
+		System.out.println(id);
+		return 1;
 	}
 	
 	@POST @Path("cu")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean createUser(UserDTO data) throws DALException {		
-		System.out.println(data.toString());
+	public boolean createUser(UserDTO data) throws DALException {		;
 
 		switch(data.getRole().getRoleID()){
 			case 1: 
@@ -69,7 +69,7 @@ public class Weight {
 				data.getRole().setRoleName("Operator");
 				break;
 		}
-		System.out.println(data.toString());
+
 		IBL.createUser(data);
 		return true;
 	}
@@ -111,11 +111,28 @@ public class Weight {
 		return true;
 	}
 	
+	@GET @Path("getUsrs")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<UserDTO> getUsrs() throws DALException {
+		
+		return IBL.getUserList();
+	}
+	
+	@GET @Path("getRoleID")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public int getRoleID(int id) throws DALException {
+		
+		return IBL.getUser(id).getRole().getRoleID();
+	}
+	
 	@GET @Path("getUsr")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<UserDTO> getUsr() throws DALException {
-		return IBL.getUserList();
+	public UserDTO getUsr(int id) throws DALException {
+		
+		return IBL.getUser(id);
 	}
 	
 }

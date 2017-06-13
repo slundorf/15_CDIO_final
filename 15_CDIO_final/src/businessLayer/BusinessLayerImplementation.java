@@ -366,18 +366,18 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		return productBatchComponentDAO.getProductBatchComponentList();
 	}
 	
-	public void createProductBatchComponent(ProductBatchComponentDTO productbatchcomponent) throws DALException {
-		for(int i=0;i<productBatchDAO.getProductBatchList().size();i++) {
-			if(productBatchDAO.getProductBatch(i).getProductBatchID()==productbatchcomponent.getProductBatchID()) {
-				for(int j=0;j<productBatchDAO.getProductBatch(i).getComponents().size();j++) {
-					if(productBatchDAO.getProductBatch(i).getComponents().get(j).getIngredientID()==productbatchcomponent.getIngredientID()) {
-						throw new DALException("The productbatch already has a component with this this ingredient");
-					} ///////////
-				}
-			}
-		}
-		productBatchComponentDAO.createProductBatchComponent(productbatchcomponent);
-	}
+//	public void createProductBatchComponent(ProductBatchComponentDTO productbatchcomponent) throws DALException {
+//		for(int i=0;i<productBatchDAO.getProductBatchList().size();i++) {
+//			if(productBatchDAO.getProductBatch(i).getProductBatchID()==productbatchcomponent.getProductBatchID()) {
+//				for(int j=0;j<productBatchDAO.getProductBatch(i).getComponents().size();j++) {
+//					if(productBatchDAO.getProductBatch(i).getComponents().get(j).getIngredientID()==productbatchcomponent.getIngredientID()) {
+//						throw new DALException("The productbatch already has a component with this this ingredient");
+//					} ///////////
+//				}
+//			}
+//		}
+//		productBatchComponentDAO.createProductBatchComponent(productbatchcomponent);
+//	}
 	
 	public void updateProductBatchComponent(ProductBatchComponentDTO productbatchComponent) throws DALException {
 		productBatchComponentDAO.updateProductBatchComponent(productbatchComponent);
@@ -433,19 +433,19 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		return recipeComponentDAO.getRecipeComponentList();
 	}
 	
-	public void createRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
-		for(int i=0;i<recipeDAO.getRecipeList().size();i++) {
-			if(recipeDAO.getRecipe(i).getRecipeID()==recipeComponent.getRecipeID()) {
-				for(int j=0;j<recipeDAO.getRecipe(i).getComponents().size();j++) {
-					if(recipeDAO.getRecipe(i).getComponents().get(j).getIngredientID()==recipeComponent.getIngredientID()) {
-						throw new DALException("The recipe already has a component with that ingredient.");
-					}
-					////////////
-				}
-			}
-		}
-		recipeComponentDAO.createRecipeComponent(recipeComponent);
-	}
+//	public void createRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
+//		for(int i=0;i<recipeDAO.getRecipeList().size();i++) {
+//			if(recipeDAO.getRecipe(i).getRecipeID()==recipeComponent.getRecipeID()) {
+//				for(int j=0;j<recipeDAO.getRecipe(i).getComponents().size();j++) {
+//					if(recipeDAO.getRecipe(i).getComponents().get(j).getIngredientID()==recipeComponent.getIngredientID()) {
+//						throw new DALException("The recipe already has a component with that ingredient.");
+//					}
+//					////////////
+//				}
+//			}
+//		}
+//		recipeComponentDAO.createRecipeComponent(recipeComponent);
+//	}
 	
 	public void updateRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
 		recipeComponentDAO.updateRecipeComponent(recipeComponent);
