@@ -8,8 +8,8 @@
 <link rel="stylesheet" href="menustyle.css">
 <link rel="stylesheet" href="style.css">
 <script src="jquery-3.2.1.js"></script>
-<script src="jquery.min.js"></script>
 <script src="jquery.serialize-object.min.js"></script>
+<script src="recipe.js"></script>
 <script src="main.js"></script>
 <title>Create recept</title>
 
@@ -17,8 +17,8 @@
 <body>
 	<div id='container'>
 		<div id='cssmenu'>
-				<ul>
-				<li ><a href='pharmaindex.html'><span>Home</span></a></li>
+			<ul>
+				<li><a href='pharmaindex.html'><span>Home</span></a></li>
 				<li class='has-sub'><a href='#'><span>Create</span></a>
 					<ul>
 						<li><a href='createingredients.html'><span>Ingredients</span></a></li>
@@ -33,33 +33,60 @@
 						<li><a href='showingredient3.html'><span>Ingredient batch</span></a></li>
 						<li><a href='showproduct3.html'><span>Product batch</span></a></li>
 					</ul></li>
-				<li><a href='editingredient.html'><span>Edit ingredients</span></a></li>
+				<li><a href='editingredient.html'><span>Edit
+							ingredients</span></a></li>
 				<li><a href='peditself.html'><span>Edit profile</span></a></li>
 			</ul>
 		</div>
-		<div id='text'>
 
-			<form id="receptForm">
+		<div id='box3'>
+			<div id='box1'>
+				<form id='recipeForm'>
 
-				<label for="receptID">Recept ID:</label> <input id="repceptID"
-					name="repceptID" type="number" required min="1" max="99999999"><br /> <br/>
-				<label for="receptName">Recept name:</label> <input id="receptName"
-					name="receptName" type="text" required min="2" max="20"> <br /><br/>
-				<label for="inID">Ingredient ID:</label> <input id="inID"
-					name="inID" type="number" required min="1" max="99999999"><br /><br/>
-				<label for="nonNetto">nonNetto (in kg and 4 decimals):</label> <input
-					id="nonNetto" name="nonNetto" type="number" required min="0,05"
-					max="20,0" step="0.01" maxlength="4"> <br /> <br/>
-				<label
-					for="tolerance">Tolerance(in procent)</label> <input id="tolerance"
-					name="tolerance" type="number" required min="0,1" max="10,0"
-					step="0.01" maxlength="3"> <br /><br/>
-
-				<button id="receptButton">Create recept</button>
-
-			</form>
-
+					<label for="recipeID">Recipe ID:</label> <input id="recipeID"
+						name="recipeID" type="number" required min="11" max="99"><br />
+					<br /> <label for="recipeName">Recipe name:</label> <input
+						id="recipeName" name="recipeName" type="text" required><br />
+					<br />
+				</form>
+			</div>
+			<div id='box2'>
+				<form id='recipeComponentForm'>
+					<div class="extraRecipeComponent">
+						<div class="controls controls-row">
+							<div style="float: left;">
+								<input class="span4" placeholder="Recipe component ID"
+								type="number" id="recCompID0"
+								name="components[recipeComponentID]" required> 
+							</div>
+							
+							<div style="float: left;">
+								<input
+								class="span4" placeholder="Ingredient ID" type="number"
+								id="ingID0" name="components[ingredientID]" required> 
+							</div>
+							
+							<div style="float: left;">
+								<input
+								class="span4" placeholder="Amount" type="number" id="amount0"
+								name="components[amount]" required> 
+							</div>
+							
+							<div style="float: left;">
+								<input class="span4"
+								placeholder="Tolerance" type="number" id="tolerance0"
+								name="components[tolerance]" required>
+						</div>
+							</div>
+										
+								
+					</div>
+					<div id="container2"></div>
+				</form>
+				<button id="addComponent">Add new component</button>
+				</br> </br>
+				<button id="recipeButton">Create recipe</button>
+			</div>
 		</div>
-	</div>
 </body>
 </html>

@@ -13,10 +13,11 @@ public class RecipeComponentDTO implements Serializable{
 	private double tolerance;
 	
 	public RecipeComponentDTO(){}
-	public RecipeComponentDTO(int ingredientID, double amount, double tolerance){
+	public RecipeComponentDTO(int recipeComponentID, int ingredientID, double amount, double tolerance){
 		this.setIngredientID(ingredientID);
 		this.setAmount(amount);
 		this.setTolerance(tolerance);
+		this.setRecipeComponentID(recipeComponentID);
 	}
 	/**
 	 * @return the recipeComponentID
@@ -24,6 +25,7 @@ public class RecipeComponentDTO implements Serializable{
 	public int getRecipeComponentID() {
 		return recipeComponentID;
 	}
+	
 	/**
 	 * @param recipeComponentID the recipeComponentID to set
 	 */

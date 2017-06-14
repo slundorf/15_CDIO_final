@@ -6,6 +6,7 @@ import dto.IngredientBatchDTO;
 import dto.IngredientDTO;
 import dto.ProductBatchComponentDTO;
 import dto.ProductBatchDTO;
+import dto.RecipeComponentDTO;
 import dto.RecipeDTO;
 import dto.UserDTO;
 import exceptions.DALException;
@@ -34,4 +35,7 @@ public interface IBusinessLayer {
 	void updateProductBatchComponent(ProductBatchComponentDTO productbatchComponent) throws DALException;
 	RecipeDTO getRecipe(int recipeID) throws DALException;
 	void updateRecipe(RecipeDTO recipe) throws DALException;
+	void createRecipe(RecipeDTO recipe) throws DALException;
+	void createRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException;
+	RecipeComponentDTO getRecipeComponent(int recipeComponentID) throws DALException;
 }

@@ -32,8 +32,6 @@ public class SerIngredientBatchDAO extends SerDAO<IngredientBatchDTO> implements
 	@Override
 	public List<IngredientBatchDTO> getIngredientBatchList() throws DALException {
 		loadInfo();
-//		if (list.size() == 0)
-//			throw new DALException("There are no Ingredient batches in the database.");
 		return list;
 	}
 
