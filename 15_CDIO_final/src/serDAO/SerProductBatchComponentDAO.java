@@ -60,10 +60,15 @@ public class SerProductBatchComponentDAO extends SerDAO<ProductBatchDTO> impleme
 	public void createProductBatchComponent(ProductBatchComponentDTO productbatchcomponent) throws DALException {
 		loadInfo();
 		boolean existed =false;
-		for(int i=0;i<list.size();i++){
-			if(list.get(i).getProductBatchID()==productbatchcomponent.getIngredientBatchID()){
-				list.get(i).addComponent(productbatchcomponent);
+		for(int i=0;i< list.size();i++){
+			if(list.get(i).getProductBatchID()==productbatchcomponent.getPbId()){
 				existed=true;
+				for(int j=0;j<list.get(i).getComponents().size();j++){
+					if(list.get(i).getComponents().get(j).getIngredientID()==productbatchcomponent.getIngredientID()){
+						throw new DALException("That ingredient is already in that productbatch");
+					}
+				}
+				list.get(i).addComponent(productbatchcomponent);
 			}
 		}
 		if(!existed){
@@ -75,21 +80,19 @@ public class SerProductBatchComponentDAO extends SerDAO<ProductBatchDTO> impleme
 	@Override
 	public void updateProductBatchComponent(ProductBatchComponentDTO productbatchComponent) throws DALException {
 		loadInfo();
-		int pbcId = productbatchComponent.getPbcId();
 		boolean existed = false;
-		for(int i=0;i<list.size();i++) {
-			for(int j=0; j<list.get(i).getComponents().size();j++){
-				if(list.get(i).getComponents().get(j).getPbcId()==pbcId) {
-					list.get(i).getComponents().remove(j);
-					list.get(i).addComponent(productbatchComponent);
-					existed=true;
+		for(int i=0;i< list.size();i++){
+			if(list.get(i).getProductBatchID()==productbatchComponent.getPbId()){
+				for(int j=0;j<list.get(i).getComponents().size();j++){
+					if(list.get(i).getComponents().get(j).getIngredientID()==productbatchComponent.getIngredientID()){
+						list.get(i).addComponent(productbatchComponent);
+						existed=true;
+					}
 				}
-			} 
-					
+			}
 		} if(!existed) {
-			throw new DALException("Product batch component not found");
+			throw new DALException("Product batch not found");
 		}
-	
 		saveInfo();
 	}
 }

@@ -215,5 +215,10 @@ public class Weight {
 		IBL.updateUser(data);
 		return true;
 	}
-	
+	@GET @Path("getIngredients")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<IngredientDTO> getIngredients() throws DALException {
+		return IBL.getIngredientList();
+	}
 }

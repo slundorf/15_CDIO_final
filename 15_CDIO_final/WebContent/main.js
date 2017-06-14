@@ -61,7 +61,7 @@ $('#pbcButton').click(function() {
 });
 
 getUsers() ;
-
+getIngredients();
 
 });
 
@@ -265,4 +265,28 @@ function toggleStatus(element){
 			console.log("Error changing status");
 		}
 	});
+}
+
+function getIngredients(){
+	$("#ingredienttablebody").html(""); //tømmer element
+	$.ajax({
+		method: "GET",
+		url: rootURL + '/getIngredients',
+		dataType: "json",
+		success: function(response) { 
+			$.each(response, function(i, list) {
+				$("#ingredienttablebody").append(generateIngredientHTML(list));
+				
+			});
+		},
+		error: function() {
+			console.log("Error loading users");
+		}
+	});
+}
+function generateIngredientHTML(user){
+	return 	'<tr><td>' + user.ingredientID + '</td>' +
+				'<td>' + user.ingredientName + '</td>'+
+				'<td>' + user.supplier+'</td>'+
+				'</tr>';
 }

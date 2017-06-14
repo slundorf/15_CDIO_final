@@ -10,6 +10,7 @@ import exceptions.DALException;
 import exceptions.scaleConnectionException;
 import scaleMachine.IScaleConnection;
 import scaleMachine.ProcedureController;
+import scaleMachine.ScaleConnection;
 import testData.FakeScaleConnection;
 
 /**
@@ -26,11 +27,12 @@ public class IntegrationTestProcedureController {
 	 * @throws DALException
 	 */
 	public static void main(String[] args) throws DALException, IOException, scaleConnectionException {
-//		IScaleConnection sc = new ScaleConnection("169.254.2.2");
-
-		IScaleConnection sc = new FakeScaleConnection();
+		IScaleConnection sc = new ScaleConnection("169.254.2.3");
+//
+//		IScaleConnection sc = new FakeScaleConnection();
 		ProcedureController p = new ProcedureController(sc, true);
 		p.startScaleProcess();
+		
 	}
 
 }

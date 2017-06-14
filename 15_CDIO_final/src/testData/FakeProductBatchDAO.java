@@ -26,10 +26,8 @@ public class FakeProductBatchDAO implements IProductBatchDAO {
 	public FakeProductBatchDAO() {
 		fakeProductBatchList = new ArrayList<ProductBatchDTO>();
 		fakeProductBatchComponentList = new ArrayList<ProductBatchComponentDTO>();
-		PBC1 = new ProductBatchComponentDTO(51,null,null,null,null);
-		PBC1.setIngredientID(1);
-		PBC2 = new ProductBatchComponentDTO(52,null,null,null,null);
-		PBC2.setIngredientID(2);
+		PBC1 = new ProductBatchComponentDTO(41,1);
+		PBC2 = new ProductBatchComponentDTO(41,2);
 		fakeProductBatchComponentList.add(PBC1);
 		fakeProductBatchComponentList.add(PBC2);
 		PB1 = new ProductBatchDTO(41, 31, "090693", "Created", fakeProductBatchComponentList);
