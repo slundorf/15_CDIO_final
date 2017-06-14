@@ -224,7 +224,8 @@ function toggleStatus(element){
 }
 function getProductB(){
 	$("#pbtablebody").html(""); //tømmer element
-	$("#pbctable").setAttribute("style","display:none;");
+	$("#pbctablebody").html(""); //tømmer element
+//	document.getElementByID("pbctable").style.display= "none";
 	$.ajax({
 		method: "GET",
 		url: rootURL + '/getPB',
@@ -240,24 +241,24 @@ function getProductB(){
 	});
 }
 function generatePBHTML(pb){
-	return 	'<tr><td>' + pb.pbId + '</td>' +
+	return 	'<tr><td>' + pb.productBatchID + '</td>' +
 				'<td>' + pb.recipeID + '</td>'+
 				'<td>' + pb.createdDate + '</td>'+
 				'<td>' + pb.status + '</td>'+
-				'<td><button pb-id="' + pb.pbId + '" onclick="appendCompData(this);">Components</button></td>'+
+				'<td><button data-pbid="' + pb.productBatchID + '" onclick="appendCompData(this);">Components</button></td>'+
 				'</tr>';
 }
 
 function appendCompData(element){
 	$("#pbctablebody").html("");
-	$("#pbctable").setAttribute("style","display:inline;");
+//	$("#pbctablebody").style.display= "inline";
 	$.ajax({
 		method: "GET",
-		url: rootURL + '/getPBC/'+$(element).data('pb-id'),
+		url: rootURL + '/getPBC/'+$(element).data('pbid'),
 		dataType: "json",
 		success: function(response) { 
 			$.each(response, function(i, list) {
-				$("#pbtablebody").append(
+				$("#pbctablebody").append(
 						'<tr><td>' + list.pbId + '</td>' +
 						'<td>' + list.ingredientID + '</td>'+
 						'<td>' + list.ingredientBatchID + '</td>'+
