@@ -37,6 +37,10 @@ public abstract class SerDAO<E> {
 
 	public static String helper(String path) {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		URL t = classLoader.getResource(path);
+		String f =t.getPath();
+		String res=f.toString();
+		res=res.replaceAll("%20", " ");
 		String stream = classLoader.getResource(path).getPath().toString().replaceAll("%20", " ");
 		return stream;
 	}
