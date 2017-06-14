@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang=''>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<meta charset="UTF-8">
+<title>Login side</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="menustyle.css">
+<link rel="stylesheet" href="style.css">
+<script src="jquery-3.2.1.js"></script>
+<script src="jquery.min.js"></script>
+<script src="jquery.serialize-object.min.js"></script>
+<script src="main.js"></script>
+<script src="edit.js"></script>
+<title>Admin frontpage</title>
+
+</head>
+<body>
+	<div id='container'>
+		<div id='cssmenu'>
+			<ul>
+				<li><a href='rootadminindex.html'><span>Home</span></a></li>
+				<li class='has-sub'><a href='#'><span>Create</span></a>
+					<ul>
+						<li><a href='createuser2.html'><span>Create users</span></a></li>
+						<li><a href='createingredients2.html'><span>Ingredients</span></a></li>
+						<li><a href='createrecept2.html'><span>Recept</span></a></li>
+						<li><a href='createingredient2.html'><span>Ingredient
+									batch</span></a></li>
+						<li><a href='createproduct2.html'><span>Product
+									batch</span></a></li>
+					</ul></li>
+				<li class='has-sub'><a href='#'><span>Show</span></a>
+					<ul>
+						<li><a href='showuser2.html'><span>Show users</span></a></li>
+						<li><a href='showingredients2.html'><span>Ingredients</span></a></li>
+						<li><a href='showrecpt2.html'><span>Recept</span></a></li>
+						<li><a href='showingredient2.html'><span>Ingredient
+									batch</span></a></li>
+						<li><a href='showproduct2.html'><span>Product batch</span></a></li>
+
+					</ul></li>
+				<li class='has-sub'><a href='#'><span>Edit</span></a>
+					<ul>
+				<li><a href='edituser2.html'><span>Edit users</span></a>
+				<li><a href='editingredient2.html'><span>Edit
+							ingredients</span></a></li>
+				<li><a href='peditself2.html'><span>Edit profile</span></a></li>
+			</ul>
+			</ul>
+		</div>
+		<div id='box'>
+		
+			<form id="esForm">
+
+				<input id="eusrID" name="userID" type="hidden" required value="">					
+				<br/>
+				<br/>
+				<label for="usrName">Full name:</label>
+				<input id="eusrName" name="userName" type="text" required value="">
+				<br/>
+				<br/>
+				<label for="ini">Initials:</label>
+				<input id="eini" name="ini" type="text" required>
+				<br/>
+				<br/>
+				<label for="cpr">Social security number:</label>
+				<input id="ecpr" name="cpr" type="text" required>
+				<br/>
+				<br/>
+				<label for="password">Password:</label>
+				<input id="epsword" name="password" type="password" value="" required>
+				<input type="hidden" name="role[roleID" id="roleID" value="" />
+  				<input type="hidden" name="role[roleName]" id="roleName" value="" />
+  				<br/>
+  				<br/>
+				<button id="esButton">Update user</button>
+
+			</form>
+			
+		</div>
+		
+	</div>
+</body>
+</html>
