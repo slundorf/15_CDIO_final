@@ -11,10 +11,7 @@ function login() { return $('#loginForm').serializeJSON() }
 function cu() {	return $('#cuForm').serializeJSON() }
 function ci() { return $('#ciForm').serializeJSON() }
 function ib() { return $('#ibForm').serializeJSON() }
-function recept() { return $('#receptForm').serializeJSON() }
 function pb() { return $('#pbForm').serializeJSON() }
-function pbc() { return $('#pbcForm').serializeJSON() }
-
 
 // Collection of functions to pick up the event of clicking specific buttons throughout the web application
 // and then calling the specific function.
@@ -45,21 +42,14 @@ $('#ibButton').click(function() {
 	return false;
 });
 
-$('#receptButton').click(function() {
-	createRecept();
-	return false;
-});
-
 $('#pbButton').click(function() {
 	createProductBatch();
 	return false;
 });
-
 $('#pbcButton').click(function() {
 	createProductBatchComponent();
 	return false;
 });
-
 getUsers();
 getIngredients();
 getIngredientbs();
@@ -123,24 +113,6 @@ function createUser() {
 	});
 }
 
-
-function createRecept() {
-	console.log('createRecept');
-	$.ajax({
-		type: 'POST',
-		contentType: 'application/json',
-		url: rootURL + '/recept',
-		dataType: "json",
-		data: recept,
-		success: function(data, textStatus, jqXHR) {
-			alert('Yay');
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			alert('Idiot');
-		}
-	});
-}
-
 function createProductBatch() {
 	console.log('createProductBatch');
 	$.ajax({
@@ -157,24 +129,6 @@ function createProductBatch() {
 		}
 	});
 }
-
-function createProductBatchComponent() {
-	console.log('createProducBatchComponentt');
-	$.ajax({
-		type: 'POST',
-		contentType: 'application/json',
-		url: rootURL + '/pbc',
-		dataType: "json",
-		data: pbc(),
-		success: function(data, textStatus, jqXHR) {
-			alert('Yay');
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			alert('Idiot');
-		}
-	});
-}
-
 
 function createIngredient() {
 	console.log('createIngredient');

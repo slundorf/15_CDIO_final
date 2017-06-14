@@ -3,6 +3,7 @@ package interfaces;
 import java.util.List;
 
 import dto.RecipeComponentDTO;
+import dto.RecipeDTO;
 import exceptions.DALException;
 
 public interface IRecipeComponentDAO {
@@ -14,7 +15,7 @@ public interface IRecipeComponentDAO {
 	 * @return recipeComponent
 	 * @throws DALException
 	 */
-	RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException;
+	RecipeComponentDTO getRecipeComponent(int recipeComponentID) throws DALException;
 	/**
 	 * 
 	 * @param receptId
