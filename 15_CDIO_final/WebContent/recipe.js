@@ -3,7 +3,6 @@
  */
 
 var componentArray = []
-var componentID = []
 var count = 0;
 var compIDValue
 var ingIDValue
@@ -18,8 +17,8 @@ function recipe() { return $('#recipeForm').serializeJSON() }
 		 		return false
 		 	}
 		 	componentArray.push(addComponent())
-		 	componentID.push(compIDValue)
 			createRecipeComponent();
+		 	createRecipe();
 		    return false;
 		})
 
@@ -29,9 +28,7 @@ function recipe() { return $('#recipeForm').serializeJSON() }
     	 }
     	 
     	 componentArray.push(addComponent())
-    	 componentID.push(compIDValue)
     	 count++
-    	 alert(count)
            $('<div/>', {
                'class' : 'extraComponent', html: GetHtml()
      }).hide().appendTo('#container2').slideDown('fast');
