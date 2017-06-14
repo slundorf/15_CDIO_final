@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javax.management.relation.Role;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 
@@ -55,16 +56,14 @@ import serDAO.SerUserDAO;
 public abstract class FakeSerDAO<E> {
 	protected final String pathName;
 	protected List<E> list = new ArrayList<E>();
-	protected List<IngredientBatchDTO> fakeList;
-	protected List<IngredientDTO> fakeList;
-	protected List<ProductBatchComponentDTO> fakeList;
-	protected List<E> fakeList;
-	protected List<E> fakeList;
-	protected List<E> fakeList;
+	protected List<IngredientBatchDTO> ingredientBatchList;
+	protected List<IngredientDTO> ingredientList;
 	protected List<ProductBatchDTO> productBatchList;
-	
-	
+	protected List<RecipeDTO> recipeList;
+	protected List<RoleDTO> roleList;
 	protected List<UserDTO> userList;
+	
+	
 
 	public FakeSerDAO(String pathName) {
 		this.pathName = helper(pathName);
@@ -76,15 +75,30 @@ public abstract class FakeSerDAO<E> {
 		IngredientBatchDTO IB3 = new IngredientBatchDTO(22, 2, 60);
 		IngredientBatchDTO IB4 = new IngredientBatchDTO(23, 3, 10);
 
+		ingredientBatchList.add(IB1);
+		ingredientBatchList.add(IB2);
+		ingredientBatchList.add(IB3);
+		ingredientBatchList.add(IB4);
 		
-
+		
 
 		IngredientDTO I1 = new IngredientDTO(1, "Salt", "supplier1");
 		IngredientDTO I2 = new IngredientDTO(2, "Water", "supplier2");
 		IngredientDTO I3 = new IngredientDTO(3, "Lemon", "supplier3");
 		
-
+		ingredientList.add(I1);
+		ingredientList.add(I2);
+		ingredientList.add(I3);
 		
+		ProductBatchDTO PB1 = new ProductBatchDTO(41, 31, "090693", "Created");
+		ProductBatchDTO PB2 = new ProductBatchDTO(42, 32, "100693", "Created");
+		ProductBatchDTO PB3 = new ProductBatchDTO(43, 32, "110693", "Created");
+		
+		productBatchList.add(PB1);
+		productBatchList.add(PB2);
+		productBatchList.add(PB3);
+		
+	
 
 		// PB1
 		ProductBatchComponentDTO PBC1 = new ProductBatchComponentDTO(41, 1);
@@ -96,65 +110,42 @@ public abstract class FakeSerDAO<E> {
 		// PB3
 		ProductBatchComponentDTO PBC4 = new ProductBatchComponentDTO(43, 3);
 
-		
-
-
-		
-		//PB1
-		List<ProductBatchComponentDTO> productBatchComponentList1 = new ArrayList<ProductBatchComponentDTO>();
-		productBatchComponentList1.add(PBC1);
-		productBatchComponentList1.add(PBC2);
-		//PB2
-		List<ProductBatchComponentDTO> productBatchComponentList2 = new ArrayList<ProductBatchComponentDTO>();
-		productBatchComponentList2.add(PBC3);
-		//PB3
-		List<ProductBatchComponentDTO> productBatchComponentList3 = new ArrayList<ProductBatchComponentDTO>();
-		productBatchComponentList3.add(PBC4);
-		
-		ProductBatchDTO PB1 = new ProductBatchDTO(41, 31, "090693", "Created", productBatchComponentList1);
-		ProductBatchDTO PB2 = new ProductBatchDTO(42, 32, "100693", "Created", productBatchComponentList2);
-		ProductBatchDTO PB3 = new ProductBatchDTO(43, 32, "110693", "Created", productBatchComponentList3);
-		
+		productBatchComponentList.add(PBC1);
+		productBatchComponentList.add(PBC2);
+		productBatchComponentList.add(PBC3);
+		productBatchComponentList.add(PBC4);
 	
 		
 		
+		RecipeComponentDTO RC1 = new RecipeComponentDTO(31,51,1, 0.2, 0.1);
+		RecipeComponentDTO RC2 = new RecipeComponentDTO(31,52,2, 2, 0.1);
+		RecipeComponentDTO RC3 = new RecipeComponentDTO(32,53,3,1,0.5);
+		
+		recipeComponentList.add(RC1);
+		recipeComponentList.add(RC2);
+		recipeComponentList.add(RC3);
 		
 		
-		RecipeComponentDTO RC1 = new RecipeComponentDTO(51,1, 0.2, 0.1);
-		RecipeComponentDTO RC2 = new RecipeComponentDTO(52,2, 2, 0.1);
-		RecipeComponentDTO RC3 = new RecipeComponentDTO(53,3,1,0.5);
+		RecipeDTO R1 = new RecipeDTO(31, "SaltWater");
+		RecipeDTO R2 = new RecipeDTO(32, "Lemon");
+		
+		recipeList.add(R1);
+		recipeList.add(R2);
 		
 		
-		
-		
-		
-		
-		
-		List<RecipeComponentDTO> recipeComponentList1 = new ArrayList<RecipeComponentDTO>();
-		List<RecipeComponentDTO> recipeComponentList2 = new ArrayList<RecipeComponentDTO>();
-
-		//R1
-		recipeComponentList1.add(RC1);
-		recipeComponentList1.add(RC2);
-		//R2
-		recipeComponentList2.add(RC3);
-		
-		
-		RecipeDTO R1 = new RecipeDTO(31, "SaltWater",recipeComponentList1);
-		RecipeDTO R2 = new RecipeDTO(32, "Lemon",recipeComponentList2);
-		
-		
-		
-	
 		
 		RoleDTO role1 = new RoleDTO(1, "Administator");
 		RoleDTO role2 = new RoleDTO(2, "Pharmacist");
 		RoleDTO role3 = new RoleDTO(3, "Foreman");
 		RoleDTO role4 = new RoleDTO(4, "Operator");
 		
+		roleList.add(role1);
+		roleList.add(role2);
+		roleList.add(role3);
+		roleList.add(role4);
 		
 	
-	
+		
 		
 		UserDTO user1 = new UserDTO(11, "Steve", "STV", "101010-1234","wally", role4, true);
 		UserDTO user2 = new UserDTO(12, "Kurt", "Kru", "101110-1234","wally2", role1, true);
@@ -185,9 +176,29 @@ public abstract class FakeSerDAO<E> {
 		
 		if(pathName.equals("UserDB.ser")){
 			list = (ArrayList<E>) userList;
+			
+		}else if(pathName.equals("IngredientBatchDB.ser")){
+			
+			list = (ArrayList<E>) ingredientBatchList;
+			
+		}else if(pathName.equals("IngredientDB.ser")){
+			
+			list = (ArrayList<E>) ingredientList;
+		}else if(pathName.equals("ProductBatchDB.ser")){
+			
+			list = (ArrayList<E>) productBatchList;
+			
+		}else if(pathName.equals("RecipeDB.ser")){
+			
+			list = (ArrayList<E>) recipeList;
+			
+		}else if(pathName.equals("RoleDB.ser")){
+			
+			list = (ArrayList<E>) roleList;
+		
 		}
 			
-			list = (ArrayList<E>) fakeList;
+			list = (ArrayList<E>) userList;
 
 			if (list.equals(null))
 				list = new ArrayList<E>();
