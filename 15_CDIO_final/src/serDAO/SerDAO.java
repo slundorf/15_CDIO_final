@@ -46,7 +46,6 @@ public abstract class SerDAO<E> {
 		String res=f.toString();
 		res=res.replaceAll("%20", " ");
 		String stream = classLoader.getResource(path).getPath().toString().replaceAll("%20", " ");
-		System.out.println(stream);
 		return stream;
 	}
 
