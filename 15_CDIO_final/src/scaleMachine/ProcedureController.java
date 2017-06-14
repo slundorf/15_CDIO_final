@@ -59,6 +59,7 @@ public class ProcedureController {
 
 	public ProcedureController(IScaleConnection connection, boolean test) {
 		this.connection = connection;
+		
 		if (test) {
 			users = new FakeUserDAO();
 			productBatches = new FakeProductBatchDAO();
@@ -75,9 +76,7 @@ public class ProcedureController {
 			recipecomponents = new SerRecipeComponentDAO();
 
 		}
-		// if(test){
-		// connection = new FakeScaleConnection();
-		// }
+	
 	}
 
 	public void startScaleProcess() throws DALException, IOException, scaleConnectionException {
