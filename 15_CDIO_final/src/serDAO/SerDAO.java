@@ -27,6 +27,10 @@ import java.util.ResourceBundle;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 
+import dto.IngredientBatchDTO;
+import dto.ProductBatchDTO;
+import interfaces.IIngredientBatchDAO;
+
 public abstract class SerDAO<E> {
 	protected final String pathName;
 	protected List<E> list = new ArrayList<E>();
@@ -42,6 +46,7 @@ public abstract class SerDAO<E> {
 		String res=f.toString();
 		res=res.replaceAll("%20", " ");
 		String stream = classLoader.getResource(path).getPath().toString().replaceAll("%20", " ");
+		System.out.println(stream);
 		return stream;
 	}
 

@@ -26,6 +26,12 @@ public class ProductBatchDTO implements Serializable{
 		this.setComponents(components);
 	
 	}
+	public ProductBatchDTO(int pbId, int recipeID, String createdDate, String status) {
+		this.setProductBatchID(productBatchID);
+		this.setRecipeID(recipeID);
+		this.setCreatedDate(createdDate);
+		this.setStatus(status);
+	}
 	/**
 	 * @return the productBatchID
 	 */
