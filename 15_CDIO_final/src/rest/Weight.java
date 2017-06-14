@@ -1,5 +1,6 @@
 package rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -52,6 +53,7 @@ public class Weight {
 	IProductBatchComponentDAO IPBC = new SerProductBatchComponentDAO();
 	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD, recipeDAO,IPB,IPBC,recipecDAO);
 	int currentUserID;
+	int[] recipeComponentID;
 	
 	@POST @Path("login/{id}/{pass}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -90,10 +92,26 @@ public class Weight {
 		return true;
 	}
 	
-	@POST @Path("recept")
+	@POST @Path("recipe")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean createRecipe() {
+	public boolean createRecipe(RecipeDTO recipe) throws DALException {
+		
+//		IBL.createRecipe(recipe);
+		
+		return true;
+	}
+	
+	@POST @Path("recipeComponent")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean createRecipe(RecipeComponentDTO[] recipeComponent) throws DALException {
+		
+		for(int i=0; i<recipeComponent.length; i++) {
+			recipeComponent[i].getRecipeComponentID();
+		}
+		
+//		IBL.createRecipeComponent(recipeComponent);
+		
 		return true;
 	}
 	
@@ -153,13 +171,12 @@ public class Weight {
 		return IBL.getUserList();
 	}
 	
-	@GET @Path("getRoleID")
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public int getRoleID(int id) throws DALException {
-		
-		return IBL.getUser(id).getRole().getRoleID();
-	}
+//	@GET @Path("getRoleID")
+//	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	public int getRoleID(int id) throws DALException {
+//		
+//		return IBL.getUser(id).getRole().getRoleID();
+//	}
 	
 	@POST @Path("getUsr/{id}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -170,7 +187,6 @@ public class Weight {
 	}
 	
 	@GET @Path("currentUserID")
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public int getCurrentUserID() {
 		return currentUserID;
@@ -220,5 +236,20 @@ public class Weight {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<IngredientDTO> getIngredients() throws DALException {
 		return IBL.getIngredientList();
+	}
+	@GET @Path("getIngredientBatches")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<IngredientBatchDTO> getIngredientBatchList() throws DALException{
+		return IBL.getIngredientBatchList();
+	}
+	@GET @Path("getPB")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<ProductBatchDTO> getProductBatchList() throws DALException{
+		return IBL.getProductBatchList();
+	}
+	@GET @Path("getPBC/{pbId}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<ProductBatchComponentDTO> getProductBatchComponentList(@PathParam("pbId") int pbId) throws DALException{
+		return IBL.getProductBatchComponentList(pbId);
 	}
 }

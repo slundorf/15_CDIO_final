@@ -9,9 +9,16 @@ public interface IRecipeComponentDAO {
 	
 	/**
 	 * 
-	 * @param receptId
-	 * @param raavareId
+	 * @param receptComponentID
 	 * @return recipeComponent
+	 * @throws DALException
+	 */
+	RecipeComponentDTO getRecipeComponent(int recipeComponentID) throws DALException;
+	/**
+	 * 
+	 * @param recipeID
+	 * @param ingredientID
+	 * @return
 	 * @throws DALException
 	 */
 	RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException;
