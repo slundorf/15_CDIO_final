@@ -2,16 +2,15 @@
 <html lang=''>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
-<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="JS.js"></script>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="menustyle.css">
 <link rel="stylesheet" href="style.css">
-<script src="http://code.jquery.com/jquery-latest.min.js"
-	type="text/javascript"></script>
-<script src="script.js"></script>
+<script src="jquery-3.2.1.js"></script>
+<script src="jquery.min.js"></script>
+<script src="jquery.serialize-object.min.js"></script>
+<script src="main.js"></script>
 <title>Show ingredient</title>
 
 </head>
@@ -33,7 +32,22 @@
 					<li><a href='feditself.html'><span>Edit profile</span></a></li>
 			</ul>
 		</div>
-		<div id='box'></div>
+		<div id='box'>
+		<div class=container, id="ingredientbs">
+		<h1>Ingredients</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>Ingredientbatch ID</th>
+					<th>Ingredient ID</th>
+					<th>Amount</th>
+				</tr>
+			</thead>
+			<tbody id="ingredientbtablebody">
+			</tbody>
+		</table>
+		</div>
+		</div>
 	</div>
 </body>
 </html>

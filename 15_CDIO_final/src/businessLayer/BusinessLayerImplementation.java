@@ -432,7 +432,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 				throw new DALException("IngredientBatch ID already exists.");
 			}
 		}
-		
+		ingredientBatchDAO.createIngredientBatch(ingredientBatch);
 	}
 	public void updateIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException {
 		ingredientBatchDAO.updateIngredientBatch(ingredientBatch);

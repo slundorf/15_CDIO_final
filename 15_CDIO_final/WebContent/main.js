@@ -60,8 +60,10 @@ $('#pbcButton').click(function() {
 	return false;
 });
 
-getUsers() ;
+getUsers();
 getIngredients();
+getIngredientbs();
+getProductB();
 
 });
 
@@ -266,6 +268,82 @@ function toggleStatus(element){
 		}
 	});
 }
+function getProductB(){
+	$("#pbtablebody").html(""); //tømmer element
+	$("#pbctable").setAttribute("style","display:none;");
+	$.ajax({
+		method: "GET",
+		url: rootURL + '/getPB',
+		dataType: "json",
+		success: function(response) { 
+			$.each(response, function(i, list) {
+				$("#pbtablebody").append(generatePBHTML(list));
+			});
+		},
+		error: function() {
+			console.log("Error loading pb");
+		}
+	});
+}
+function generatePBHTML(pb){
+	return 	'<tr><td>' + pb.pbId + '</td>' +
+				'<td>' + pb.recipeID + '</td>'+
+				'<td>' + pb.createdDate + '</td>'+
+				'<td>' + pb.status + '</td>'+
+				'<td><button pb-id="' + pb.pbId + '" onclick="appendCompData(this);">Components</button></td>'+
+				'</tr>';
+}
+
+function appendCompData(element){
+	$("#pbctablebody").html("");
+	$("#pbctable").setAttribute("style","display:inline;");
+	$.ajax({
+		method: "GET",
+		url: rootURL + '/getPBC/'+$(element).data('pb-id'),
+		dataType: "json",
+		success: function(response) { 
+			$.each(response, function(i, list) {
+				$("#pbtablebody").append(
+						'<tr><td>' + list.pbId + '</td>' +
+						'<td>' + list.ingredientID + '</td>'+
+						'<td>' + list.ingredientBatchID + '</td>'+
+						'<td>' + list.netto + '</td>'+
+						'<td>' + list.userId + '</td>'+
+						'</tr>'
+						);
+			});
+		},
+		error: function() {
+			console.log("Error loading pb");
+		}
+	});
+	
+}
+
+function getIngredientbs(){
+	$("#ingredientbtablebody").html(""); //tømmer element
+	$.ajax({
+		method: "GET",
+		url: rootURL + '/getIngredientBatches',
+		dataType: "json",
+		success: function(response) { 
+			$.each(response, function(i, list) {
+				$("#ingredientbtablebody").append(generateIngredientBHTML(list));
+			});
+		},
+		error: function() {
+			console.log("Error loading ingredient batches");
+		}
+	});
+}
+
+function generateIngredientBHTML(ingb){
+	return 	'<tr><td>' + ingb.ingredientBatchID + '</td>' +
+				'<td>' + ingb.ingredientID + '</td>'+
+				'<td>' + ingb.amount+'</td>'+
+				'</tr>';
+}
+
 
 function getIngredients(){
 	$("#ingredienttablebody").html(""); //tømmer element
@@ -280,13 +358,13 @@ function getIngredients(){
 			});
 		},
 		error: function() {
-			console.log("Error loading users");
+			console.log("Error loading ingredients");
 		}
 	});
 }
-function generateIngredientHTML(user){
-	return 	'<tr><td>' + user.ingredientID + '</td>' +
-				'<td>' + user.ingredientName + '</td>'+
-				'<td>' + user.supplier+'</td>'+
+function generateIngredientHTML(ing){
+	return 	'<tr><td>' + ing.ingredientID + '</td>' +
+				'<td>' + ing.ingredientName + '</td>'+
+				'<td>' + ing.supplier+'</td>'+
 				'</tr>';
 }

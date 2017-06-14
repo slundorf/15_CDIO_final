@@ -221,4 +221,19 @@ public class Weight {
 	public List<IngredientDTO> getIngredients() throws DALException {
 		return IBL.getIngredientList();
 	}
+	@GET @Path("getIngredientBatches")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<IngredientBatchDTO> getIngredientBatchList() throws DALException{
+		return IBL.getIngredientBatchList();
+	}
+	@GET @Path("getPB")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<ProductBatchDTO> getProductBatchList() throws DALException{
+		return IBL.getProductBatchList();
+	}
+	@GET @Path("getPBC/{pbId}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<ProductBatchComponentDTO> getProductBatchComponentList(@PathParam("pbId") int pbId) throws DALException{
+		return IBL.getProductBatchComponentList(pbId);
+	}
 }
