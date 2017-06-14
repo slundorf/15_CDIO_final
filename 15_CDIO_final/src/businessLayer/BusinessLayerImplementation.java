@@ -395,6 +395,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 				throw new DALException("ID already taken.");				
 			} 
 		}
+		recipeDAO.createRecipe(recipe);
 	}
 	
 	public void updateRecipe(RecipeDTO recipe) throws DALException {
@@ -402,8 +403,8 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		//////////
 	}
 	
-	public RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException {
-		return recipeComponentDAO.getRecipeComponent(recipeID, ingredientID);
+	public RecipeComponentDTO getRecipeComponent(int recipeComponentID) throws DALException {
+		return recipeComponentDAO.getRecipeComponent(recipeComponentID);
 	}
 	
 	public List<RecipeComponentDTO> getRecipeComponentList() throws DALException {
@@ -431,6 +432,15 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	}
 	public void updateIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException {
 		ingredientBatchDAO.updateIngredientBatch(ingredientBatch);
+	}
+	@Override
+	public void createRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
+		for(int i=0;i<recipeComponentDAO.getRecipeComponentList().size(); i++) {
+			if(recipeComponentDAO.getRecipeComponent(i).getRecipeComponentID()==recipeComponent.getRecipeComponentID()) {
+				throw new DALException("ID already taken.");				
+			} 
+		}
+		recipeComponentDAO.createRecipeComponent(recipeComponent);
 	}
 	
 }
