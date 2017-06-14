@@ -109,11 +109,11 @@ public abstract class FakeSerDAO<E> {
 
 		// PB3
 		ProductBatchComponentDTO PBC4 = new ProductBatchComponentDTO(43, 3);
-
-		productBatchComponentList.add(PBC1);
-		productBatchComponentList.add(PBC2);
-		productBatchComponentList.add(PBC3);
-		productBatchComponentList.add(PBC4);
+//
+//		productBatchComponentList.add(PBC1);
+//		productBatchComponentList.add(PBC2);
+//		productBatchComponentList.add(PBC3);
+//		productBatchComponentList.add(PBC4);
 	
 		
 		
@@ -121,9 +121,9 @@ public abstract class FakeSerDAO<E> {
 		RecipeComponentDTO RC2 = new RecipeComponentDTO(31,52,2, 2, 0.1);
 		RecipeComponentDTO RC3 = new RecipeComponentDTO(32,53,3,1,0.5);
 		
-		recipeComponentList.add(RC1);
-		recipeComponentList.add(RC2);
-		recipeComponentList.add(RC3);
+//		recipeComponentList.add(RC1);
+//		recipeComponentList.add(RC2);
+//		recipeComponentList.add(RC3);
 		
 		
 		RecipeDTO R1 = new RecipeDTO(31, "SaltWater");
