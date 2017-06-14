@@ -84,7 +84,14 @@ public class FakeScaleConnection implements IScaleConnection {
 
 	@Override
 	public void setSoftKey() throws scaleConnectionException {
-		System.out.println("setSoftKey");
+		System.out.println("setSoftKey to Ok");
+		
+	}
+
+	@Override
+	public void removeSoftKey() throws scaleConnectionException {
+		// TODO Auto-generated method stub
+		System.out.println("RemoveSoftKey");
 		
 	}
 

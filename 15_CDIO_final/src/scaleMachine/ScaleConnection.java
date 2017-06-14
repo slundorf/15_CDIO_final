@@ -55,10 +55,10 @@ public class ScaleConnection implements IScaleConnection {
 			} else if (readLine.startsWith("RM20 A")) {
 				// Parse return string
 				return Integer.valueOf(readLine.split("\"")[1]);
-			} else if (readLine.startsWith("RM20 C")) {
+			} else if (!readLine.startsWith("RM20 A")) {
 				getInteger(msg);
 			}else {
-				throw new scaleConnectionException("unexpected answer readline = "+readLine+" msg = " + msg);
+				throw new scaleConnectionException("unexpected answer readline = "+readLine+"------ msg = " + msg);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
