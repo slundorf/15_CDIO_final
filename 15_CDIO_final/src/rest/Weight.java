@@ -53,7 +53,7 @@ public class Weight {
 	IProductBatchComponentDAO IPBC = new SerProductBatchComponentDAO();
 	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD, recipeDAO,IPB,IPBC,recipecDAO);
 	int currentUserID;
-	int[] recipeComponentID;
+	ArrayList<Integer> recipeComponentID = new ArrayList<Integer>();
 	
 	@POST @Path("login/{id}/{pass}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -97,7 +97,10 @@ public class Weight {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public boolean createRecipe(RecipeDTO recipe) throws DALException {
 		
-//		IBL.createRecipe(recipe);
+		for(int i=0; i<recipeComponentID.size(); i++) {
+			recipe.addComponent(IBL.getRecipeComponent(recipeComponentID.get(i)));
+		}
+		IBL.createRecipe(recipe);
 		
 		return true;
 	}
@@ -107,10 +110,9 @@ public class Weight {
 	public boolean createRecipe(RecipeComponentDTO[] recipeComponent) throws DALException {
 		
 		for(int i=0; i<recipeComponent.length; i++) {
-			recipeComponent[i].getRecipeComponentID();
+			IBL.createRecipeComponent(recipeComponent[i]);
+			recipeComponentID.add(recipeComponent[i].getRecipeComponentID());
 		}
-		
-//		IBL.createRecipeComponent(recipeComponent);
 		
 		return true;
 	}

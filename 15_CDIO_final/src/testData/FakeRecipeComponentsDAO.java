@@ -18,8 +18,8 @@ public class FakeRecipeComponentsDAO implements IRecipeComponentDAO {
 	public FakeRecipeComponentsDAO() {
 		fakeRecipeList = new ArrayList<RecipeDTO>();
 		fakeRecipeComponentList = new ArrayList<RecipeComponentDTO>();
-		RC1 = new RecipeComponentDTO(1, 0.2, 0.1);
-		RC2 = new RecipeComponentDTO(2, 2, 0.1);
+		RC1 = new RecipeComponentDTO(51,1, 0.2, 0.1);
+		RC2 = new RecipeComponentDTO(52,2, 2, 0.1);
 		fakeRecipeComponentList.add(RC1);
 		fakeRecipeComponentList.add(RC2);
 		R1 = new RecipeDTO(31, "SaltWater",fakeRecipeComponentList);
@@ -101,6 +101,18 @@ public class FakeRecipeComponentsDAO implements IRecipeComponentDAO {
 		if (!existed) {
 			throw new DALException("Recipe not found");
 		}	
+	}
+
+	@Override
+	public RecipeComponentDTO getRecipeComponent(int recipeComponentID) throws DALException {
+		for(int i =0;i<fakeRecipeList.size();i++){
+			for(int j=0;j<fakeRecipeList.get(i).getComponents().size();j++){
+				if(fakeRecipeList.get(i).getComponents().get(j).getRecipeComponentID()==recipeComponentID){
+					return fakeRecipeList.get(i).getComponents().get(j);
+				}
+			}
+		}
+		throw new DALException("No recipecomponent found with ID = "+recipeComponentID);
 	}
 
 }

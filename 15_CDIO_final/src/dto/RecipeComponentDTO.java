@@ -25,6 +25,7 @@ public class RecipeComponentDTO implements Serializable{
 	public int getRecipeComponentID() {
 		return recipeComponentID;
 	}
+	
 	/**
 	 * @param recipeComponentID the recipeComponentID to set
 	 */
