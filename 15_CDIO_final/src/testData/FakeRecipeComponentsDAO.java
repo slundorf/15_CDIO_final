@@ -14,14 +14,17 @@ public class FakeRecipeComponentsDAO implements IRecipeComponentDAO {
 	RecipeDTO R1;
 	RecipeComponentDTO RC1;
 	RecipeComponentDTO RC2;
+	RecipeComponentDTO RC3;
 	
 	public FakeRecipeComponentsDAO() {
 		fakeRecipeList = new ArrayList<RecipeDTO>();
 		fakeRecipeComponentList = new ArrayList<RecipeComponentDTO>();
 		RC1 = new RecipeComponentDTO(51,1, 0.2, 0.1);
 		RC2 = new RecipeComponentDTO(52,2, 2, 0.1);
+		RC3 = new RecipeComponentDTO(53,2, 1, 0.5);
 		fakeRecipeComponentList.add(RC1);
 		fakeRecipeComponentList.add(RC2);
+		fakeRecipeComponentList.add(RC3);
 		R1 = new RecipeDTO(31, "SaltWater",fakeRecipeComponentList);
 		fakeRecipeList.add(R1);
 		
