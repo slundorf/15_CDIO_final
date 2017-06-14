@@ -36,15 +36,10 @@ public abstract class SerDAO<E> {
 	protected List<E> list = new ArrayList<E>();
 
 	public SerDAO(String pathName) {
-		this.pathName = helper(pathName);
+		this.pathName = pathName;
 	}
 
-	public static String helper(String path) {
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		String stream = classLoader.getResource(path).getPath().toString().replaceAll("%20", " ");
-		System.out.println(stream);
-		return stream;
-	}
+
 
 	/**
 	 * Loads the data arraylist
