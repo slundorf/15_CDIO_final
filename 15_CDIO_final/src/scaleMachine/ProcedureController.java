@@ -81,11 +81,8 @@ public class ProcedureController {
 	}
 
 	public void startScaleProcess() throws DALException, IOException, scaleConnectionException {
-	
-		enterUserId(connection);
 
-		
-		
+		enterUserId(connection);
 
 		enterProductBatchId(connection);
 		// Start Weighing
@@ -95,11 +92,13 @@ public class ProcedureController {
 			IngredientBatchDTO ingredientBatch = enterIngredientBatch(connection, productBatchComponentDTO);
 
 			startweighing(connection, productBatchComponentDTO, ingredientBatch);
-			System.out.println(" netto: "+productBatchComponentDTO.getNetto() + "Tara  "+productBatchComponentDTO.getTara() + "  IngredientId "+ productBatchComponentDTO.getIngredientID()+ " user id: "+ productBatchComponentDTO.getUserId());
+			System.out.println(" netto: " + productBatchComponentDTO.getNetto() + "Tara  "
+					+ productBatchComponentDTO.getTara() + "  IngredientId "
+					+ productBatchComponentDTO.getIngredientID() + " user id: " + productBatchComponentDTO.getUserId());
 		}
 		productBatches.updateProductBatch(productBatch);
 		connection.displayMsg("Productbatch complete");
-		
+
 		connection.removeProductBatchID();
 		connection.removeOperatorInitials();
 
@@ -131,7 +130,6 @@ public class ProcedureController {
 			connection.waitForAnswer();
 			connection.removeSoftKey();
 			nettoweight = connection.getMass();
-	
 
 			// Calculate tolerancewaight of the ingredientbatch amount.
 			double amount = getAmount(productBatchComponentDTO);
@@ -228,12 +226,17 @@ public class ProcedureController {
 			try {
 				user = users.getUser(userId);
 
-				if (!user.isStatus()) {
+				int roleId = user.getRole().getRoleID();
+				Boolean status = user.isStatus();
+
+				if (!status || (roleId == 1)) {
+
 					user = null;
 					attempt = false;
 				}
+			}
 
-			} catch (DALException e) {
+			catch (DALException e) {
 				// Try again
 				attempt = false;
 			}
@@ -242,27 +245,16 @@ public class ProcedureController {
 	}
 
 	private double getTolerance(ProductBatchComponentDTO dto) throws DALException {
-		
 
 		int ingredientID = dto.getIngredientID();
 		int pbId = dto.getPbId();
 		ProductBatchDTO PB = productBatches.getProductBatch(pbId);
 		int rcId = PB.getRecipeID();
-		
+
 		RecipeComponentDTO RC = recipecomponents.getRecipeComponent(rcId, ingredientID);
 		return RC.getTolerance();
 
-//		for (int k = 0; k < recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID())
-//				.getComponents().size(); k++) {
-//			if (recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID()).getComponents().get(k)
-//					.getIngredientID() == ingredientBatches.getIngredientBatch(dto.getIngredientBatchID())
-//							.getIngredientID()) {
-//				return recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID()).getComponents()
-//						.get(k).getTolerance();
-//			}
-//		}
-//		throw new DALException("Recipecomponent corresponding to productbatchcomponent  could not be found");
-//	}
+
 	}
 
 	private double getAmount(ProductBatchComponentDTO dto) throws DALException {
@@ -271,27 +263,11 @@ public class ProcedureController {
 		int pbId = dto.getPbId();
 		ProductBatchDTO PB = productBatches.getProductBatch(pbId);
 		int rcId = PB.getRecipeID();
-		
+
 		RecipeComponentDTO RC = recipecomponents.getRecipeComponent(rcId, ingredientID);
 		return RC.getAmount();
 
-		// for (int k = 0; k <
-		// recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID())
-		// .getComponents().size(); k++) {
-		// if
-		// (recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID()).getComponents()
-		// .get(k).getIngredientID() == ingredientBatches
-		// .getIngredientBatch(dto.getIngredientBatchID()).getIngredientID()) {
-		// return
-		// recipes.getRecipe(productBatches.getProductBatch(dto.getPbId()).getRecipeID())
-		// .getComponents().get(k).getAmount();
-		// }
-		// }
-		// throw new DALException(
-		// "Recipecomponent corresponding to productbatchcomponent could not be
-		// found");
-		// }
+	
 	}
 }
 
-// Start Tread for at køre afvejningen.

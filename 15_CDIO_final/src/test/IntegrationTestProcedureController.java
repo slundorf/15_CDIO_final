@@ -27,9 +27,9 @@ public class IntegrationTestProcedureController {
 	 * @throws DALException
 	 */
 	public static void main(String[] args) throws DALException, IOException, scaleConnectionException {
-		IScaleConnection sc = new ScaleConnection("169.254.2.3");
+	//	IScaleConnection sc = new ScaleConnection("169.254.2.3");
 //
-//		IScaleConnection sc = new FakeScaleConnection();
+		IScaleConnection sc = new FakeScaleConnection();
 		ProcedureController p = new ProcedureController(sc, true);
 		p.startScaleProcess();
 		
