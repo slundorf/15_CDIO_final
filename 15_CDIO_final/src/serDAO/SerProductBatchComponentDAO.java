@@ -59,10 +59,8 @@ public class SerProductBatchComponentDAO extends SerDAO<ProductBatchDTO> impleme
 	@Override
 	public void createProductBatchComponent(ProductBatchComponentDTO productbatchcomponent) throws DALException {
 		loadInfo();
-		boolean existed =false;
 		for(int i=0;i< list.size();i++){
 			if(list.get(i).getProductBatchID()==productbatchcomponent.getPbId()){
-				existed=true;
 				for(int j=0;j<list.get(i).getComponents().size();j++){
 					if(list.get(i).getComponents().get(j).getIngredientID()==productbatchcomponent.getIngredientID()){
 						throw new DALException("That ingredient is already in that productbatch");
@@ -70,9 +68,6 @@ public class SerProductBatchComponentDAO extends SerDAO<ProductBatchDTO> impleme
 				}
 				list.get(i).addComponent(productbatchcomponent);
 			}
-		}
-		if(!existed){
-			throw new DALException("Product batch not found");
 		}
 		saveInfo();
 	}

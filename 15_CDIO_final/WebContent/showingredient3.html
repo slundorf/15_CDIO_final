@@ -12,13 +12,13 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"
 	type="text/javascript"></script>
 <script src="script.js"></script>
-<title>Edit ingredients</title>
+<title>Show ingredient</title>
 
 </head>
 <body>
 	<div id='container'>
 		<div id='cssmenu'>
-					<ul>
+				<ul>
 				<li ><a href='pharmaindex.html'><span>Home</span></a></li>
 				<li class='has-sub'><a href='#'><span>Create</span></a>
 					<ul>
@@ -38,50 +38,7 @@
 				<li><a href='peditself.html'><span>Edit profile</span></a></li>
 			</ul>
 		</div>
-<div id='box'>
-		
-			<form id="uuuform">
-			
-			<label for="changeUser">Enter the ID of the user you wish to administrate:</label> <br/><br/>
-			<input id="cU" name="changeUser" type="number" required min="11" max="99"><br/><br/>
-			<button id="uuuButton">Enter</button>
-			
-			</form>
-		
-			<form id="uuForm">
-
-				<input id="eusrID" name="userID" type="hidden" required value="">					
-				<br/>
-				<br/>
-				<label for="usrName">Full name:</label>
-				<input id="eusrName" name="userName" type="text" required value="">
-				<br/>
-				<br/>
-				<label for="ini">Initials:</label>
-				<input id="eini" name="ini" type="text" required>
-				<br/><br/>
-				<label for="cpr">Social security number:</label>
-				<input id="ecpr" name="cpr" type="text" required>
-				<br/><br/>
-				<label for="password">Password:</label>
-				<input id="epsword" name="password" type="password" value="" required>
-<br/>
-				<br/>
-				<label for="role">Choose a role</label>
-				<select name="role[roleID]" id="roleID">
-				<option value="1">Administrator</option>
-    			<option value="2">Pharmacist</option>
-    			<option value="3">Foreman</option>
-   				<option value="4">Operator</option>
-  				</select>
-  				<input type="hidden" name="role[roleName]" id="roleName" value="" />
-  				<br/>
-  				<br/>
-				<button id="uuButton">Update user</button>
-
-			</form>
-			
-		</div>
+		<div id='box'></div>
 	</div>
 </body>
 </html>

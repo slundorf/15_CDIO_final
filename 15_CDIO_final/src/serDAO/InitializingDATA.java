@@ -45,6 +45,17 @@ public class InitializingDATA {
 		ingredientDAO.createIngredient(I2);
 		ingredientDAO.createIngredient(I3);
 
+
+
+		IProductBatchDAO productBatchDAO = new SerProductBatchDAO();
+		
+		ProductBatchDTO PB1 = new ProductBatchDTO(41, 31, "090693", "Created");
+		ProductBatchDTO PB2 = new ProductBatchDTO(42, 32, "100693", "Created");
+		ProductBatchDTO PB3 = new ProductBatchDTO(43, 32, "110693", "Created");
+		
+		productBatchDAO.createProductBatch(PB1);
+		productBatchDAO.createProductBatch(PB2);
+		productBatchDAO.createProductBatch(PB3);
 		IProductBatchComponentDAO productBatchComponentDAO = new SerProductBatchComponentDAO();
 
 		// PB1
@@ -62,57 +73,27 @@ public class InitializingDATA {
 		productBatchComponentDAO.createProductBatchComponent(PBC3);
 		productBatchComponentDAO.createProductBatchComponent(PBC4);
 
-
-		IProductBatchDAO productBatchDAO = new SerProductBatchDAO();
-		//PB1
-		List<ProductBatchComponentDTO> productBatchComponentList1 = new ArrayList<ProductBatchComponentDTO>();
-		productBatchComponentList1.add(PBC1);
-		productBatchComponentList1.add(PBC2);
-		//PB2
-		List<ProductBatchComponentDTO> productBatchComponentList2 = new ArrayList<ProductBatchComponentDTO>();
-		productBatchComponentList2.add(PBC3);
-		//PB3
-		List<ProductBatchComponentDTO> productBatchComponentList3 = new ArrayList<ProductBatchComponentDTO>();
-		productBatchComponentList3.add(PBC4);
-		
-		ProductBatchDTO PB1 = new ProductBatchDTO(41, 31, "090693", "Created", productBatchComponentList1);
-		ProductBatchDTO PB2 = new ProductBatchDTO(42, 32, "100693", "Created", productBatchComponentList2);
-		ProductBatchDTO PB3 = new ProductBatchDTO(43, 32, "110693", "Created", productBatchComponentList3);
-		
-		productBatchDAO.createProductBatch(PB1);
-		productBatchDAO.createProductBatch(PB2);
-		productBatchDAO.createProductBatch(PB3);
-		
-		
-		IRecipeComponentDAO recipeComponentDAO = new SerRecipeComponentDAO();
-		
-		RecipeComponentDTO RC1 = new RecipeComponentDTO(51,1, 0.2, 0.1);
-		RecipeComponentDTO RC2 = new RecipeComponentDTO(52,2, 2, 0.1);
-		RecipeComponentDTO RC3 = new RecipeComponentDTO(53,3,1,0.5);
-		
-		recipeComponentDAO.createRecipeComponent(RC1);
-		recipeComponentDAO.createRecipeComponent(RC2);
-		recipeComponentDAO.createRecipeComponent(RC3);
 		
 		
 		IRecipeDAO recipeDAO = new SerRecipeDAO();
 		
 		
-		List<RecipeComponentDTO> recipeComponentList1 = new ArrayList<RecipeComponentDTO>();
-		List<RecipeComponentDTO> recipeComponentList2 = new ArrayList<RecipeComponentDTO>();
-
-		//R1
-		recipeComponentList1.add(RC1);
-		recipeComponentList1.add(RC2);
-		//R2
-		recipeComponentList2.add(RC3);
-		
-		
-		RecipeDTO R1 = new RecipeDTO(31, "SaltWater",recipeComponentList1);
-		RecipeDTO R2 = new RecipeDTO(32, "Lemon",recipeComponentList2);
+		RecipeDTO R1 = new RecipeDTO(31, "SaltWater");
+		RecipeDTO R2 = new RecipeDTO(32, "Lemon");
 		
 		recipeDAO.createRecipe(R1);
 		recipeDAO.createRecipe(R2);
+		
+		IRecipeComponentDAO recipeComponentDAO = new SerRecipeComponentDAO();
+		
+		RecipeComponentDTO RC1 = new RecipeComponentDTO(31,51,1, 0.2, 0.1);
+		RecipeComponentDTO RC2 = new RecipeComponentDTO(31,52,2, 2, 0.1);
+		RecipeComponentDTO RC3 = new RecipeComponentDTO(32,53,3,1,0.5);
+		
+		recipeComponentDAO.createRecipeComponent(RC1);
+		recipeComponentDAO.createRecipeComponent(RC2);
+		recipeComponentDAO.createRecipeComponent(RC3);
+		
 		
 		
 		IRoleDAO roleDAO = new SerRoleDAO();

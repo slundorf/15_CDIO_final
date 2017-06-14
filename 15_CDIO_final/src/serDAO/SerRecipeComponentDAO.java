@@ -73,12 +73,9 @@ public class SerRecipeComponentDAO extends SerDAO<RecipeDTO> implements IRecipeC
 		loadInfo();
 		boolean existed = false;
 		for (int i = 0; i < list.size(); i++) {
-			for (int j = 0; j < list.get(i).getComponents().size(); j++) {
-				if (list.get(i).getComponents().get(j).getRecipeComponentID() == recipeComponent.getRecipeComponentID()) {
-					list.get(i).getComponents().remove(j);
-					list.get(i).addComponent(recipeComponent);
-					existed = true;
-				}
+			if(list.get(i).getRecipeID()==recipeComponent.getRecipeID()){
+				list.get(i).addComponent(recipeComponent);
+				existed=true;
 			}
 		}
 		if (!existed) {

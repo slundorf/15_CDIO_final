@@ -17,43 +17,76 @@
 <body>
 	<div id='container'>
 		<div id='cssmenu'>
-				<ul>
-				<li ><a href='pharmaindex.html'><span>Home</span></a></li>
+			<ul>
+				<li><a href='pharmaindex.html'><span>Home</span></a></li>
 				<li class='has-sub'><a href='#'><span>Create</span></a>
 					<ul>
 						<li><a href='createingredients.html'><span>Ingredients</span></a></li>
-						<li><a href='createrecept.html'><span>Recept</span></a></li>
+						<li><a href='createrecept.html'><span>Recipe</span></a></li>
+						<li><a href='createingredient3.html'><span>Ingredient batch</span></a></li>
+						<li><a href='createproduct3.html'><span>Product batch</span></a></li>
 					</ul></li>
 				<li class='has-sub'><a href='#'><span>Show</span></a>
 					<ul>
 						<li><a href='showingredients.html'><span>Ingredients</span></a></li>
-						<li><a href='showrecpt.html'><span>Recept</span></a></li>
+						<li><a href='showrecept.html'><span>Recipe</span></a></li>
+						<li><a href='showingredient3.html'><span>Ingredient batch</span></a></li>
+						<li><a href='showproduct3.html'><span>Product batch</span></a></li>
 					</ul></li>
-				<li><a href='editingredient.html'><span>Edit ingredients</span></a></li>
+				<li><a href='editingredient.html'><span>Edit
+							ingredients</span></a></li>
 				<li><a href='peditself.html'><span>Edit profile</span></a></li>
 			</ul>
 		</div>
-<form id='recipeForm'>
 
-			<label for="recipeID">Recipe ID:</label> <br/><br/>
-			<input id="recipeID" name="recipeID" type="number" required min="11" max="99"><br/><br/>
-			<label for="recipeName">Recipe name:</label> <br/><br/>
-			<input id="recipeName" name="recipeName" type="text" required><br/><br/>
-</form>
-<form id='recipeComponentForm'>
-<div class="extraRecipeComponent">
-    <div class="controls controls-row">
-        <input class="span4" placeholder="Recipe component ID" type="number" id="recCompID0" name="components[recipeComponentID]" required>
-        <input class="span4" placeholder="Ingredient ID" type="number" id="ingID0" name="components[ingredientID]" required>
-        <input class="span4" placeholder="Amount" type="number" id="amount0" name="components[amount]" required>
-        <input class="span4" placeholder="Tolerance" type="number" id="tolerance0" name="components[tolerance]" required>
-    </div>
-</div>
-<div id="container2"></div>
-</form>
-<button id="addComponent">Add new component</button>
-</br></br>
-<button id="recipeButton">Create recipe</button>
-	</div>
+		<div id='box3'>
+			<div id='box1'>
+				<form id='recipeForm'>
+
+					<label for="recipeID">Recipe ID:</label> <input id="recipeID"
+						name="recipeID" type="number" required min="11" max="99"><br />
+					<br /> <label for="recipeName">Recipe name:</label> <input
+						id="recipeName" name="recipeName" type="text" required><br />
+					<br />
+				</form>
+			</div>
+			<div id='box2'>
+				<form id='recipeComponentForm'>
+					<div class="extraRecipeComponent">
+						<div class="controls controls-row">
+							<div style="float: left;">
+								<input class="span4" placeholder="Recipe component ID"
+								type="number" id="recCompID0"
+								name="components[recipeComponentID]" required> 
+							</div>
+							
+							<div style="float: left;">
+								<input
+								class="span4" placeholder="Ingredient ID" type="number"
+								id="ingID0" name="components[ingredientID]" required> 
+							</div>
+							
+							<div style="float: left;">
+								<input
+								class="span4" placeholder="Amount" type="number" id="amount0"
+								name="components[amount]" required> 
+							</div>
+							
+							<div style="float: left;">
+								<input class="span4"
+								placeholder="Tolerance" type="number" id="tolerance0"
+								name="components[tolerance]" required>
+						</div>
+							</div>
+										
+								
+					</div>
+					<div id="container2"></div>
+				</form>
+				<button id="addComponent">Add new component</button>
+				</br> </br>
+				<button id="recipeButton">Create recipe</button>
+			</div>
+		</div>
 </body>
 </html>
