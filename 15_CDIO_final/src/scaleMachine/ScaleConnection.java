@@ -112,7 +112,7 @@ public class ScaleConnection implements IScaleConnection {
 		outToServer.println("P111 \"" + msg + "\"");
 		outToServer.flush();
 		try {
-			readFromSocket();
+			inFromServer.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -123,7 +123,8 @@ public class ScaleConnection implements IScaleConnection {
 		outToServer.println("P111 \"\"");
 		outToServer.flush();
 		try {
-			readFromSocket();
+			inFromServer.readLine();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -140,8 +141,11 @@ public class ScaleConnection implements IScaleConnection {
 		try {
 			readLine = readFromSocket();
 			if (readLine.startsWith("RM20 A")) {
-				
-			} else {
+				//Do nothing
+			} else if(!readLine.startsWith("RM20 A")) {
+				//Do nothing
+				displayMsg(msg);
+			}else {
 				throw new scaleConnectionException("unexpected answer");
 			}
 		} catch (IOException e) {
@@ -365,6 +369,18 @@ public class ScaleConnection implements IScaleConnection {
 			}
 		}
 
+	}
+
+	@Override
+	public void removeSoftKey() throws scaleConnectionException {
+		
+		outToServer.println("RM39 0");
+		outToServer.flush();
+		try {
+			inFromServer.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 //	public void num1() throws scaleConnectionException {

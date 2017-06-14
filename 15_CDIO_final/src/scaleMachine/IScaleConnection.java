@@ -60,6 +60,8 @@ public interface IScaleConnection {
 	
 	void setSoftKey() throws scaleConnectionException; 
 	
+	void removeSoftKey() throws scaleConnectionException;
+	
 	
 	 
 }
