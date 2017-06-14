@@ -3,7 +3,6 @@
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
 <meta charset="UTF-8">
-<title>Login side</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="menustyle.css">
@@ -12,13 +11,13 @@
 <script src="jquery.min.js"></script>
 <script src="jquery.serialize-object.min.js"></script>
 <script src="main.js"></script>
-<title>Pharmacist frontpage</title>
-
+<title>Create ingredient</title>
 </head>
+
 <body>
 	<div id='container'>
 		<div id='cssmenu'>
-				<ul>
+					<ul>
 				<li ><a href='pharmaindex.html'><span>Home</span></a></li>
 				<li class='has-sub'><a href='#'><span>Create</span></a>
 					<ul>
@@ -38,27 +37,28 @@
 				<li><a href='peditself.html'><span>Edit profile</span></a></li>
 			</ul>
 		</div>
-		<div id='text'>
-		
-					<form id="ciForm">
+		<div id='box'>
+			
+			<form id="ibForm">
 
+					<label for="ibID">IngredientBatch ID:</label>
+					<input id="ibID" name="ingredientBatchID" type="number" required min="11" max="99">					
+					<br/>
+					<br/>
 					<label for="ingID">Ingredient ID:</label>
-					<input id="ingID" name="ingredientID" type="number" required min="100" max="199">					
+					<input id="ingID" name="ingredientID" type="number" required min="11" max="99">
 					<br/>
 					<br/>
-					<label for="ingName">Ingredient name:</label>
-					<input id="ingName" name="ingredientName" type="text" required>
+					<label for="amnt">Amount:</label>
+					<input id="amnt" name="amount" type="number" required>
 					<br/>
 					<br/>
-					<label for="supp">Supplier:</label>
-					<input id="supp" name="supplier" type="text" required>
-					<br/>
-					<br/>
-					<button id="ciButton">Create ingredient</button>
+					<button id="ibButton">Create ingredient</button>
 
 			</form>
 		
 		</div>
 	</div>
+	
 </body>
 </html>
