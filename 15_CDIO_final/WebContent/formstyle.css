@@ -15,26 +15,6 @@
 	float: center;
 }
 
-#box1 {
-	width: 615px;
-	height: 150px;
-
-
-}
-#box2 {
-	width: 800px;
-	height: 300px;
-
-	
-}
-#box3 {
-	width: 1000px;
-	height: 675px;
-	margin-top: 20px;
-	margin-left: 180px;
-	
-}
-
 #text {
 	width: 615px;
 	height: 675px;
@@ -153,22 +133,4 @@ input[type=submit] {
 	background: rgba(0, 0, 0, 0);
 	color: white;
 	box-shadow: inset 0 0 0 3px #4CAF50;;
-}
-
-
-input#recCompID0 {
-	width: 150px;
-	height: 30px;
-}
-input#ingID0 {
-	width: 150px;
-	height: 30px;
-}
-input#amount0 {
-	width: 150px;
-	height: 30px;
-}
-input#tolerance0 {
-	width: 150px;
-	height: 30px;
 }
