@@ -11,13 +11,13 @@
 <script src="jquery.min.js"></script>
 <script src="jquery.serialize-object.min.js"></script>
 <script src="main.js"></script>
-<title>Create recept</title>
-
+<title>Create ingredient</title>
 </head>
+
 <body>
 	<div id='container'>
 		<div id='cssmenu'>
-				<ul>
+					<ul>
 				<li ><a href='pharmaindex.html'><span>Home</span></a></li>
 				<li class='has-sub'><a href='#'><span>Create</span></a>
 					<ul>
@@ -37,29 +37,28 @@
 				<li><a href='peditself.html'><span>Edit profile</span></a></li>
 			</ul>
 		</div>
-		<div id='text'>
+		<div id='box'>
+			
+			<form id="ibForm">
 
-			<form id="receptForm">
-
-				<label for="receptID">Recept ID:</label> <input id="repceptID"
-					name="repceptID" type="number" required min="1" max="99999999"><br /> <br/>
-				<label for="receptName">Recept name:</label> <input id="receptName"
-					name="receptName" type="text" required min="2" max="20"> <br /><br/>
-				<label for="inID">Ingredient ID:</label> <input id="inID"
-					name="inID" type="number" required min="1" max="99999999"><br /><br/>
-				<label for="nonNetto">nonNetto (in kg and 4 decimals):</label> <input
-					id="nonNetto" name="nonNetto" type="number" required min="0,05"
-					max="20,0" step="0.01" maxlength="4"> <br /> <br/>
-				<label
-					for="tolerance">Tolerance(in procent)</label> <input id="tolerance"
-					name="tolerance" type="number" required min="0,1" max="10,0"
-					step="0.01" maxlength="3"> <br /><br/>
-
-				<button id="receptButton">Create recept</button>
+					<label for="ibID">IngredientBatch ID:</label>
+					<input id="ibID" name="ingredientBatchID" type="number" required min="11" max="99">					
+					<br/>
+					<br/>
+					<label for="ingID">Ingredient ID:</label>
+					<input id="ingID" name="ingredientID" type="number" required min="11" max="99">
+					<br/>
+					<br/>
+					<label for="amnt">Amount:</label>
+					<input id="amnt" name="amount" type="number" required>
+					<br/>
+					<br/>
+					<button id="ibButton">Create ingredient</button>
 
 			</form>
-
+		
 		</div>
 	</div>
+	
 </body>
 </html>
