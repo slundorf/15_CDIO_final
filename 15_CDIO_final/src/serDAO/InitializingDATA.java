@@ -86,9 +86,9 @@ public class InitializingDATA {
 		
 		IRecipeComponentDAO recipeComponentDAO = new SerRecipeComponentDAO();
 		
-		RecipeComponentDTO RC1 = new RecipeComponentDTO(1, 0.2, 0.1);
-		RecipeComponentDTO RC2 = new RecipeComponentDTO(2, 2, 0.1);
-		RecipeComponentDTO RC3 = new RecipeComponentDTO(3,1,0.5);
+		RecipeComponentDTO RC1 = new RecipeComponentDTO(51,1, 0.2, 0.1);
+		RecipeComponentDTO RC2 = new RecipeComponentDTO(52,2, 2, 0.1);
+		RecipeComponentDTO RC3 = new RecipeComponentDTO(53,3,1,0.5);
 		
 		recipeComponentDAO.createRecipeComponent(RC1);
 		recipeComponentDAO.createRecipeComponent(RC2);
