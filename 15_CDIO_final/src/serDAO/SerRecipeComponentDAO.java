@@ -17,7 +17,6 @@ public class SerRecipeComponentDAO extends SerDAO<RecipeDTO> implements IRecipeC
 		super("RecipeDB.ser");
 	}
 
-	@Override
 	public RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException {
 		loadInfo();
 		for (int i = 0; i < list.size(); i++) {
@@ -32,6 +31,19 @@ public class SerRecipeComponentDAO extends SerDAO<RecipeDTO> implements IRecipeC
 		throw new DALException(
 				"No recipe component found with recipeID = " + recipeID + " and ingredientID = " + ingredientID);
 	}
+	@Override
+	public RecipeComponentDTO getRecipeComponent(int recipeComponentID) throws DALException {
+		loadInfo();
+		for(int i =0;i<list.size();i++){
+			for(int j=0;j<list.get(i).getComponents().size();j++){
+				if(list.get(i).getComponents().get(j).getRecipeComponentID()==recipeComponentID){
+					return list.get(i).getComponents().get(j);
+				}
+			}
+		}
+		throw new DALException("No recipecomponent found with ID = "+recipeComponentID);
+	}
+	
 
 	@Override
 	public List<RecipeComponentDTO> getRecipeComponentList(int recipeID) throws DALException {
