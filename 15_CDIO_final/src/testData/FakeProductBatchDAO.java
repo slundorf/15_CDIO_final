@@ -19,18 +19,29 @@ public class FakeProductBatchDAO implements IProductBatchDAO {
 
 	List<ProductBatchDTO> fakeProductBatchList;
 	List<ProductBatchComponentDTO> fakeProductBatchComponentList;
-	ProductBatchDTO PB1;
+	ProductBatchDTO PB1,PB2,PB3;
 	ProductBatchComponentDTO PBC1;
-	ProductBatchComponentDTO PBC2;
+	ProductBatchComponentDTO PBC2, PBC3 , PBC4;
 
 	public FakeProductBatchDAO() {
 		fakeProductBatchList = new ArrayList<ProductBatchDTO>();
 		fakeProductBatchComponentList = new ArrayList<ProductBatchComponentDTO>();
 		PBC1 = new ProductBatchComponentDTO(41,1);
 		PBC2 = new ProductBatchComponentDTO(41,2);
+		PBC3 = new ProductBatchComponentDTO(42, 3);
+		PBC4 = new ProductBatchComponentDTO(43, 3);
+		
+		List<ProductBatchComponentDTO> fakeProductBatchComponentList2 = new ArrayList<ProductBatchComponentDTO>();
+		fakeProductBatchComponentList2.add(PBC3);
+		//PB3
+		List<ProductBatchComponentDTO> fakeProductBatchComponentList3 = new ArrayList<ProductBatchComponentDTO>();
+		fakeProductBatchComponentList3.add(PBC4);
+		
 		fakeProductBatchComponentList.add(PBC1);
 		fakeProductBatchComponentList.add(PBC2);
 		PB1 = new ProductBatchDTO(41, 31, "090693", "Created", fakeProductBatchComponentList);
+		PB2 = new ProductBatchDTO(42, 32, "100693", "Created", fakeProductBatchComponentList2);
+		PB3 = new ProductBatchDTO(43, 32, "110693", "Created", fakeProductBatchComponentList3);
 		fakeProductBatchList.add(PB1);
 	}
 

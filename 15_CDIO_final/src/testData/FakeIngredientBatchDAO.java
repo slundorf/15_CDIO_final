@@ -11,11 +11,15 @@ public class FakeIngredientBatchDAO implements IIngredientBatchDAO {
 	List<IngredientBatchDTO> fakeIngredientBatchList;
 	IngredientBatchDTO IB1;
 	IngredientBatchDTO IB2;
+	IngredientBatchDTO IB3;
+	IngredientBatchDTO IB4;
 	
 	public FakeIngredientBatchDAO() {
 		fakeIngredientBatchList = new ArrayList<IngredientBatchDTO>();
 		IB1 = new IngredientBatchDTO(20,1, 25);
 		IB2 = new IngredientBatchDTO(21,2, 50);
+		IB3 = new IngredientBatchDTO(22, 2, 60);
+		IB4 = new IngredientBatchDTO(23, 3, 10);
 		fakeIngredientBatchList.add(IB1);
 		fakeIngredientBatchList.add(IB2);
 	}

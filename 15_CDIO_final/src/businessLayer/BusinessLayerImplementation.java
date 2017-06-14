@@ -445,7 +445,9 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 				throw new DALException("ID already taken.");				
 			} 
 		}
+
 		recipeComponentDAO.createRecipeComponent(recipeComponent);
 	}
 	
 }
+
