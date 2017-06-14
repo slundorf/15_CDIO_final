@@ -2,18 +2,17 @@
 <html lang=''>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
-<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="JS.js"></script>
 <meta charset="UTF-8">
-<title>Login side</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="menustyle.css">
 <link rel="stylesheet" href="style.css">
-<script src="http://code.jquery.com/jquery-latest.min.js"
-	type="text/javascript"></script>
-<script src="script.js"></script>
+<script src="jquery-3.2.1.js"></script>
+<script src="jquery.min.js"></script>
+<script src="jquery.serialize-object.min.js"></script>
+<script src="main.js"></script>
 <title>Admin frontpage</title>
+<title>Create user</title>
 
 </head>
 <body>
@@ -50,10 +49,44 @@
 			</ul>
 			</ul>
 		</div>
-		<div id='text'>
-			<h1>Welcome root Admin</h1>
-			<h2>Please choose an action from the menu</h2>
+		<div id='box'>
+
+			<form id="cuForm">
+
+					<label for="userID">User ID:</label>
+					<input id="usrID" name="userID" type="number" required min="11" max="99">					
+					<br/>
+					<br/>
+					<label for="usrName">Full name:</label>
+					<input id="usrName" name="userName" type="text" required>
+					<br/>
+					<br/>
+					<label for="ini">Initials:</label>
+					<input id="ini" name="ini" type="text" required>
+					<br/>
+					<br/>
+					<label for="cpr">Social security number:</label>
+					<input id="cpr" name="cpr" type="text" required>
+					<input id="psword" name="password" type="hidden" value="">
+					<br/>
+					<br/>
+					<label for="role">Choose a role</label>
+					<select name="role[roleID]" id="roleID">
+					<option value=1>Administrator</option>
+    				<option value="2">Pharmacist</option>
+    				<option value="3">Foreman</option>
+   					<option value="4">Operator</option>
+  					</select>
+  					<input type="hidden" name="role[roleName]" id="hiddenRole" value="" />
+  					<br/>
+  					<br/>
+  					<br/>
+					<button id="cuButton">Create user</button>
+
+			</form>
+
 		</div>
 	</div>
+
 </body>
 </html>
