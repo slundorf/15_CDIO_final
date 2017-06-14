@@ -448,6 +448,10 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 
 		recipeComponentDAO.createRecipeComponent(recipeComponent);
 	}
+	@Override
+	public List<RecipeComponentDTO> getRecipeComponentList(int recipeID) throws DALException {
+		return recipeComponentDAO.getRecipeComponentList(recipeID);
+	}
 	
 }
 

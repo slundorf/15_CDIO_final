@@ -1,7 +1,14 @@
 package serDAO;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.naming.Context;
+import javax.servlet.ServletContext;
+
+import org.glassfish.jersey.servlet.ServletContainer;
 
 import dto.IngredientBatchDTO;
 import dto.IngredientDTO;
@@ -23,7 +30,7 @@ import interfaces.IUserDAO;
 
 public class InitializingDATA {
 
-	public static void main(String[] args) throws DALException {
+	public static void main(String[] args) throws DALException, IOException {
 		IIngredientBatchDAO ingredientBatchDAO = new SerIngredientBatchDAO();
 
 		IngredientBatchDTO IB1 = new IngredientBatchDTO(20, 1, 25);

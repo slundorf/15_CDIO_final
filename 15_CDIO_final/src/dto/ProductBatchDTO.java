@@ -26,11 +26,12 @@ public class ProductBatchDTO implements Serializable{
 		this.setComponents(components);
 	
 	}
-	public ProductBatchDTO(int pbId, int recipeID, String createdDate, String status) {
+	public ProductBatchDTO(int productBatchID, int recipeID, String createdDate, String status) {
 		this.setProductBatchID(productBatchID);
 		this.setRecipeID(recipeID);
 		this.setCreatedDate(createdDate);
 		this.setStatus(status);
+		this.setComponents(new ArrayList<ProductBatchComponentDTO>());
 	}
 	/**
 	 * @return the productBatchID
@@ -67,7 +68,7 @@ public class ProductBatchDTO implements Serializable{
 	 * @param component adds a component to the current list of components
 	 */
 	public void addComponent(ProductBatchComponentDTO component){
-		getComponents().add(component);
+		components.add(component);
 	}
 	/**
 	 * @param recipeID the recipeID to set

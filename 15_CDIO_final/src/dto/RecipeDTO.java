@@ -23,6 +23,7 @@ public class RecipeDTO implements Serializable{
 	public RecipeDTO(int recipeID, String recipeName) {
 		this.setRecipeID(recipeID);
 		this.setRecipeName(recipeName);
+		this.setComponents(new ArrayList<RecipeComponentDTO>());
 	}
 	/**
 	 * @return the recipeID

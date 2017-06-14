@@ -15,6 +15,7 @@ public class RecipeComponentDTO implements Serializable{
 	
 	public RecipeComponentDTO(){}
 	public RecipeComponentDTO(int recipeID,int recipeComponentID, int ingredientID, double amount, double tolerance){
+		this.setRecipeID(recipeID);
 		this.setIngredientID(ingredientID);
 		this.setAmount(amount);
 		this.setTolerance(tolerance);

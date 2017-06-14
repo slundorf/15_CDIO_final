@@ -254,4 +254,14 @@ public class Weight {
 	public List<ProductBatchComponentDTO> getProductBatchComponentList(@PathParam("pbId") int pbId) throws DALException{
 		return IBL.getProductBatchComponentList(pbId);
 	}
+	@GET @Path("getRecipeList")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<RecipeDTO> getRecipeList() throws DALException{
+		return IBL.getRecipeList();
+	}
+	@GET @Path("getRecipeCompList/{recipeID}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<RecipeComponentDTO> getRecipeComponentList(@PathParam("recipeID") int recipeID) throws DALException{
+		return IBL.getRecipeComponentList(recipeID);
+	}
 }

@@ -54,6 +54,7 @@ getUsers();
 getIngredients();
 getIngredientbs();
 getProductB();
+getRecipes();
 
 });
 
@@ -222,10 +223,67 @@ function toggleStatus(element){
 		}
 	});
 }
+function getRecipes(){
+	$("#recipetablebody").html(""); //tømmer element
+	$("#recipectablebody").html(""); //tømmer element
+	$("#hrc").css("display","none");//fjerner components overskrift
+	$("#recipectable").css("display","none");//fjerner component tabel
+	$.ajax({
+		method: "GET",
+		url: rootURL + '/getRecipeList',
+		dataType: "json",
+		success: function(response) { 
+			$.each(response, function(i, list) {
+				$("#recipetablebody").append(generateRecipeHTML(list));
+			});
+		},
+		error: function() {
+			console.log("Error loading pb");
+		}
+	});
+}
+function generateRecipeHTML(recipe){
+	return 	'<tr><td>' + recipe.recipeID + '</td>' +
+				'<td>' + recipe.recipeName + '</td>'+
+				'<td><button data-recipeid="' + recipe.recipeID + '" onclick="appendRecipeCompData(this);">Components</button></td>'+
+				'</tr>';
+}
+
+function appendRecipeCompData(element){
+	$("#recipectablebody").html("");
+	$("#hrc").css("display","inline");
+	$("#recipectable").css("display","inline");
+	$.ajax({
+		method: "GET",
+		url: rootURL + '/getRecipeCompList/'+$(element).data('recipeid'),
+		dataType: "json",
+		success: function(response) { 
+			$.each(response, function(i, list) {
+				$("#recipectablebody").append(
+						'<tr><td>' + list.recipeID + '</td>' +
+						'<td>' + list.ingredientID + '</td>'+
+						'<td>' + list.amount + '</td>'+
+						'<td>' + list.tolerance + '</td>'+
+						'</tr>'
+						);
+			});
+		},
+		error: function() {
+			console.log("Error loading recipecomponents");
+		}
+	});
+	
+}
+
+
+
+
+
 function getProductB(){
 	$("#pbtablebody").html(""); //tømmer element
 	$("#pbctablebody").html(""); //tømmer element
-//	document.getElementByID("pbctable").style.display= "none";
+	$("#hpbc").css("display","none");//fjerner components overskrift
+	$("#pbctable").css("display","none");//fjerner component tabel
 	$.ajax({
 		method: "GET",
 		url: rootURL + '/getPB',
@@ -245,13 +303,14 @@ function generatePBHTML(pb){
 				'<td>' + pb.recipeID + '</td>'+
 				'<td>' + pb.createdDate + '</td>'+
 				'<td>' + pb.status + '</td>'+
-				'<td><button data-pbid="' + pb.productBatchID + '" onclick="appendCompData(this);">Components</button></td>'+
+				'<td><button data-pbid="' + pb.productBatchID + '" onclick="appendPCompData(this);">Components</button></td>'+
 				'</tr>';
 }
 
-function appendCompData(element){
+function appendPCompData(element){
 	$("#pbctablebody").html("");
-//	$("#pbctablebody").style.display= "inline";
+	$("#hpbc").css("display","inline");
+	$("#pbctable").css("display","inline");
 	$.ajax({
 		method: "GET",
 		url: rootURL + '/getPBC/'+$(element).data('pbid'),
@@ -269,7 +328,7 @@ function appendCompData(element){
 			});
 		},
 		error: function() {
-			console.log("Error loading pb");
+			console.log("Error loading pb components");
 		}
 	});
 	
