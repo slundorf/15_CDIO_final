@@ -98,7 +98,7 @@ public class Weight {
 	public boolean createRecipe(RecipeDTO recipe) throws DALException {
 		
 		for(int i=0; i<recipeComponentID.size(); i++) {
-			IBL.get
+			recipe.addComponent(IBL.getRecipeComponent(recipeComponentID.get(i)));
 		}
 		IBL.createRecipe(recipe);
 		
