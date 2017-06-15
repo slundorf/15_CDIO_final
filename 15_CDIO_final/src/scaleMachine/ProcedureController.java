@@ -82,7 +82,7 @@ public class ProcedureController {
 	public void startScaleProcess() throws DALException, IOException, scaleConnectionException {
 		
 		enterUserId(connection);
-		System.out.println(user.getUserID());
+		
 
 		enterProductBatchId(connection);
 		// Start Weighing
