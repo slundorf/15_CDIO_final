@@ -35,7 +35,12 @@ public class SerRecipeComponentDAO extends SerDAO<RecipeDTO> implements IRecipeC
 	public RecipeComponentDTO getRecipeComponent(int recipeComponentID) throws DALException {
 		loadInfo();
 		for(int i =0;i<list.size();i++){
+			if(list.get(i).getComponents()==null){
+				list.get(i).setComponents(new ArrayList<RecipeComponentDTO>());
+			}
 			for(int j=0;j<list.get(i).getComponents().size();j++){
+//				System.out.println(list.get(i).getComponents().get(j).getRecipeComponentID());
+//				System.out.println(recipeComponentID);
 				if(list.get(i).getComponents().get(j).getRecipeComponentID()==recipeComponentID){
 					return list.get(i).getComponents().get(j);
 				}
@@ -60,7 +65,12 @@ public class SerRecipeComponentDAO extends SerDAO<RecipeDTO> implements IRecipeC
 	public List<RecipeComponentDTO> getRecipeComponentList() throws DALException {
 		loadInfo();
 		List<RecipeComponentDTO> returnList = new ArrayList<RecipeComponentDTO>();
+		
 		for (int i = 0; i < list.size(); i++) {
+			if(list.get(i).getComponents()==null){
+				list.get(i).setComponents(new ArrayList<RecipeComponentDTO>());
+			}
+				
 			for (int j = 0; j < list.get(i).getComponents().size(); j++) {
 				returnList.add(list.get(i).getComponents().get(j));
 			}
