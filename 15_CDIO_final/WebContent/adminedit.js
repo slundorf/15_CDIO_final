@@ -53,6 +53,8 @@ function updateUser() {
 		data: uub(),
 		success: function(data, textStatus, jqXHR) {
 			alert("User updated successfully");
+			document.getElementById("uuForm").reset();
+			document.getElementById("uuuForm").reset();
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			alert(jqXHR.responseText)
