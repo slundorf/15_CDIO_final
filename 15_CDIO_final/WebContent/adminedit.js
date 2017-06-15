@@ -28,7 +28,6 @@ function getUser(){
 		data: uuub(),
 		dataType: "json",
 		success: function(data) {
-			alert(data);
 					$("#eusrID").val(data.userID);
 						$("#eusrName").val(data.userName);
 						$("#eini").val(data.ini);
@@ -39,6 +38,7 @@ function getUser(){
 					},
 		error: function() {
 			console.log("Error loading users");
+			alert(jqXHR.responseText)
 		}
 	});
 }
@@ -52,10 +52,10 @@ function updateUser() {
 		dataType: "json",
 		data: uub(),
 		success: function(data, textStatus, jqXHR) {
-			alert(textStatus);
+			alert("User updated successfully");
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-			alert(textStatus);
+			alert(jqXHR.responseText)
 		}
 	});
 }
