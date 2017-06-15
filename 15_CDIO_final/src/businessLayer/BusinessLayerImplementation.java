@@ -342,7 +342,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 				throw new DALException("This combination of ingredient and Supplier already exists.");
 			}
 		}
-		ingredientDAO.createIngredient(ingredient);
+		ingredientDAO.updateIngredient(ingredient);
 	}
 	public ProductBatchComponentDTO getProductBatchComponent(int pbId, int ingrbatchId) throws DALException {
 		return productBatchComponentDAO.getProduktBatchComp(pbId, ingrbatchId);
