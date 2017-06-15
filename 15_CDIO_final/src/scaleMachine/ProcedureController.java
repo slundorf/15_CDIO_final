@@ -59,7 +59,7 @@ public class ProcedureController {
 
 	public ProcedureController(IScaleConnection connection, boolean test) {
 		this.connection = connection;
-		
+
 		if (test) { // Test mode
 			users = new FakeSerUserDAO();
 			productBatches = new FakeSerProductBatchDAO();
@@ -76,16 +76,22 @@ public class ProcedureController {
 			recipecomponents = new SerRecipeComponentDAO();
 
 		}
-	
+
 	}
 
 	public void startScaleProcess() throws DALException, IOException, scaleConnectionException {
 
 		enterUserId(connection);
+		System.out.println(user.getUserID());
 
 		enterProductBatchId(connection);
 		// Start Weighing
 
+		System.out.println(productBatch.getProductBatchID());
+		System.out.println(productBatch.getComponents().get(0));
+		System.out.println(productBatch.getComponents().get(1));
+
+		
 		for (ProductBatchComponentDTO productBatchComponentDTO : productBatch.getComponents()) {
 
 			IngredientBatchDTO ingredientBatch = enterIngredientBatch(connection, productBatchComponentDTO);
@@ -95,9 +101,10 @@ public class ProcedureController {
 					+ productBatchComponentDTO.getTara() + "  IngredientId "
 					+ productBatchComponentDTO.getIngredientID() + " user id: " + productBatchComponentDTO.getUserId());
 		}
+		System.out.println("Del 3");
 		productBatches.updateProductBatch(productBatch);
 		connection.displayMsg("Productbatch complete");
-
+		System.out.println("Del 4");
 		connection.removeProductBatchID();
 		connection.removeOperatorInitials();
 
@@ -253,7 +260,6 @@ public class ProcedureController {
 		RecipeComponentDTO RC = recipecomponents.getRecipeComponent(rcId, ingredientID);
 		return RC.getTolerance();
 
-
 	}
 
 	private double getAmount(ProductBatchComponentDTO dto) throws DALException {
@@ -266,7 +272,5 @@ public class ProcedureController {
 		RecipeComponentDTO RC = recipecomponents.getRecipeComponent(rcId, ingredientID);
 		return RC.getAmount();
 
-	
 	}
 }
-
