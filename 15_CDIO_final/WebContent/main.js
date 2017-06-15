@@ -53,7 +53,7 @@ $('#pbcButton').click(function() {
 });
 $('#runASE').click(function(){
 	$.ajax({
-		type: 'GET',
+		type: 'POST',
 		url: rootURL + '/ASE/'+$('#ipadress').val(),
 		dataType: 'text',
 		success: function(data, textStatus, jqXHR) {
