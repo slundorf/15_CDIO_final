@@ -60,14 +60,14 @@ public class ProcedureController {
 	public ProcedureController(IScaleConnection connection, boolean test) {
 		this.connection = connection;
 
-		if (test) { // Test mode
+		if (test) { // Test DAO
 			users = new FakeSerUserDAO();
 			productBatches = new FakeSerProductBatchDAO();
 			ingredientBatches = new FakeSerIngredientBatchDAO();
 			ingredients = new FakeSerIngredientDAO();
 			recipes = new FakeSerRecipeDAO();
 			recipecomponents = new FakeSerRecipeComponentDAO();
-		} else {
+		} else { // Normal DAO
 			users = new SerUserDAO();
 			productBatches = new SerProductBatchDAO();
 			ingredientBatches = new SerIngredientBatchDAO();
@@ -82,8 +82,6 @@ public class ProcedureController {
 	public void startScaleProcess() throws DALException, IOException, scaleConnectionException {
 		
 		enterUserId(connection);
-		
-
 		enterProductBatchId(connection);
 		// Start Weighing
 
@@ -92,15 +90,14 @@ public class ProcedureController {
 			IngredientBatchDTO ingredientBatch = enterIngredientBatch(connection, productBatchComponentDTO);
 
 			startweighing(connection, productBatchComponentDTO, ingredientBatch);
-			System.out.println(" netto: " + productBatchComponentDTO.getNetto() + "Tara  "
-					+ productBatchComponentDTO.getTara() + "  IngredientId "
-					+ productBatchComponentDTO.getIngredientID() + " user id: " + productBatchComponentDTO.getUserId());
+			
 		}
 		
 		
 		productBatches.updateProductBatch(productBatch);
 		connection.displayMsg("Productbatch complete");
-
+		
+		//clean the 
 		connection.removeProductBatchID();
 		connection.removeOperatorInitials();
 
@@ -127,6 +124,7 @@ public class ProcedureController {
 		boolean attempt = true;
 		double nettoweight = 0;
 		String msg = null;
+		
 		while (!b) {
 			// String ingrdientName =
 			// productBatchComponentDTO.getIngredientName();
