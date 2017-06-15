@@ -55,15 +55,18 @@ public class Weight {
 	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD, recipeDAO, IPB, IPBC, recipecDAO);
 	ScaleRunnable t = new ScaleRunnable();
 
-	
-	@GET @Path("ASE/{ipadress}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean beginASE(@PathParam("ipadress") String ip){
+	@POST
+	@Path("ASE/{ipadress}")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public void beginASE(@PathParam("ipadress") String ip) {
+		try{
 		t.setIP(ip);
 		new Thread(t).start();
-		return true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
-	
+
 	@POST
 	@Path("login/{id}/{pass}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -215,19 +218,17 @@ public class Weight {
 
 	@POST
 	@Path("toggleStatus/{id}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public UserDTO toggleStatus(@PathParam("id") int userID) throws DALException {
+	public void toggleStatus(@PathParam("id") int userID) throws DALException {
+
 		UserDTO temp = IBL.getUser(userID);
+		
 		if (temp.isStatus()) {
 			temp.setStatus(false);
 		} else {
 			temp.setStatus(true);
 		}
 		IBL.updateUser(temp);
-
-		return temp;
-
 	}
 
 	@POST

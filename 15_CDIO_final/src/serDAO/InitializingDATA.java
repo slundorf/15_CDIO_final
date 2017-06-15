@@ -117,9 +117,9 @@ public class InitializingDATA {
 		
 		IUserDAO userDAO = new SerUserDAO();
 		
-		UserDTO user1 = new UserDTO(11, "Steve", "STV", "101011-1234","e6+E1", role4, true);
-		UserDTO user2 = new UserDTO(12, "Kurt", "Kru", "101112-1234","e6+E2", role1, true);
-		UserDTO user3 = new UserDTO(13, "Lis", "LIS", "101113-1234","e6+E3", role2, false);
+		UserDTO user1 = new UserDTO(11, "Steve", "STV", "101011-1234","e6+Easdasd1", role4, true);
+		UserDTO user2 = new UserDTO(12, "Kurt", "Kru", "101112-1234","e6+Easdasd2", role1, true);
+		UserDTO user3 = new UserDTO(13, "Lis", "LIS", "101113-1234","e6+Easdasd3", role2, false);
 		
 		userDAO.createUser(user1);
 		userDAO.createUser(user2);
