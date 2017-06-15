@@ -17,7 +17,7 @@ function recipe() { return $('#recipeForm').serializeJSON() }
 		 	if(changeComponent() == false) {
 		 		return false
 		 	}
-		 	componentArray.push(addComponent())
+		 	componentArray.push(pushComponent())
 		 	createRecipe();
 		    return false;
 		})
@@ -25,14 +25,11 @@ function recipe() { return $('#recipeForm').serializeJSON() }
      $('#addComponent').click(function () {
     	 if(changeComponent() == false) {
     		 return false
+    	 } 
+    	 if(validateIngredientID() == false) {
+    		 return false
     	 }
-    	 
-    	 componentArray.push(addComponent())
-    	 count++
-           $('<div/>', {
-               'class' : 'extraComponent', html: GetHtml()
-     }).hide().appendTo('#container2').slideDown('fast');
-         
+
      });
  })
  
@@ -44,6 +41,23 @@ function GetHtml()
     $html.find('[id=tolerance0]')[0].id="tolerance"+count;
     return $html.html();    
 }
+ 
+ function validateIngredientID() {
+	console.log('validateIngredientID');
+	$.ajax({
+		type: 'POST',
+		contentType: 'application/json',
+		url: rootURL + '/valIngID/' + ingIDValue,
+		dataType: "json",
+		data: ingIDValue,
+		success: function(data, textStatus, jqXHR) {
+		addComponent()
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert(jqXHR.responseText);
+		}
+	});
+} 
  
  function createRecipeComponent() {
 		console.log('createRecipeComponent');
@@ -80,7 +94,8 @@ function createRecipe() {
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				alert(jqXHR.responseText);
-			}
+					
+				}
 		});
 	}
 
@@ -99,7 +114,7 @@ function changeComponent() {
 		return false;
 	 }
 }
-function addComponent() {
+function pushComponent() {
 	var components = {
 		ingredientID: ingIDValue,
 		amount: amountValue,
@@ -108,4 +123,12 @@ function addComponent() {
 	}
 	return components
 
+}
+
+function addComponent() {
+	 componentArray.push(pushComponent())
+	 count++
+       $('<div/>', {
+           'class' : 'extraComponent', html: GetHtml()
+ }).hide().appendTo('#container2').slideDown('fast');
 }
