@@ -37,14 +37,14 @@ import serDAO.SerRecipeComponentDAO;
 import serDAO.SerRecipeDAO;
 import serDAO.SerRoleDAO;
 import serDAO.SerUserDAO;
-import testData.FakeUserDAO;
+import testDataSer.FakeSerUserDAO;
 
 @Path("weight")
 public class Weight {
 
 	IUserDAO IUD = new SerUserDAO();
 	IRoleDAO IRD = new SerRoleDAO();
-	IUserDAO FIUD = new FakeUserDAO();
+	IUserDAO FIUD = new FakeSerUserDAO();
 	IIngredientDAO IID = new SerIngredientDAO();
 	IIngredientBatchDAO IIBD = new SerIngredientBatchDAO();
 	IRecipeDAO recipeDAO = new SerRecipeDAO();
