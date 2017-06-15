@@ -8,6 +8,7 @@ var compIDValue
 var ingIDValue
 var amountValue
 var toleranceValue
+var recIDValue
 function recipe() { return $('#recipeForm').serializeJSON() }
 
  $(document).ready(function () {
@@ -17,8 +18,8 @@ function recipe() { return $('#recipeForm').serializeJSON() }
 		 		return false
 		 	}
 		 	componentArray.push(addComponent())
-			createRecipeComponent();
 		 	createRecipe();
+		 	createRecipeComponent();
 		    return false;
 		})
 
@@ -43,6 +44,7 @@ function GetHtml()
     $html.find('[id=ingID0]')[0].id="ingID"+count;
     $html.find('[id=amount0]')[0].id="amount"+count;
     $html.find('[id=tolerance0]')[0].id="tolerance"+count;
+    $html.find('[id=recID0]')[0].id="recID"+count;
     return $html.html();    
 }
  
@@ -85,8 +87,14 @@ function changeComponent() {
 	 ingIDValue = $('#ingID'+count).val()
 	 amountValue = $('#amount'+count).val()
 	 toleranceValue = $('#tolerance'+count).val()
+	 recIDValue = $('#recipeID').val()
+	 if(recIDValue == "") {
+		 alert("Please enter recipe ID")
+	 } else if($('#recipeName').val() == "") {
+		 alert("Please enter recipe name")
+	 }
 	 if(compIDValue == "" || ingIDValue == "" || amountValue == "" || toleranceValue == "") {
-		alert("You have to fill in all values for recipe component")
+		alert("Please enter all values for the recipe component")
 		return false;
 	 }
 }
@@ -95,7 +103,8 @@ function addComponent() {
 		recipeComponentID: compIDValue,
 		ingredientID: ingIDValue,
 		amount: amountValue,
-		tolerance: toleranceValue
+		tolerance: toleranceValue,
+		recipeID: recIDValue
 	}
 	return components
 
