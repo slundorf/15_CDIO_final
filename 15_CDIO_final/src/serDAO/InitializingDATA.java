@@ -33,10 +33,10 @@ public class InitializingDATA {
 	public static void main(String[] args) throws DALException, IOException {
 		IIngredientBatchDAO ingredientBatchDAO = new SerIngredientBatchDAO();
 
-		IngredientBatchDTO IB1 = new IngredientBatchDTO(20, 1, 25);
-		IngredientBatchDTO IB2 = new IngredientBatchDTO(21, 2, 50);
-		IngredientBatchDTO IB3 = new IngredientBatchDTO(22, 2, 60);
-		IngredientBatchDTO IB4 = new IngredientBatchDTO(23, 3, 10);
+		IngredientBatchDTO IB1 = new IngredientBatchDTO(200, 101, 25);
+		IngredientBatchDTO IB2 = new IngredientBatchDTO(201, 102, 50);
+		IngredientBatchDTO IB3 = new IngredientBatchDTO(202, 102, 60);
+		IngredientBatchDTO IB4 = new IngredientBatchDTO(203, 103, 10);
 
 		ingredientBatchDAO.createIngredientBatch(IB1);
 		ingredientBatchDAO.createIngredientBatch(IB2);
@@ -45,9 +45,9 @@ public class InitializingDATA {
 
 		IIngredientDAO ingredientDAO = new SerIngredientDAO();
 
-		IngredientDTO I1 = new IngredientDTO(1, "Salt", "supplier1");
-		IngredientDTO I2 = new IngredientDTO(2, "Water", "supplier2");
-		IngredientDTO I3 = new IngredientDTO(3, "Lemon", "supplier3");
+		IngredientDTO I1 = new IngredientDTO(101, "Salt", "supplier1");
+		IngredientDTO I2 = new IngredientDTO(102, "Water", "supplier2");
+		IngredientDTO I3 = new IngredientDTO(103, "Lemon", "supplier3");
 		ingredientDAO.createIngredient(I1);
 		ingredientDAO.createIngredient(I2);
 		ingredientDAO.createIngredient(I3);
@@ -56,9 +56,9 @@ public class InitializingDATA {
 
 		IProductBatchDAO productBatchDAO = new SerProductBatchDAO();
 		
-		ProductBatchDTO PB1 = new ProductBatchDTO(41, 31, "090693", "Created");
-		ProductBatchDTO PB2 = new ProductBatchDTO(42, 32, "100693", "Created");
-		ProductBatchDTO PB3 = new ProductBatchDTO(43, 32, "110693", "Created");
+		ProductBatchDTO PB1 = new ProductBatchDTO(401, 301, "090693", "Created");
+		ProductBatchDTO PB2 = new ProductBatchDTO(402, 302, "100693", "Created");
+		ProductBatchDTO PB3 = new ProductBatchDTO(403, 302, "110693", "Created");
 		
 		productBatchDAO.createProductBatch(PB1);
 		productBatchDAO.createProductBatch(PB2);
@@ -66,14 +66,14 @@ public class InitializingDATA {
 		IProductBatchComponentDAO productBatchComponentDAO = new SerProductBatchComponentDAO();
 
 		// PB1
-		ProductBatchComponentDTO PBC1 = new ProductBatchComponentDTO(41, 1);
-		ProductBatchComponentDTO PBC2 = new ProductBatchComponentDTO(41, 2);
+		ProductBatchComponentDTO PBC1 = new ProductBatchComponentDTO(401, 101);
+		ProductBatchComponentDTO PBC2 = new ProductBatchComponentDTO(401, 102);
 
 		// PB2
-		ProductBatchComponentDTO PBC3 = new ProductBatchComponentDTO(42, 3);
+		ProductBatchComponentDTO PBC3 = new ProductBatchComponentDTO(402, 103);
 
 		// PB3
-		ProductBatchComponentDTO PBC4 = new ProductBatchComponentDTO(43, 3);
+		ProductBatchComponentDTO PBC4 = new ProductBatchComponentDTO(403, 103);
 
 		productBatchComponentDAO.createProductBatchComponent(PBC1);
 		productBatchComponentDAO.createProductBatchComponent(PBC2);
@@ -85,17 +85,17 @@ public class InitializingDATA {
 		IRecipeDAO recipeDAO = new SerRecipeDAO();
 		
 		
-		RecipeDTO R1 = new RecipeDTO(31, "SaltWater");
-		RecipeDTO R2 = new RecipeDTO(32, "Lemon");
+		RecipeDTO R1 = new RecipeDTO(301, "SaltWater");
+		RecipeDTO R2 = new RecipeDTO(302, "Lemon");
 		
 		recipeDAO.createRecipe(R1);
 		recipeDAO.createRecipe(R2);
 		
 		IRecipeComponentDAO recipeComponentDAO = new SerRecipeComponentDAO();
 		
-		RecipeComponentDTO RC1 = new RecipeComponentDTO(31,1, 0.2, 0.1);
-		RecipeComponentDTO RC2 = new RecipeComponentDTO(31,2, 2, 0.1);
-		RecipeComponentDTO RC3 = new RecipeComponentDTO(32,3,1,0.5);
+		RecipeComponentDTO RC1 = new RecipeComponentDTO(301,101, 0.2, 0.1);
+		RecipeComponentDTO RC2 = new RecipeComponentDTO(301,102, 2, 0.1);
+		RecipeComponentDTO RC3 = new RecipeComponentDTO(302,103,1,0.5);
 		
 		recipeComponentDAO.createRecipeComponent(RC1);
 		recipeComponentDAO.createRecipeComponent(RC2);
