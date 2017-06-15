@@ -80,18 +80,13 @@ public class ProcedureController {
 	}
 
 	public void startScaleProcess() throws DALException, IOException, scaleConnectionException {
-
+		
 		enterUserId(connection);
 		System.out.println(user.getUserID());
 
 		enterProductBatchId(connection);
 		// Start Weighing
 
-		System.out.println(productBatch.getProductBatchID());
-		System.out.println(productBatch.getComponents().get(0));
-		System.out.println(productBatch.getComponents().get(1));
-
-		
 		for (ProductBatchComponentDTO productBatchComponentDTO : productBatch.getComponents()) {
 
 			IngredientBatchDTO ingredientBatch = enterIngredientBatch(connection, productBatchComponentDTO);
@@ -101,10 +96,11 @@ public class ProcedureController {
 					+ productBatchComponentDTO.getTara() + "  IngredientId "
 					+ productBatchComponentDTO.getIngredientID() + " user id: " + productBatchComponentDTO.getUserId());
 		}
-		System.out.println("Del 3");
+		
+		
 		productBatches.updateProductBatch(productBatch);
 		connection.displayMsg("Productbatch complete");
-		System.out.println("Del 4");
+
 		connection.removeProductBatchID();
 		connection.removeOperatorInitials();
 
@@ -115,9 +111,12 @@ public class ProcedureController {
 		// Place Tara and note the mass.
 		connection.displayMsg("Place Tara");
 		// save Tara Weight.
+		connection.setComponentName("Tara");
 		connection.setSoftKey();
 		connection.waitForAnswer();
 		connection.removeSoftKey();
+		connection.removeComponentName();
+
 		double taraweight = connection.doTara();
 		productBatchComponentDTO.setTara(taraweight);
 
@@ -131,10 +130,14 @@ public class ProcedureController {
 		while (!b) {
 			// String ingrdientName =
 			// productBatchComponentDTO.getIngredientName();
+
 			connection.displayMsg(attempt ? "Place " + ingredientname : "Change amount");
+
+			connection.setComponentName(ingredientname);
 			connection.setSoftKey();
 			connection.waitForAnswer();
 			connection.removeSoftKey();
+			connection.removeComponentName();
 			nettoweight = connection.getMass();
 
 			// Calculate tolerancewaight of the ingredientbatch amount.
@@ -186,7 +189,7 @@ public class ProcedureController {
 
 				if (productBatchComponentDTO.getIngredientID() == ingredientBatch.getIngredientID()) {
 					productBatchComponentDTO.setIngredientBatchID(input3);
-					connection.setComponentName(ingredientname);
+					// connection.setComponentName(ingredientname);
 					productBatchComponentDTO.setUserId(user.getUserID());
 					return ingredientBatch;
 
