@@ -66,6 +66,9 @@ public class RecipeDTO implements Serializable{
 	 * @param component adds a component to the current list of components
 	 */
 	public void addComponent(RecipeComponentDTO component){
+		if(components==null) {
+			components = new ArrayList<RecipeComponentDTO>();
+		}
 		components.add(component);
 	}
 }

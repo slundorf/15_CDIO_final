@@ -6,14 +6,6 @@ import dto.RecipeComponentDTO;
 import exceptions.DALException;
 
 public interface IRecipeComponentDAO {
-	
-	/**
-	 * 
-	 * @param receptComponentID
-	 * @return recipeComponent
-	 * @throws DALException
-	 */
-	RecipeComponentDTO getRecipeComponent(int recipeComponentID) throws DALException;
 	/**
 	 * 
 	 * @param recipeID

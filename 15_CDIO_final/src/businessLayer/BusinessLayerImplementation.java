@@ -75,7 +75,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	@Override
 	public void createUser(UserDTO user) throws DALException {
 		user.setPassword(createPassword());
-		user.setStatus(false);
+		user.setStatus(true);
 		checkUser(user);
 		userDAO.createUser(user);
 	}
@@ -342,7 +342,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 				throw new DALException("This combination of ingredient and Supplier already exists.");
 			}
 		}
-		ingredientDAO.createIngredient(ingredient);
+		ingredientDAO.updateIngredient(ingredient);
 	}
 	public ProductBatchComponentDTO getProductBatchComponent(int pbId, int ingrbatchId) throws DALException {
 		return productBatchComponentDAO.getProduktBatchComp(pbId, ingrbatchId);
@@ -396,7 +396,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	
 	public void createRecipe(RecipeDTO recipe) throws DALException {
 		for(int i=0;i<recipeDAO.getRecipeList().size();i++) {
-			if(recipeDAO.getRecipe(i).getRecipeID()==recipe.getRecipeID()) {
+			if(recipeDAO.getRecipeList().get(i).getRecipeID()==recipe.getRecipeID()) {
 				throw new DALException("ID already taken.");
 			} 
 		}
@@ -406,10 +406,6 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	public void updateRecipe(RecipeDTO recipe) throws DALException {
 		recipeDAO.updateRecipe(recipe);
 		//////////
-	}
-	
-	public RecipeComponentDTO getRecipeComponent(int recipeComponentID) throws DALException {
-		return recipeComponentDAO.getRecipeComponent(recipeComponentID);
 	}
 	
 	public List<RecipeComponentDTO> getRecipeComponentList() throws DALException {
@@ -441,8 +437,9 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	@Override
 	public void createRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
 		for(int i=0;i<recipeComponentDAO.getRecipeComponentList().size(); i++) {
-			if(recipeComponentDAO.getRecipeComponent(i).getRecipeComponentID()==recipeComponent.getRecipeComponentID()) {
-				throw new DALException("ID already taken.");				
+			if(recipeComponentDAO.getRecipeComponentList().get(i).getRecipeID()==recipeComponent.getRecipeID()
+					&& recipeComponentDAO.getRecipeComponentList().get(i).getRecipeID()==recipeComponent.getIngredientID()) {
+				throw new DALException("Recipe "+recipeComponent.getRecipeID()+" already has ingredient "+recipeComponent.getIngredientID()+" in a component.");				
 			} 
 		}
 
@@ -451,6 +448,10 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	@Override
 	public List<RecipeComponentDTO> getRecipeComponentList(int recipeID) throws DALException {
 		return recipeComponentDAO.getRecipeComponentList(recipeID);
+	}
+	@Override
+	public RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException {
+		return recipeComponentDAO.getRecipeComponent(recipeID, ingredientID);
 	}
 	
 }
