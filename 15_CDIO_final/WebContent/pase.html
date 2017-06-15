@@ -1,22 +1,19 @@
-<!doctype html>
-<html lang=''>
+<!DOCTYPE html>
+<html>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
-<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="JS.js"></script>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="menustyle.css">
 <link rel="stylesheet" href="style.css">
-<script src="http://code.jquery.com/jquery-latest.min.js"
-	type="text/javascript"></script>
-<script src="script.js"></script>
-<title>Pharmacist frontpage</title>
-
+<script src="jquery-3.2.1.js"></script>
+<script src="jquery.serialize-object.min.js"></script>
+<script src="main.js"></script>
+<title>Start ASE</title>
 </head>
 <body>
-	<div id='container'>
+		<div id="container">
 		<div id='cssmenu'>
 				<ul>
 				<li ><a href='pharmaindex.html'><span>Home</span></a></li>
@@ -39,9 +36,22 @@
 					<li><a href='pase.html'><span>Start ASE</span></a></li>
 			</ul>
 		</div>
-		<div id='text'>
-				<h1> Welcome Pharmacist</h1>
-		<h2> Please choose an action from the menu</h2></div>
-	</div>
+		<div id="box">
+		<div class="container">
+		<form>
+		</br>
+		</br>
+		</br>
+			<button id="runASE">RunASE</button><br>
+			</br>
+			</br>
+			</br>
+			</br>
+			<label for="ipadresse">IP adress:</label>
+			<input type="text" id="ipadress"></input>
+		</form>
+		</div>
+		</div>
+		</div>
 </body>
 </html>
