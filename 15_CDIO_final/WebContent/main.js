@@ -121,6 +121,7 @@ function createUser() {
 		data: cu(),
 		success: function(jqXHR) {
 			alert('User created successfully');
+			document.getElementById("cuForm").reset();
 		},
 		error: function(jqXHR, text, error) {
 			alert(jqXHR.responseText);
@@ -138,6 +139,7 @@ function createProductBatch() {
 		data: pb(),
 		success: function(data, textStatus, jqXHR) {
 			alert('Product batch created successfully');
+			document.getElementById("pbForm").reset();
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			alert(jqXHR.responseText);
@@ -155,6 +157,7 @@ function createIngredient() {
 		data: ci(),
 		success: function(data, textStatus, jqXHR) {
 			alert('Ingredient created successfully');
+			document.getElementById("ciForm").reset();
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			alert(jqXHR.responseText);
@@ -172,6 +175,7 @@ function createIngredientBatch() {
 		data: ib(),
 		success: function(data, textStatus, jqXHR) {
 			alert('Ingredient batch created successfully');
+			document.getElementById("ibForm").reset();
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			alert(jqXHR.responseText);
@@ -228,13 +232,12 @@ function toggleStatus(element){
 		data: " ",
 		contentType: "application/json",
 		dataType: "json",
-		success: function(response) { 
+		success: function(response, textStatus, errorThrown) { 
 			console.log("Success changing status");
 			getUsers();
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("Error changing status");
-			alert(jqXHR.responseText)
 		}
 	});
 }
