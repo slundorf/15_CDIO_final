@@ -34,7 +34,8 @@ function getIng(){
 					$("#esupp").val(data.supplier);
 					},
 		error: function() {
-			console.log("Error loading users");
+			console.log("Error loading ingredients");
+			alert(jqXHR.responseText)
 		}
 	});
 }
@@ -48,10 +49,11 @@ function updateIng() {
 		dataType: "json",
 		data: uib(),
 		success: function(data, textStatus, jqXHR) {
-			alert(textStatus);
+			document.getElementById("uiForm").reset();
+			alert("Ingredient updated successfully");
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-			alert(textStatus);
+			alert(jqXHR.responseText)
 		}
 	});
 }
