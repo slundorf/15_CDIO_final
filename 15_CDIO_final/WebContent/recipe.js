@@ -54,10 +54,15 @@ function GetHtml()
 			dataType: "json",
 			data: JSON.stringify(componentArray),
 			success: function(data, textStatus, jqXHR) {
-				alert('Yay');
+				alert('Recipe created successfully');
+				document.getElementById("container2").innerHTML = "";
+				document.getElementById("recipeComponentForm").reset();
+				document.getElementById("recipeForm").reset();
+				count = 0;
+				componentArray = []
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				alert('Idiot');
+				alert(jqXHR.responseText);
 			}
 		});
 	}
@@ -71,11 +76,10 @@ function createRecipe() {
 			dataType: "json",
 			data: recipe(),
 			success: function(data, textStatus, jqXHR) {
-				alert('Yay');
 			 	createRecipeComponent();
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				alert('Idiot');
+				alert(jqXHR.responseText);
 			}
 		});
 	}

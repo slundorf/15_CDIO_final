@@ -346,11 +346,12 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 
 	public void createIngredient(IngredientDTO ingredient) throws DALException {
 		if (ingredient.getIngredientID() < 100 || ingredient.getIngredientID() > 199) {
-			throw new DALException("Invalid ID");
+			throw new DALException("Invalid ingredient ID");
 		}
+
 		for (int i = 0; i < ingredientDAO.getIngredientList().size(); i++) {
 			if (ingredientDAO.getIngredientList().get(i).getIngredientID() == ingredient.getIngredientID()) {
-				throw new DALException("ID already taken");
+				throw new DALException("Ingredient ID already taken");
 			} else if (ingredientDAO.getIngredientList().get(i).getIngredientName()
 					.equals(ingredient.getIngredientName())
 					&& ingredientDAO.getIngredientList().get(i).getSupplier().equals(ingredient.getSupplier())) {
@@ -421,9 +422,10 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	}
 
 	public void createRecipe(RecipeDTO recipe) throws DALException {
+
 		for (int i = 0; i < recipeDAO.getRecipeList().size(); i++) {
 			if (recipeDAO.getRecipeList().get(i).getRecipeID() == recipe.getRecipeID()) {
-				throw new DALException("ID already taken.");
+				throw new DALException("Recipe ID already taken.");
 			}
 		}
 		recipeDAO.createRecipe(recipe);
@@ -467,6 +469,18 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 
 	@Override
 	public void createRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
+
+		boolean existed = false;
+		for (int i = 0; i < ingredientDAO.getIngredientList().size(); i++) {
+			if (ingredientDAO.getIngredientList().get(i).getIngredientID() == recipeComponent.getIngredientID()) {
+				existed = true;
+			}
+		}
+		if (!existed) {
+			throw new DALException("No ingredient exists with ingredient ID " + recipeComponent.getIngredientID()
+					+ ". Please enter an existing ingredient ID");
+		}
+
 		for (int i = 0; i < recipeComponentDAO.getRecipeComponentList().size(); i++) {
 			if (recipeComponentDAO.getRecipeComponentList().get(i).getRecipeID() == recipeComponent.getRecipeID()
 					&& recipeComponentDAO.getRecipeComponentList().get(i).getRecipeID() == recipeComponent

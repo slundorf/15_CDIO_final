@@ -1,5 +1,6 @@
 package rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -28,6 +29,7 @@ import interfaces.IRecipeComponentDAO;
 import interfaces.IRecipeDAO;
 import interfaces.IRoleDAO;
 import interfaces.IUserDAO;
+import scaleMachine.ScaleRunnable;
 import serDAO.SerIngredientBatchDAO;
 import serDAO.SerIngredientDAO;
 import serDAO.SerProductBatchComponentDAO;
@@ -51,18 +53,22 @@ public class Weight {
 	IProductBatchDAO IPB = new SerProductBatchDAO();
 	IProductBatchComponentDAO IPBC = new SerProductBatchComponentDAO();
 	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD, recipeDAO, IPB, IPBC, recipecDAO);
-	int currentUserID;
+	ScaleRunnable t = new ScaleRunnable();
 
+	
+	@GET @Path("ASE/{ipadress}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean beginASE(@PathParam("ipadress") String ip){
+		t.setIP(ip);
+		new Thread(t).start();
+		return true;
+	}
+	
 	@POST
 	@Path("login/{id}/{pass}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public int loginUser(@PathParam("id") Integer id, @PathParam("pass") String pass) throws DALException {
-
-		currentUserID = id;
-
-		System.out.println(id);
-		System.out.println(pass);
 
 		return IBL.getUser(id).getRole().getRoleID();
 	}
@@ -72,7 +78,6 @@ public class Weight {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public boolean createUser(UserDTO data) throws DALException {
-		;
 
 		switch (data.getRole().getRoleID()) {
 		case 1:
@@ -178,13 +183,6 @@ public class Weight {
 		return IBL.getUserList();
 	}
 
-	// @GET @Path("getRoleID")
-	// @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	// public int getRoleID(int id) throws DALException {
-	//
-	// return IBL.getUser(id).getRole().getRoleID();
-	// }
-
 	@POST
 	@Path("getUsr/{id}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -213,13 +211,6 @@ public class Weight {
 
 		return true;
 
-	}
-
-	@GET
-	@Path("currentUserID")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public int getCurrentUserID() {
-		return currentUserID;
 	}
 
 	@POST

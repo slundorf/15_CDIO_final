@@ -22,6 +22,7 @@ $('#loginButton').click(function() {
 	if($('#usrName').val()=="admin" && $('#pass').val()=="root") {
 		window.location.href = "http://localhost:8080/15_CDIO_final/rootadminindex.html";
 	} else {
+		var userID= $('#usrName').val()
 	validateLogin();
 	}
 	return false;
@@ -50,6 +51,19 @@ $('#pbcButton').click(function() {
 	createProductBatchComponent();
 	return false;
 });
+$('#runASE').click(function(){
+	$.ajax({
+		type: 'GET',
+		url: rootURL + '/ASE/'+$('#ipadress').val(),
+		dataType: 'text',
+		success: function(data, textStatus, jqXHR) {
+			console.log(textStatus);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus);
+		}
+	});
+});
 getUsers();
 getIngredients();
 getIngredientbs();
@@ -70,7 +84,7 @@ function validateLogin() {
 			changePage(data);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-			alert('Idiot');
+			alert(jqXHR.responseText);
 		}
 	});
 }
@@ -105,11 +119,11 @@ function createUser() {
 		url: rootURL + '/cu',
 		dataType: "json",
 		data: cu(),
-		success: function(data, textStatus, jqXHR) {
-			alert(textStatus);
+		success: function(jqXHR) {
+			alert('User created successfully');
 		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			alert(textStatus);
+		error: function(jqXHR, text, error) {
+			alert(jqXHR.responseText);
 		}
 	});
 }
@@ -123,10 +137,10 @@ function createProductBatch() {
 		dataType: "json",
 		data: pb(),
 		success: function(data, textStatus, jqXHR) {
-			alert('Yay');
+			alert('Product batch created successfully');
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-			alert('Idiot');
+			alert(jqXHR.responseText);
 		}
 	});
 }
@@ -140,10 +154,10 @@ function createIngredient() {
 		dataType: "json",
 		data: ci(),
 		success: function(data, textStatus, jqXHR) {
-			alert('Yay');
+			alert('Ingredient created successfully');
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-			alert('Idiot');
+			alert(jqXHR.responseText);
 		}
 	});
 }
@@ -157,10 +171,10 @@ function createIngredientBatch() {
 		dataType: "json",
 		data: ib(),
 		success: function(data, textStatus, jqXHR) {
-			alert('Yay');
+			alert('Ingredient batch created successfully');
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-			alert('Idiot');
+			alert(jqXHR.responseText);
 		}
 	});
 }
@@ -177,8 +191,8 @@ function getUsers(){
 				
 			});
 		},
-		error: function() {
-			console.log("Error loading users");
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert(jqXHR.responseText)
 		}
 	});
 }
@@ -218,8 +232,9 @@ function toggleStatus(element){
 			console.log("Success changing status");
 			getUsers();
 		},
-		error: function() {
+		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("Error changing status");
+			alert(jqXHR.responseText)
 		}
 	});
 }
@@ -239,6 +254,7 @@ function getRecipes(){
 		},
 		error: function() {
 			console.log("Error loading pb");
+			alert(jqXHR.responseText)
 		}
 	});
 }
@@ -270,6 +286,7 @@ function appendRecipeCompData(element){
 		},
 		error: function() {
 			console.log("Error loading recipecomponents");
+			alert(jqXHR.responseText)
 		}
 	});
 	
@@ -295,6 +312,7 @@ function getProductB(){
 		},
 		error: function() {
 			console.log("Error loading pb");
+			alert(jqXHR.responseText)
 		}
 	});
 }
@@ -329,6 +347,7 @@ function appendPCompData(element){
 		},
 		error: function() {
 			console.log("Error loading pb components");
+			alert(jqXHR.responseText)
 		}
 	});
 	
@@ -347,6 +366,7 @@ function getIngredientbs(){
 		},
 		error: function() {
 			console.log("Error loading ingredient batches");
+			alert(jqXHR.responseText)
 		}
 	});
 }
@@ -373,6 +393,7 @@ function getIngredients(){
 		},
 		error: function() {
 			console.log("Error loading ingredients");
+			alert(jqXHR.responseText)
 		}
 	});
 }
@@ -382,3 +403,4 @@ function generateIngredientHTML(ing){
 				'<td>' + ing.supplier+'</td>'+
 				'</tr>';
 }
+
