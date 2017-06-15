@@ -28,6 +28,7 @@ import interfaces.IRecipeComponentDAO;
 import interfaces.IRecipeDAO;
 import interfaces.IRoleDAO;
 import interfaces.IUserDAO;
+import scaleMachine.ScaleRunnable;
 import serDAO.SerIngredientBatchDAO;
 import serDAO.SerIngredientDAO;
 import serDAO.SerProductBatchComponentDAO;
@@ -36,7 +37,6 @@ import serDAO.SerRecipeComponentDAO;
 import serDAO.SerRecipeDAO;
 import serDAO.SerRoleDAO;
 import serDAO.SerUserDAO;
-import test.IntegrationTestProcedureController;
 import testDataSer.FakeSerUserDAO;
 
 @Path("weight")
@@ -53,14 +53,14 @@ public class Weight {
 	IProductBatchComponentDAO IPBC = new SerProductBatchComponentDAO();
 	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD, recipeDAO, IPB, IPBC, recipecDAO);
 	int currentUserID;
-	IntegrationTestProcedureController t = new IntegrationTestProcedureController();
+	ScaleRunnable t = new ScaleRunnable();
 
 	
 	@GET @Path("ASE/{ipadress}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public boolean beginASE(@PathParam("ipadress") String ip){
+		t.setIP(ip);
 		new Thread(t).start();
-		System.out.println("IP: "+ip);
 		return true;
 	}
 	
