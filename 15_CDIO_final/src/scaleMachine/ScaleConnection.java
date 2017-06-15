@@ -216,7 +216,6 @@ public class ScaleConnection implements IScaleConnection {
 			
 				return answerFromServer;
 			} else {
-				System.out.println(answerFromServer);
 				return answerFromServer;
 			}
 		} catch (Exception e) {
