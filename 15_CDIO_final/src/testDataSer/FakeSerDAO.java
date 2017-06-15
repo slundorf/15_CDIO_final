@@ -16,23 +16,22 @@ import exceptions.DALException;
 
 public abstract class FakeSerDAO<E> {
 	protected String pathName;
-	protected List<E> list = new ArrayList<E>();
+	protected  List<E> list = new ArrayList<E>();
 	protected List<E> writeObjectList = new ArrayList<E>();
-	protected List<IngredientBatchDTO> ingredientBatchList = new ArrayList<IngredientBatchDTO>();
-	protected List<IngredientDTO> ingredientList = new ArrayList<IngredientDTO>();
-	protected List<ProductBatchDTO> productBatchList = new ArrayList<ProductBatchDTO>();
-	protected List<RecipeDTO> recipeList = new ArrayList<RecipeDTO>();
-	protected List<RoleDTO> roleList = new ArrayList<RoleDTO>();
-	protected List<UserDTO> userList = new ArrayList<UserDTO>();
+	protected static List<IngredientBatchDTO> ingredientBatchList = new ArrayList<IngredientBatchDTO>();
+	protected static List<IngredientDTO> ingredientList = new ArrayList<IngredientDTO>();
+	protected static List<ProductBatchDTO> productBatchList = new ArrayList<ProductBatchDTO>();
+	protected static List<RecipeDTO> recipeList = new ArrayList<RecipeDTO>();
+	protected static List<RoleDTO> roleList = new ArrayList<RoleDTO>();
+	protected static List<UserDTO> userList = new ArrayList<UserDTO>();
 
 
-	public FakeSerDAO(String pathName) {
-		this.pathName = pathName;
-
-		IngredientBatchDTO IB1 = new IngredientBatchDTO(20, 1, 25);
-		IngredientBatchDTO IB2 = new IngredientBatchDTO(21, 2, 50);
-		IngredientBatchDTO IB3 = new IngredientBatchDTO(22, 2, 60);
-		IngredientBatchDTO IB4 = new IngredientBatchDTO(23, 3, 10);
+	
+	static{
+		IngredientBatchDTO IB1 = new IngredientBatchDTO(20, 4, 25);
+		IngredientBatchDTO IB2 = new IngredientBatchDTO(21, 5, 50);
+		IngredientBatchDTO IB3 = new IngredientBatchDTO(22, 5, 60);
+		IngredientBatchDTO IB4 = new IngredientBatchDTO(23, 6, 10);
 
 		ingredientBatchList.add(IB1);
 		ingredientBatchList.add(IB2);
@@ -101,7 +100,11 @@ public abstract class FakeSerDAO<E> {
 		userList.add(user1);
 		userList.add(user2);
 		userList.add(user3);
+	}
 
+
+	public FakeSerDAO(String pathName) {
+		this.pathName = pathName;
 	}
 
 	/**
@@ -166,8 +169,8 @@ public abstract class FakeSerDAO<E> {
 			ingredientList = (List<IngredientDTO>) list;
 		} else if (pathName.equals("ProductBatchDB.ser")) {
 
-			list = (ArrayList<E>) productBatchList;
 			productBatchList = (List<ProductBatchDTO>) list;
+			
 
 		} else if (pathName.equals("RecipeDB.ser")) {
 
