@@ -26,7 +26,7 @@ import testDataSer.FakeSerRecipeDAO;
 import testDataSer.FakeSerRoleDAO;
 import testDataSer.FakeSerUserDAO;
 
-public class testFakeDAO {
+public class FakeSerDAOTest {
 
 	public static void main(String[] args) throws DALException {
 		// TODO Auto-generated method stub
