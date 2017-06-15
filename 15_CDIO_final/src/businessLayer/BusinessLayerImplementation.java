@@ -75,7 +75,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	@Override
 	public void createUser(UserDTO user) throws DALException {
 		user.setPassword(createPassword());
-		user.setStatus(false);
+		user.setStatus(true);
 		checkUser(user);
 		userDAO.createUser(user);
 	}
