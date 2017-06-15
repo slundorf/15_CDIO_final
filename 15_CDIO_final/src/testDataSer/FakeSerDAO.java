@@ -28,10 +28,10 @@ public abstract class FakeSerDAO<E> {
 
 		// IngredientBatch data
 
-		IngredientBatchDTO IB1 = new IngredientBatchDTO(20, 4, 25);
-		IngredientBatchDTO IB2 = new IngredientBatchDTO(21, 5, 50);
-		IngredientBatchDTO IB3 = new IngredientBatchDTO(22, 5, 60);
-		IngredientBatchDTO IB4 = new IngredientBatchDTO(23, 6, 10);
+		IngredientBatchDTO IB1 = new IngredientBatchDTO(20, 1, 25);
+		IngredientBatchDTO IB2 = new IngredientBatchDTO(21, 2, 50);
+		IngredientBatchDTO IB3 = new IngredientBatchDTO(22, 2, 60);
+		IngredientBatchDTO IB4 = new IngredientBatchDTO(23, 3, 10);
 
 		// Saves it on DAO
 
@@ -118,9 +118,9 @@ public abstract class FakeSerDAO<E> {
 		roleList.add(role4);
 		
 		// Create Users
-		UserDTO user1 = new UserDTO(11, "Steve", "STV", "101010-1234", "wally", role4, true);
-		UserDTO user2 = new UserDTO(12, "Kurt", "Kru", "101110-1234", "wally2", role1, true);
-		UserDTO user3 = new UserDTO(13, "Lis", "LIS", "101110-1234", "wally3", role2, false);
+		UserDTO user1 = new UserDTO(11, "Steve", "STV", "101011-1234", "e6+E1", role4, true);
+		UserDTO user2 = new UserDTO(12, "Kurt", "Kru", "101112-1234", "e6+E2", role1, true);
+		UserDTO user3 = new UserDTO(13, "Lis", "LIS", "101113-1234", "e6+E3", role2, false);
 
 		// Saves it on DAO
 		userList.add(user1);
