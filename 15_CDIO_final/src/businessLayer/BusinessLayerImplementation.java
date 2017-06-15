@@ -265,6 +265,11 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	private boolean checkCpr(String cpr) throws DALException {
 		Date date = null;
 		// First try and catch for "-" error
+		for(int i=0;i<userDAO.getUserList().size();i++){
+			if(userDAO.getUserList().get(i).getCpr().equals(cpr)){
+				throw new DALException("Another user has the CPR: "+cpr);
+			}
+		}
 		try {
 			String[] parts = cpr.split("-");
 			String dateNumber = parts[0];
@@ -286,6 +291,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			throw new DALException("Invalid CPR from (missing -)");
 		}
+		
 	}
 
 	@Override
