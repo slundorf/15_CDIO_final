@@ -1,32 +1,7 @@
 package testDataSer;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.StreamCorruptedException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-import java.util.ResourceBundle;
-
-import javax.management.relation.Role;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
 
 import dto.IngredientBatchDTO;
 import dto.IngredientDTO;
@@ -36,36 +11,22 @@ import dto.RecipeComponentDTO;
 import dto.RecipeDTO;
 import dto.RoleDTO;
 import dto.UserDTO;
-import interfaces.IIngredientBatchDAO;
-import interfaces.IIngredientDAO;
-import interfaces.IProductBatchComponentDAO;
-import interfaces.IProductBatchDAO;
-import interfaces.IRecipeComponentDAO;
-import interfaces.IRecipeDAO;
-import interfaces.IRoleDAO;
-import interfaces.IUserDAO;
-import serDAO.SerIngredientBatchDAO;
-import serDAO.SerIngredientDAO;
-import serDAO.SerProductBatchComponentDAO;
-import serDAO.SerProductBatchDAO;
-import serDAO.SerRecipeComponentDAO;
-import serDAO.SerRecipeDAO;
-import serDAO.SerRoleDAO;
-import serDAO.SerUserDAO;
+
 
 public abstract class FakeSerDAO<E> {
-	protected final String pathName;
+	protected String pathName;
 	protected List<E> list = new ArrayList<E>();
-	protected List<E> writeObjectList;
-	protected List<IngredientBatchDTO> ingredientBatchList;
-	protected List<IngredientDTO> ingredientList;
-	protected List<ProductBatchDTO> productBatchList;
-	protected List<RecipeDTO> recipeList;
-	protected List<RoleDTO> roleList;
-	protected List<UserDTO> userList;
+	protected List<E> writeObjectList = new ArrayList<E>();
+	protected List<IngredientBatchDTO> ingredientBatchList = new ArrayList<IngredientBatchDTO>();
+	protected List<IngredientDTO> ingredientList = new ArrayList<IngredientDTO>();
+	protected List<ProductBatchDTO> productBatchList = new ArrayList<ProductBatchDTO>();
+	protected List<RecipeDTO> recipeList = new ArrayList<RecipeDTO>();
+	protected List<RoleDTO> roleList = new ArrayList<RoleDTO>();
+	protected List<UserDTO> userList = new ArrayList<UserDTO>();
+
 
 	public FakeSerDAO(String pathName) {
-		this.pathName = helper(pathName);
+		this.pathName = pathName;
 
 		IngredientBatchDTO IB1 = new IngredientBatchDTO(20, 1, 25);
 		IngredientBatchDTO IB2 = new IngredientBatchDTO(21, 2, 50);
@@ -142,18 +103,14 @@ public abstract class FakeSerDAO<E> {
 
 	}
 
-	public static String helper(String path) {
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		String stream = classLoader.getResource(path).getPath().toString().replaceAll("%20", " ");
-		return stream;
-	}
-
 	/**
 	 * Loads the data arraylist
+	 * 
+	 * @throws DALException
 	 */
 	@SuppressWarnings("unchecked")
 	protected void loadInfo() {
-
+		
 		// InputStream file = new FileInputStream(pathName);
 		// InputStream buffer = new BufferedInputStream(file);
 		// ObjectInput input = new ObjectInputStream(buffer);
@@ -168,6 +125,7 @@ public abstract class FakeSerDAO<E> {
 		} else if (pathName.equals("IngredientDB.ser")) {
 
 			list = (ArrayList<E>) ingredientList;
+
 		} else if (pathName.equals("ProductBatchDB.ser")) {
 
 			list = (ArrayList<E>) productBatchList;
@@ -182,11 +140,10 @@ public abstract class FakeSerDAO<E> {
 
 		}
 
-		list = (ArrayList<E>) userList;
 
-		if (list.equals(null))
+		if (list.equals(null)) {
 			list = new ArrayList<E>();
-		// input.close();
+		}
 
 	}
 
@@ -194,10 +151,10 @@ public abstract class FakeSerDAO<E> {
 	 * saves the data arraylist to the .ser file.
 	 */
 	protected void saveInfo() {
-	
 
 		if (pathName.equals("UserDB.ser")) {
 			userList = (List<UserDTO>) list;
+
 
 		} else if (pathName.equals("IngredientBatchDB.ser")) {
 

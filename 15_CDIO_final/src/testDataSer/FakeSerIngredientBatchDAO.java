@@ -12,6 +12,7 @@ public class FakeSerIngredientBatchDAO extends FakeSerDAO<IngredientBatchDTO> im
 		super("IngredientBatchDB.ser");
 	}
 	
+	
 	public FakeSerIngredientBatchDAO(String pathName){
 		super(pathName);
 	}
