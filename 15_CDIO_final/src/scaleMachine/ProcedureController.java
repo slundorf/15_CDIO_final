@@ -79,7 +79,7 @@ public class ProcedureController {
 
 	}
 
-	public void startScaleProcess() throws DALException, IOException, scaleConnectionException {
+	public void startScaleProcess() throws DALException, scaleConnectionException {
 		
 		enterUserId(connection);
 		enterProductBatchId(connection);
@@ -120,17 +120,18 @@ public class ProcedureController {
 		String ingredientname = ingredients.getIngredient(productBatchComponentDTO.getIngredientID())
 				.getIngredientName();
 		// Weigh something
-		boolean b = false;
+		boolean acceptableTolerance = false;
 		boolean attempt = true;
 		double nettoweight = 0;
 		String msg = null;
 		
-		while (!b) {
+		while (!acceptableTolerance) {
 			// String ingrdientName =
 			// productBatchComponentDTO.getIngredientName();
 
 			connection.displayMsg(attempt ? "Place " + ingredientname : "Change amount");
-
+			
+			//
 			connection.setComponentName(ingredientname);
 			connection.setSoftKey();
 			connection.waitForAnswer();
@@ -143,7 +144,7 @@ public class ProcedureController {
 			double toleranceWeight = getTolerance(productBatchComponentDTO) * amount;
 			// Weighed mass comply with the tolerance do this
 			if (amount + toleranceWeight >= nettoweight && nettoweight >= amount - toleranceWeight) {
-				b = true;
+				acceptableTolerance = true;
 				// Get current amount from IngredientBatch
 				int IBId = ingredientBatch.getIngredientBatchID();
 				IngredientBatchDTO IBDTO = ingredientBatches.getIngredientBatch(IBId);
