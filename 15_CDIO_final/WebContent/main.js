@@ -256,7 +256,7 @@ function getRecipes(){
 				$("#recipetablebody").append(generateRecipeHTML(list));
 			});
 		},
-		error: function() {
+		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("Error loading pb");
 			alert(jqXHR.responseText)
 		}
@@ -288,7 +288,7 @@ function appendRecipeCompData(element){
 						);
 			});
 		},
-		error: function() {
+		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("Error loading recipecomponents");
 			alert(jqXHR.responseText)
 		}
@@ -314,7 +314,7 @@ function getProductB(){
 				$("#pbtablebody").append(generatePBHTML(list));
 			});
 		},
-		error: function() {
+		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("Error loading pb");
 			alert(jqXHR.responseText)
 		}
@@ -349,7 +349,7 @@ function appendPCompData(element){
 						);
 			});
 		},
-		error: function() {
+		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("Error loading pb components");
 			alert(jqXHR.responseText)
 		}
@@ -368,7 +368,7 @@ function getIngredientbs(){
 				$("#ingredientbtablebody").append(generateIngredientBHTML(list));
 			});
 		},
-		error: function() {
+		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("Error loading ingredient batches");
 			alert(jqXHR.responseText)
 		}
@@ -395,7 +395,7 @@ function getIngredients(){
 				
 			});
 		},
-		error: function() {
+		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("Error loading ingredients");
 			alert(jqXHR.responseText)
 		}
