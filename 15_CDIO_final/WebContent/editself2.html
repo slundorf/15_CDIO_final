@@ -52,34 +52,36 @@
 			</ul>
 		</div>
 		<div id='box'>
-		
+
+			<form id="loginForm">
+
+				<br /> <br /> <label for="usrName">Enter user ID:</label> <input
+					id="usrName" name="Username" type="text" required
+					placeholder="Username" value="admin"> <br /> <br /> <label
+					for="pass">Enter password:</label> <input id="pass" name="Password"
+					type="text" required> <br />
+				<br />
+				<button id="loginButton">Login</button>
+			</form>
+
 			<form id="esForm">
 
-				<input id="eusrID" name="userID" type="hidden" required value="">					
-				<br/>
-				<br/>
-				<label for="usrName">Full name:</label>
-				<input id="eusrName" name="userName" type="text" required value="">
-				<br/>
-				<br/>
-				<label for="ini">Initials:</label>
-				<input id="eini" name="ini" type="text" required>
-				<br/>
-				<br/>
-				<label for="cpr">Social security number:</label>
-				<input id="ecpr" name="cpr" type="text" required>
-				<br/>
-				<br/>
-				<label for="password">Password:</label>
-				<input id="epsword" name="password" type="password" value="" required>
-				<input type="hidden" name="role[roleID" id="roleID" value="" />
-  				<input type="hidden" name="role[roleName]" id="roleName" value="" />
-  				<br/>
-  				<br/>
+				<input id="eusrID" name="userID" type="hidden" required value="">
+				<br /> <br /> <label for="usrName">Full name:</label> <input
+					id="eusrName" name="userName" type="text" required value="">
+				<br /> <br /> <label for="ini">Initials:</label> <input id="eini"
+					name="ini" type="text" required> <br /> <br /> <label
+					for="cpr">Social security number:</label> <input id="ecpr"
+					name="cpr" type="text" required> <br /> <br /> <label
+					for="password">Password:</label> <input id="epsword"
+					name="password" type="password" value="" required> <input
+					type="hidden" name="role[roleID" id="roleID" value="" /> <input
+					type="hidden" name="role[roleName]" id="roleName" value="" /> <br />
+				<br />
 				<button id="esButton">Update user</button>
 
 			</form>
-			
+
 		</div>
 		
 	</div>
