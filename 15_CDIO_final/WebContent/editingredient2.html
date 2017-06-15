@@ -51,7 +51,32 @@
 			<li><a href='rase.html'><span>Start ASE</span></a></li>
 			</ul>
 		</div>
-		<div id='text'></div>
+		<div id='text'>
+		<form id="uiiform">
+			
+			<label for="changeIng">Enter the ID of the ingredient you wish to administrate:</label> <br/><br/>
+			<input id="cI" name="changeIng" type="number" required min="100" max="199"><br/><br/>
+			<button id="uiiButton">Enter</button>
+			
+			</form>
+		
+			<form id="uiForm">
+
+				<input id="eingID" name="ingredientID" type="hidden" required value="">					
+				<br/>
+				<br/>
+				<label for="ingName">Ingredient name:</label>
+				<input id="eingName" name="ingredientName" type="text" required value="">
+				<br/>
+				<br/>
+				<label for="supp">Supplier:</label>
+				<input id="esupp" name="supplier" type="text" required>
+
+  				<br/>
+  				<br/>
+				<button id="uiButton">Update ingredient</button>
+
+			</form></div>
 	</div>
 </body>
 </html>

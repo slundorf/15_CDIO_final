@@ -50,55 +50,20 @@
 			</ul>
 		</div>
 		<div id='box'>
-			<form id="pbcForm">
-				
-				<label for=pbID">Product batch ID</label>
-				<input id="pbID" name="pbID" type="number" required min="1" max="99"></br></br>
-				
-				<label for=pbcID">Product batch component ID</label>
-				<input id="pbcID" name="pbcID" type="number" required min="1" max="99"></br></br>
-					
-				<label for="rbID">Ingredient batch ID:</label> <input
-					id="rbID" name="rbID" type="number" required min="1"
-					max="99999999"><br /> <br/>
-					
-				<label for=usrID">User ID</label>
-				<input id="usrID" name="usrID" type="number" required min="1" max="99"></br></br>
-					
-				<label for="netto">Netto (in kg and 4 decimals):</label> <input
-					id="netto" name="netto" type="number" required min="0"
-					max="20,0" step="0.01" maxlength="4"> <br /> <br/>
-					
-				<label for="tara">Tara (in kg and 4 decimals):</label> <input
-					id="tara" name="tara" type="number" required min="0"
-					max="20,0" step="0.01" maxlength="4"> <br /> <br/>
-
-				<button id="pbcButton">Add component</button>
-
-			</form>
-			
-			</br></br>
-			
 			<form id="pbForm">
 
 				<label for="productBatchID">Product batch ID:</label> <input
-					id="productBatchID" name="productBatchID" type="number" required min="1"
-					max="99999999"><br /> <br/>
+				id="productBatchID" name="productBatchID" type="number" required min="400"
+				max="499"><br /> <br/>
 				<label for="recipeID">Recipe
-					ID:</label> <input id="recipeID" name="recipeID" type="number" required
-					min="1" max="99999999">
-				</br> <br/>
-				<label for="productBatchName">Product batch name:</label>
-				<input type="text" id="productBatchName" name="productBatchName" required>
+				ID:</label> <input id="recipeID" name="recipeID" type="number" required
+				min="300" max="399">
 				</br><br/>
 				<label for="createdDate">Date created:</label>
 				<input type="date" id="createdDate" name="createdDate" required>
 				</br><br/>
 				<input id="status" name="status" type="hidden" value="Created">
-				<label for="userId">User ID:</label> <input
-					id="userId" name="userId" type="number" required min="1"
-					max="99"><br /><br/>
-					<button id="pbButton">Create product batch</button>
+				<button id="pbButton">Create product batch</button>
 					</form>
 					
 		</div>
