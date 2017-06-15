@@ -1,6 +1,5 @@
 package rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -51,232 +50,262 @@ public class Weight {
 	IRecipeComponentDAO recipecDAO = new SerRecipeComponentDAO();
 	IProductBatchDAO IPB = new SerProductBatchDAO();
 	IProductBatchComponentDAO IPBC = new SerProductBatchComponentDAO();
-	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD, recipeDAO,IPB,IPBC,recipecDAO);
+	IBusinessLayer IBL = new BusinessLayerImplementation(IUD, IRD, IID, IIBD, recipeDAO, IPB, IPBC, recipecDAO);
 	int currentUserID;
-	
-	@POST @Path("login/{id}/{pass}")
+
+	@POST
+	@Path("login/{id}/{pass}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public int loginUser(@PathParam("id") Integer id, @PathParam("pass") String pass) throws DALException {
-		
+
 		currentUserID = id;
-		
+
 		System.out.println(id);
 		System.out.println(pass);
-		
+
 		return IBL.getUser(id).getRole().getRoleID();
 	}
-	
-	@POST @Path("cu")
+
+	@POST
+	@Path("cu")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean createUser(UserDTO data) throws DALException {		;
+	public boolean createUser(UserDTO data) throws DALException {
+		;
 
-		switch(data.getRole().getRoleID()){
-			case 1: 
-				data.getRole().setRoleName("Administrator");
-				break;
-			case 2:
-				data.getRole().setRoleName("Pharmacist");
-				break;
-			case 3: 
-				data.getRole().setRoleName("Foreman");
-				break;
-			case 4: 
-				data.getRole().setRoleName("Operator");
-				break;
+		switch (data.getRole().getRoleID()) {
+		case 1:
+			data.getRole().setRoleName("Administrator");
+			break;
+		case 2:
+			data.getRole().setRoleName("Pharmacist");
+			break;
+		case 3:
+			data.getRole().setRoleName("Foreman");
+			break;
+		case 4:
+			data.getRole().setRoleName("Operator");
+			break;
 		}
 
 		IBL.createUser(data);
 		return true;
 	}
-	
-	@POST @Path("recipe")
+
+	@POST
+	@Path("recipe")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public boolean createRecipe(RecipeDTO recipe) throws DALException {
-		
+
 		IBL.createRecipe(recipe);
-		
+
 		return true;
 	}
-	
-	@POST @Path("recipeComponent")
+
+	@POST
+	@Path("recipeComponent")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public boolean createRecipe(RecipeComponentDTO[] recipeComponent) throws DALException {
-		
-		for(int i=0; i<recipeComponent.length; i++) {
+
+		for (int i = 0; i < recipeComponent.length; i++) {
 			IBL.createRecipeComponent(recipeComponent[i]);
 		}
-		
+
 		return true;
 	}
-	
-//	@POST @Path("rc")
-//	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-//	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-//	public boolean createRecipeComponent(RecipeComponentDTO rc, int recipeId) throws DALException {
-//		RecipeDTO temp = IBL.getRecipe(recipeId);
-//		temp.addComponent(rc);
-//		IBL.updateRecipe(temp);
-//		return true;
-//	}
-	
-	@POST @Path("pb")
+
+	// @POST @Path("rc")
+	// @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	// @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	// public boolean createRecipeComponent(RecipeComponentDTO rc, int recipeId)
+	// throws DALException {
+	// RecipeDTO temp = IBL.getRecipe(recipeId);
+	// temp.addComponent(rc);
+	// IBL.updateRecipe(temp);
+	// return true;
+	// }
+
+	@POST
+	@Path("pb")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public boolean createProductBatch(ProductBatchDTO pb) throws DALException {
-		
+
 		IBL.createProductBatch(pb);
-		
+
 		return true;
 	}
-	
-//	@POST @Path("pbc")
-//	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-//	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-//	public boolean createProductBatchComponent(ProductBatchComponentDTO pbc) throws DALException {;
-//		IBL.updateProductBatch(pbc);
-//		return true;
-//	}
 
-	@POST @Path("ci")
+	// @POST @Path("pbc")
+	// @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	// @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	// public boolean createProductBatchComponent(ProductBatchComponentDTO pbc)
+	// throws DALException {;
+	// IBL.updateProductBatch(pbc);
+	// return true;
+	// }
+
+	@POST
+	@Path("ci")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public boolean createIngredient(IngredientDTO ing) throws DALException {
-		
+
 		IBL.createIngredient(ing);
-		
+
 		return true;
 	}
-	
-	@POST @Path("ib")
+
+	@POST
+	@Path("ib")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public boolean createIngredientBatch(IngredientBatchDTO ib) throws DALException {
-		
+
 		IBL.createIngredientBatch(ib);
-		
+
 		return true;
 	}
-	
-	@GET @Path("getUsrs")
+
+	@GET
+	@Path("getUsrs")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<UserDTO> getUsrs() throws DALException {
-		
+
 		return IBL.getUserList();
 	}
-	
-//	@GET @Path("getRoleID")
-//	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-//	public int getRoleID(int id) throws DALException {
-//		
-//		return IBL.getUser(id).getRole().getRoleID();
-//	}
-	
-	@POST @Path("getUsr/{id}")
+
+	// @GET @Path("getRoleID")
+	// @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	// public int getRoleID(int id) throws DALException {
+	//
+	// return IBL.getUser(id).getRole().getRoleID();
+	// }
+
+	@POST
+	@Path("getUsr/{id}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public UserDTO getUsr(@PathParam("id") Integer uid) throws DALException {
-		
+
 		return IBL.getUser(uid);
 	}
-	
-	@POST @Path("getIng/{id}")
+
+	@POST
+	@Path("getIng/{id}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public IngredientDTO getIng(@PathParam("id") Integer iid) throws DALException {
-		
+
 		return IBL.getIngredient(iid);
 	}
-	
-	@POST @Path("ui")
+
+	@POST
+	@Path("ui")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public boolean updateIngredient(IngredientDTO ing) throws DALException {
-		
+
 		IBL.updateIngredient(ing);
-		
+
 		return true;
-		
+
 	}
-	
-	
-	@GET @Path("currentUserID")
+
+	@GET
+	@Path("currentUserID")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public int getCurrentUserID() {
 		return currentUserID;
 	}
-	
-	@POST @Path("toggleStatus/{id}")
+
+	@POST
+	@Path("toggleStatus/{id}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean toggleStatus(@PathParam("id") int userID) throws DALException{
+	public boolean toggleStatus(@PathParam("id") int userID) throws DALException {
 		UserDTO temp = IBL.getUser(userID);
-		if(temp.isStatus()){
+		if (temp.isStatus()) {
 			temp.setStatus(false);
-		}else{
+		} else {
 			temp.setStatus(true);
 		}
 		IBL.updateUser(temp);
-		
+
 		return true;
-		
+
 	}
-	
-	@POST @Path("uu")
+
+	@POST
+	@Path("uu")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean updateUser(UserDTO data) throws DALException {		;
+	public boolean updateUser(UserDTO data) throws DALException {
+		;
 
-		switch(data.getRole().getRoleID()){
-			case 1: 
-				data.getRole().setRoleName("Administrator");
-				break;
-			case 2:
-				data.getRole().setRoleName("Pharmacist");
-				break;
-			case 3: 
-				data.getRole().setRoleName("Foreman");
-				break;
-			case 4: 
-				data.getRole().setRoleName("Operator");
-				break;
+		switch (data.getRole().getRoleID()) {
+		case 1:
+			data.getRole().setRoleName("Administrator");
+			break;
+		case 2:
+			data.getRole().setRoleName("Pharmacist");
+			break;
+		case 3:
+			data.getRole().setRoleName("Foreman");
+			break;
+		case 4:
+			data.getRole().setRoleName("Operator");
+			break;
 		}
 
 		IBL.updateUser(data);
 		return true;
 	}
-	@GET @Path("getIngredients")
+
+	@GET
+	@Path("getIngredients")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<IngredientDTO> getIngredients() throws DALException {
 		return IBL.getIngredientList();
 	}
-	@GET @Path("getIngredientBatches")
+
+	@GET
+	@Path("getIngredientBatches")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<IngredientBatchDTO> getIngredientBatchList() throws DALException{
+	public List<IngredientBatchDTO> getIngredientBatchList() throws DALException {
 		return IBL.getIngredientBatchList();
 	}
-	@GET @Path("getPB")
+
+	@GET
+	@Path("getPB")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<ProductBatchDTO> getProductBatchList() throws DALException{
+	public List<ProductBatchDTO> getProductBatchList() throws DALException {
 		return IBL.getProductBatchList();
 	}
-	@GET @Path("getPBC/{pbId}")
+
+	@GET
+	@Path("getPBC/{pbId}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<ProductBatchComponentDTO> getProductBatchComponentList(@PathParam("pbId") int pbId) throws DALException{
+	public List<ProductBatchComponentDTO> getProductBatchComponentList(@PathParam("pbId") int pbId)
+			throws DALException {
 		return IBL.getProductBatchComponentList(pbId);
 	}
-	@GET @Path("getRecipeList")
+
+	@GET
+	@Path("getRecipeList")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<RecipeDTO> getRecipeList() throws DALException{
+	public List<RecipeDTO> getRecipeList() throws DALException {
 		return IBL.getRecipeList();
 	}
-	@GET @Path("getRecipeCompList/{recipeID}")
+
+	@GET
+	@Path("getRecipeCompList/{recipeID}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public List<RecipeComponentDTO> getRecipeComponentList(@PathParam("recipeID") int recipeID) throws DALException{
+	public List<RecipeComponentDTO> getRecipeComponentList(@PathParam("recipeID") int recipeID) throws DALException {
 		return IBL.getRecipeComponentList(recipeID);
 	}
 }
