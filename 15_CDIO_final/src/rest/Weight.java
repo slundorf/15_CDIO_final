@@ -203,7 +203,19 @@ public class Weight {
 
 		return IBL.getIngredient(iid);
 	}
+	
+	@POST
+	@Path("valIngID/{id}")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean valIngID(@PathParam("id") Integer iid) throws DALException {
 
+		IBL.getIngredient(iid);
+		
+		return true;
+			
+		}
+		
 	@POST
 	@Path("ui")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

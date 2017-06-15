@@ -14,8 +14,6 @@ table, td {
     table-layout: fixed;
     border: 0px solid black;
      border-collapse: collapse;
-    
-   
 }
 
 th {
@@ -25,8 +23,7 @@ th {
     padding-right:12px;
     text-align: left;
     border-style: solid;
-    tr:hover {background-color: #grey}
-     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+
 }
 
 td, th {
@@ -203,4 +200,16 @@ input#amount0 {
 input#tolerance0 {
 	width: 150px;
 	height: 30px;
+}
+
+
+container2 {
+	width: 550px;
+	height: 30px;
+	
+}
+
+.span3 {
+	width: 150px;
+	float: left;
 }

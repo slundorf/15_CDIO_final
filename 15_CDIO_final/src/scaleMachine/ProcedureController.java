@@ -93,7 +93,7 @@ public class ProcedureController {
 			
 		}
 		
-		
+		productBatch.setStatus("Done");
 		productBatches.updateProductBatch(productBatch);
 		connection.displayMsg("Productbatch complete");
 		
@@ -175,7 +175,6 @@ public class ProcedureController {
 		try {
 			ingredientname = ingredients.getIngredient(productBatchComponentDTO.getIngredientID()).getIngredientName();
 		} catch (DALException e1) {
-			System.out.println("error ingredients.getIngredient(-----)");
 			e1.printStackTrace();
 		}
 		boolean attempt = true;
