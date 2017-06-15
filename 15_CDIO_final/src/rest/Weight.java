@@ -183,6 +183,26 @@ public class Weight {
 		return IBL.getUser(uid);
 	}
 	
+	@POST @Path("getIng/{id}")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public IngredientDTO getIng(@PathParam("id") Integer iid) throws DALException {
+		
+		return IBL.getIngredient(iid);
+	}
+	
+	@POST @Path("ui")
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public boolean updateIngredient(IngredientDTO ing) throws DALException {
+		
+		IBL.updateIngredient(ing);
+		
+		return true;
+		
+	}
+	
+	
 	@GET @Path("currentUserID")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public int getCurrentUserID() {
