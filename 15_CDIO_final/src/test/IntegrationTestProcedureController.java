@@ -11,7 +11,6 @@ import exceptions.scaleConnectionException;
 import scaleMachine.IScaleConnection;
 import scaleMachine.ProcedureController;
 import scaleMachine.ScaleConnection;
-import testData.FakeScaleConnection;
 
 /**
  * @author jonaslarsen

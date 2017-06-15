@@ -31,24 +31,6 @@ public class SerRecipeComponentDAO extends SerDAO<RecipeDTO> implements IRecipeC
 		throw new DALException(
 				"No recipe component found with recipeID = " + recipeID + " and ingredientID = " + ingredientID);
 	}
-	@Override
-	public RecipeComponentDTO getRecipeComponent(int recipeComponentID) throws DALException {
-		loadInfo();
-		for(int i =0;i<list.size();i++){
-			if(list.get(i).getComponents()==null){
-				list.get(i).setComponents(new ArrayList<RecipeComponentDTO>());
-			}
-			for(int j=0;j<list.get(i).getComponents().size();j++){
-//				System.out.println(list.get(i).getComponents().get(j).getRecipeComponentID());
-//				System.out.println(recipeComponentID);
-				if(list.get(i).getComponents().get(j).getRecipeComponentID()==recipeComponentID){
-					return list.get(i).getComponents().get(j);
-				}
-			}
-		}
-		throw new DALException("No recipecomponent found with ID = "+recipeComponentID);
-	}
-	
 
 	@Override
 	public List<RecipeComponentDTO> getRecipeComponentList(int recipeID) throws DALException {
@@ -100,7 +82,8 @@ public class SerRecipeComponentDAO extends SerDAO<RecipeDTO> implements IRecipeC
 		boolean existed = false;
 		for (int i = 0; i < list.size(); i++) {
 			for (int j = 0; j < list.get(i).getComponents().size(); j++) {
-				if (list.get(i).getComponents().get(j).getRecipeComponentID() == recipeComponent.getRecipeComponentID()) {
+				if (list.get(i).getComponents().get(j).getRecipeID() == recipeComponent.getRecipeID() 
+						&&list.get(i).getComponents().get(j).getIngredientID() == recipeComponent.getIngredientID() ) {
 					list.get(i).getComponents().remove(j);
 					list.get(i).addComponent(recipeComponent);
 					existed = true;

@@ -24,12 +24,12 @@ import serDAO.SerProductBatchDAO;
 import serDAO.SerRecipeComponentDAO;
 import serDAO.SerRecipeDAO;
 import serDAO.SerUserDAO;
-import testData.FakeIngredientBatchDAO;
-import testData.FakeIngredientDAO;
-import testData.FakeProductBatchDAO;
-import testData.FakeRecipeComponentsDAO;
-import testData.FakeRecipeDAO;
-import testData.FakeUserDAO;
+import testDataSer.FakeSerIngredientBatchDAO;
+import testDataSer.FakeSerIngredientDAO;
+import testDataSer.FakeSerProductBatchDAO;
+import testDataSer.FakeSerRecipeComponentDAO;
+import testDataSer.FakeSerRecipeDAO;
+import testDataSer.FakeSerUserDAO;
 
 public class ProcedureController {
 
@@ -60,13 +60,13 @@ public class ProcedureController {
 	public ProcedureController(IScaleConnection connection, boolean test) {
 		this.connection = connection;
 		
-		if (test) {
-			users = new FakeUserDAO();
-			productBatches = new FakeProductBatchDAO();
-			ingredientBatches = new FakeIngredientBatchDAO();
-			ingredients = new FakeIngredientDAO();
-			recipes = new FakeRecipeDAO();
-			recipecomponents = new FakeRecipeComponentsDAO();
+		if (test) { // Test mode
+			users = new FakeSerUserDAO();
+			productBatches = new FakeSerProductBatchDAO();
+			ingredientBatches = new FakeSerIngredientBatchDAO();
+			ingredients = new FakeSerIngredientDAO();
+			recipes = new FakeSerRecipeDAO();
+			recipecomponents = new FakeSerRecipeComponentDAO();
 		} else {
 			users = new SerUserDAO();
 			productBatches = new SerProductBatchDAO();

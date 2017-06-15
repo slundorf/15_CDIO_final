@@ -37,7 +37,7 @@ public interface IBusinessLayer {
 	void updateRecipe(RecipeDTO recipe) throws DALException;
 	void createRecipe(RecipeDTO recipe) throws DALException;
 	void createRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException;
-	RecipeComponentDTO getRecipeComponent(int recipeComponentID) throws DALException;
+	RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException;
 	List<RecipeDTO> getRecipeList() throws DALException;
 	List<RecipeComponentDTO> getRecipeComponentList(int recipeID) throws DALException;
 }
