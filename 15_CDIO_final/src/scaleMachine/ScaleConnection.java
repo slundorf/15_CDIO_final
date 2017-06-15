@@ -194,94 +194,16 @@ public class ScaleConnection implements IScaleConnection {
 		}
 	}
 
-	// public String getInput(String msg) throws IOException, InputException{
-
-	//
-	// }
-	//
-	// public void showMessageToUser(String msg) {
-	// outToServer.write("P111 " + msg);
-	// }
-	// public void showMessageToUserRM20(String msg) throws IOException {
-	// outToServer.write("RM20 8 " + msg + "" );
-	// outToServer.flush();
-	// String readLine = readFromSocket();
-	//
-	// if (!"RM20 A".equals(readLine)){
-	// String readLine2 = inFromServer.readLine();
-	// //Parse return string
-	//
-	// }
-	//
-	// }
-	//
-
-	//
-	//
-	//// Skulle vi have brugt, men har ikke tid til at implementere det.
-	//
-	//// private class SocketListener implements Runnable {
-	////
-	//// private BufferedReader bufferedReader;
-	//// private ScaleProcedure scaleController;
-	////
-	//// public SocketListener(InputStream inputStream, ScaleProcedure
-	// scaleController) {
-	//// bufferedReader = new BufferedReader(new
-	// InputStreamReader(inputStream));
-	//// this.scaleController = scaleController;
-	//// }
-	////
-	//// @Override
-	//// public void run() {
-	//// while (true){
-	//// try {
-	//// String readLine = bufferedReader.readLine();
-	//// } catch (IOException e) {
-	//// // TODO Auto-generated catch block
-	//// e.printStackTrace();
-	//// }
-	////
-	//// }
-	////
-	//// }
-	////
-	//// }
-	//
-	//
-	//
-	// public double tara(){
-	// outToServer.write("T");
-	// return 0;
-	//
-	// }
-	//// Hvad sker der hvis det nu ikke er et nummer? Så skal den spørger
-	// igen.
-	//
-	// public int getNumber(String string) throws IOException, InputException {
-	// // TODO Auto-generated method stub
-	// outToServer.write("RM20 8 " + string + "" );
-	// outToServer.flush();
-	// String readLine = readFromSocket();
-	// if ("RM20 B".equals(readLine)){
-	// String readLine2 = inFromServer.readLine();
-	// //Parse return string
-	// return Integer.parseInt(readLine2.split("RM20 A")[1]);
-	//
-	// } else {
-	// throw new InputException();
-	// }
-	//
-	// }
-
 	private String readFromSocket() throws IOException {
 		String answerFromServer;
 		try {
 			answerFromServer = inFromServer.readLine();
 			if (answerFromServer.startsWith("I4")) {
 				answerFromServer = inFromServer.readLine();
+			
 			} else if (answerFromServer.startsWith("RM20 I")) {
 				answerFromServer = inFromServer.readLine();
+			
 			}
 
 			// IF the message is the (RM 20 8 "TEXT" "" "&3") type, the
@@ -291,13 +213,15 @@ public class ScaleConnection implements IScaleConnection {
 			// and then the answer from the user.
 			if (answerFromServer.startsWith("RM20 B")) {
 				answerFromServer = inFromServer.readLine();
+			
 				return answerFromServer;
 			} else {
+				System.out.println(answerFromServer);
 				return answerFromServer;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Error in outputToServer method");
+		
 			return "";// this is only to fulfill compiler demands.
 		}
 	}
@@ -308,9 +232,11 @@ public class ScaleConnection implements IScaleConnection {
 		String answerFromServer;
 		try {
 			answerFromServer = inFromServer.readLine();
+		
 			if (answerFromServer.startsWith("RM30 B")) {
 				outToServer.println("RM39 1");
 				inFromServer.readLine();
+			
 			} else {
 				setSoftKey();
 			}
@@ -320,32 +246,6 @@ public class ScaleConnection implements IScaleConnection {
 			// this is only to fulfill compiler demands.
 		}
 	}
-		
-		
-		
-//		outToServer.println("RM30 \"Ok\"");
-//		outToServer.flush();
-//		String answerFromServer;
-//
-//		try {
-//			answerFromServer = inFromServer.readLine();
-//
-//			if (answerFromServer.startsWith("RM30 B")) {
-//				outToServer.print("RM39 5");
-//				outToServer.flush();
-//				answerFromServer = inFromServer.readLine();
-//				if (!answerFromServer.startsWith("RM39 A"))
-//					setSoftBotton();
-//			} else if (!answerFromServer.startsWith("RM30 B")) {
-//				setSoftBotton();
-//			} else {
-//				throw new scaleConnectionException("unexpected answer setSoftBotton");
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
 	
 
 	@Override
@@ -382,26 +282,6 @@ public class ScaleConnection implements IScaleConnection {
 			e.printStackTrace();
 		}
 	}
-
-//	public void num1() throws scaleConnectionException {
-//		outToServer.println("RM30 \"OK\"");
-//		outToServer.flush();
-//		try {
-//			readFromSocket();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	public void num2() throws scaleConnectionException{
-//		outToServer.println("RM39 1");
-//		outToServer.flush();
-//		try {
-//			readFromSocket();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	
 }
