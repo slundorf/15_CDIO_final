@@ -95,7 +95,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	 * @param user
 	 * @throws DALException
 	 */
-	public void checkUser(UserDTO user) throws DALException {
+	private void checkUser(UserDTO user) throws DALException {
 		// Check for ID already taken.
 		for (int i = 0; i < userDAO.getUserList().size(); i++) {
 			if (userDAO.getUserList().get(i).getUserID() == user.getUserID())
@@ -128,7 +128,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	 * @param user
 	 * @throws DALException
 	 */
-	public void checkUpdatedUser(UserDTO user) throws DALException {
+	private void checkUpdatedUser(UserDTO user) throws DALException {
 
 		// Check username
 		if (user.getUserName().length() > 20 || user.getUserName().length() < 2)
@@ -177,7 +177,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	 * @return finalPassword
 	 * @throws DALException
 	 */
-	public String createPassword() throws DALException {
+	private String createPassword() throws DALException {
 		Random random = new Random();
 		int length = random.nextInt(max - min + 1) + min;
 		char[] password = new char[length];
@@ -224,7 +224,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	 * @param password
 	 * @return index
 	 */
-	public int getNI(Random random, int length, char[] password) {
+	private int getNI(Random random, int length, char[] password) {
 		int index = random.nextInt(length);
 		while (password[index = random.nextInt(length)] != 0)
 			;
@@ -237,7 +237,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	 * @param password
 	 * @throws DALException
 	 */
-	public void checkPassword(String password) throws DALException {
+	private void checkPassword(String password) throws DALException {
 		if (password.length() > max) {
 			throw new DALException("Password is too long");
 		}
