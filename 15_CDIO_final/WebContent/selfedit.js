@@ -5,6 +5,9 @@
 var rootURL = "http://localhost:8080/15_CDIO_final/rest/weight";
 var userID
 
+function login() {
+	return $('#loginForm').serializeJSON()
+}
 function es() {
 	return $('#esForm').serializeJSON()
 }
@@ -14,10 +17,12 @@ $(document).ready(function() {
 	$('#loginButton').click(function() {
 		userID = $('#usrName').val()
 		validateLogin()
+		return false;
 	})
 
 	$('#esButton').click(function() {
 		updateUser();
+		return false;
 	})
 })
 
@@ -46,7 +51,6 @@ function getUser() {
 		data : userID,
 		dataType : "json",
 		success : function(data) {
-			alert(data);
 			$("#eusrID").val(data.userID);
 			$("#eusrName").val(data.userName);
 			$("#eini").val(data.ini);

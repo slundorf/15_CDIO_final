@@ -215,9 +215,9 @@ public class Weight {
 
 	@POST
 	@Path("toggleStatus/{id}")
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean toggleStatus(@PathParam("id") int userID) throws DALException {
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public UserDTO toggleStatus(@PathParam("id") int userID) throws DALException {
 		UserDTO temp = IBL.getUser(userID);
 		if (temp.isStatus()) {
 			temp.setStatus(false);
@@ -226,7 +226,7 @@ public class Weight {
 		}
 		IBL.updateUser(temp);
 
-		return true;
+		return temp;
 
 	}
 
