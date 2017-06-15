@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang=''>
+<!DOCTYPE html>
+<html>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
 <meta charset="UTF-8">
@@ -8,14 +8,12 @@
 <link rel="stylesheet" href="menustyle.css">
 <link rel="stylesheet" href="style.css">
 <script src="jquery-3.2.1.js"></script>
-<script src="jquery.min.js"></script>
 <script src="jquery.serialize-object.min.js"></script>
 <script src="main.js"></script>
-<title>Create user</title>
-
+<title>Start ASE</title>
 </head>
 <body>
-	<div id='container'>
+		<div id="container">
 		<div id='cssmenu'>
 			<ul>
 				<li><a href='rootadminindex.html'><span>Home</span></a></li>
@@ -23,7 +21,7 @@
 					<ul>
 						<li><a href='createuser2.html'><span>Create users</span></a></li>
 						<li><a href='createingredients2.html'><span>Ingredients</span></a></li>
-						<li><a href='createrecept2.html'><span>Recept</span></a></li>
+						<li><a href='createrecept2.html'><span>Recipe</span></a></li>
 						<li><a href='createingredient2.html'><span>Ingredient
 									batch</span></a></li>
 						<li><a href='createproduct2.html'><span>Product
@@ -45,49 +43,26 @@
 				<li><a href='editingredient2.html'><span>Edit
 							ingredients</span></a></li>
 				<li><a href='peditself2.html'><span>Edit profile</span></a></li>
-					
+					<li><a href='rase.html'><span>Start ASE</span></a></li>
 			</ul>
-			<li><a href='rase.html'><span>Start ASE</span></a></li>
 			</ul>
 		</div>
-		<div id='box'>
-
-			<form id="cuForm">
-
-					<label for="userID">User ID:</label>
-					<input id="usrID" name="userID" type="number" required min="11" max="99">					
-					<br/>
-					<br/>
-					<label for="usrName">Full name:</label>
-					<input id="usrName" name="userName" type="text" required>
-					<br/>
-					<br/>
-					<label for="ini">Initials:</label>
-					<input id="ini" name="ini" type="text" required>
-					<br/>
-					<br/>
-					<label for="cpr">Social security number:</label>
-					<input id="cpr" name="cpr" type="text" required>
-					<input id="psword" name="password" type="hidden" value="">
-					<br/>
-					<br/>
-					<label for="role">Choose a role</label>
-					<select name="role[roleID]" id="roleID">
-					<option value=1>Administrator</option>
-    				<option value="2">Pharmacist</option>
-    				<option value="3">Foreman</option>
-   					<option value="4">Operator</option>
-  					</select>
-  					<input type="hidden" name="role[roleName]" id="hiddenRole" value="" />
-  					<br/>
-  					<br/>
-  					<br/>
-					<button id="cuButton">Create user</button>
-
-			</form>
-
+		<div id="box">
+		<div class="container">
+		<form>
+		</br>
+		</br>
+		</br>
+			<button id="runASE">RunASE</button><br>
+			</br>
+			</br>
+			</br>
+			</br>
+			<label for="ipadresse">IP adress:</label>
+			<input type="text" id="ipadress"></input>
+		</form>
 		</div>
-	</div>
-
+		</div>
+		</div>
 </body>
 </html>

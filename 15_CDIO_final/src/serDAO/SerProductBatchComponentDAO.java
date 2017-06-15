@@ -19,19 +19,19 @@ public class SerProductBatchComponentDAO extends SerDAO<ProductBatchDTO> impleme
 	}
 
 	@Override
-	public ProductBatchComponentDTO getProduktBatchComp(int pbId, int ingrbatchId) throws DALException {
+	public ProductBatchComponentDTO getProduktBatchComp(int pbId, int ingrId) throws DALException {
 		loadInfo();
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getProductBatchID() == pbId) {
 				for (int j = 0; j < list.get(i).getComponents().size(); j++) {
-					if (list.get(i).getComponents().get(j).getIngredientBatchID() == ingrbatchId) {
+					if (list.get(i).getComponents().get(j).getIngredientID() == ingrId) {
 						return list.get(i).getComponents().get(j);
 					}
 				}
 			}
 		}
 		throw new DALException(
-				"No Product batch found with id = " + pbId + " and ingredient batch id = " + ingrbatchId);
+				"No Product batch found with id = " + pbId + " and ingredient batch id = " + ingrId);
 	}
 
 	@Override
