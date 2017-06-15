@@ -228,13 +228,12 @@ function toggleStatus(element){
 		data: " ",
 		contentType: "application/json",
 		dataType: "json",
-		success: function(response) { 
+		success: function(response, textStatus, errorThrown) { 
 			console.log("Success changing status");
 			getUsers();
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("Error changing status");
-			alert(jqXHR.responseText)
 		}
 	});
 }
