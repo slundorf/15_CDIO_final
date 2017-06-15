@@ -23,6 +23,7 @@ public interface IUserDAO {
 	/**
 	 * 
 	 * @param user
+	 * @return 
 	 * @throws DALException
 	 */
 	void createUser(UserDTO user) throws DALException;

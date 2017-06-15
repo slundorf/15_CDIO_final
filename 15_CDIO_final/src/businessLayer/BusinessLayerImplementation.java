@@ -34,7 +34,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	private final int noOfSChars = 1;
 	private final int min = 9;
 	private final int max = 12;
-	
+
 	private IUserDAO userDAO;
 	private IRoleDAO roleDAO;
 	private IIngredientDAO ingredientDAO;
@@ -43,25 +43,28 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	private IProductBatchDAO productBatchDAO;
 	private IProductBatchComponentDAO productBatchComponentDAO;
 	private IRecipeComponentDAO recipeComponentDAO;
-	
-	
-	public BusinessLayerImplementation(IUserDAO userDAO, IRoleDAO roleDAO, IIngredientDAO ingredientDAO, IIngredientBatchDAO ingredientBatchDAO, IRecipeDAO recipeDAO, 
-			IProductBatchDAO productBatchDAO, IProductBatchComponentDAO productBatchComponentDAO, IRecipeComponentDAO recipeComponentDAO) {
-		this.userDAO=userDAO;
-		this.roleDAO=roleDAO;
-		this.ingredientDAO=ingredientDAO;
-		this.ingredientBatchDAO=ingredientBatchDAO;
-		this.recipeDAO=recipeDAO;
-		this.productBatchDAO=productBatchDAO;
-		this.productBatchComponentDAO=productBatchComponentDAO;
-		this.recipeComponentDAO=recipeComponentDAO;
+
+	public BusinessLayerImplementation(IUserDAO userDAO, IRoleDAO roleDAO, IIngredientDAO ingredientDAO,
+			IIngredientBatchDAO ingredientBatchDAO, IRecipeDAO recipeDAO, IProductBatchDAO productBatchDAO,
+			IProductBatchComponentDAO productBatchComponentDAO, IRecipeComponentDAO recipeComponentDAO) {
+		this.userDAO = userDAO;
+		this.roleDAO = roleDAO;
+		this.ingredientDAO = ingredientDAO;
+		this.ingredientBatchDAO = ingredientBatchDAO;
+		this.recipeDAO = recipeDAO;
+		this.productBatchDAO = productBatchDAO;
+		this.productBatchComponentDAO = productBatchComponentDAO;
+		this.recipeComponentDAO = recipeComponentDAO;
 	}
+
 	@Override
-	public int login(int userID, String password) throws DALException{
-		if(userDAO.getUser(userID).getPassword().equals(password)) {
-			return userDAO.getUser(userID).getRole().getRoleID();			
-		} throw new DALException("Incorrect userID or password.");
+	public int login(int userID, String password) throws DALException {
+		if (userDAO.getUser(userID).getPassword().equals(password)) {
+			return userDAO.getUser(userID).getRole().getRoleID();
+		}
+		throw new DALException("Incorrect userID or password.");
 	}
+
 	@Override
 	public UserDTO getUser(int userID) throws DALException {
 		return userDAO.getUser(userID);
@@ -85,27 +88,28 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		checkUpdatedUser(user);
 		userDAO.updateUser(user);
 	}
-	
+
 	/**
 	 * check user for creation specs.
+	 * 
 	 * @param user
 	 * @throws DALException
 	 */
 	public void checkUser(UserDTO user) throws DALException {
-		//Check for ID already taken.
+		// Check for ID already taken.
 		for (int i = 0; i < userDAO.getUserList().size(); i++) {
 			if (userDAO.getUserList().get(i).getUserID() == user.getUserID())
 				throw new DALException("UserID already taken.");
 		}
-		//Check username
+		// Check username
 		if (user.getUserName().length() > 20 || user.getUserName().length() < 2)
 			throw new DALException("Username length must be between 2 and 20 characters");
 		/*
-		 * Check Initials
-		 * tempIni.matches(".*\\d+.*") ---------------------------- To explain:
-		 * .* means any character from 0 to infinite occurence, than the \\d+
-		 * (double backslash I think is just to escape the second backslash) and
-		 * \d+ means a digit from 1 time to infinite.
+		 * Check Initials tempIni.matches(".*\\d+.*")
+		 * ---------------------------- To explain: .* means any character from
+		 * 0 to infinite occurence, than the \\d+ (double backslash I think is
+		 * just to escape the second backslash) and \d+ means a digit from 1
+		 * time to infinite.
 		 */
 		if (user.getIni().matches(".*\\d+.*")) {
 			throw new DALException("Initials contains illegal characters");
@@ -113,28 +117,29 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		if (user.getIni().length() < 2 || user.getIni().length() > 4) {
 			throw new DALException("Initials should have a length between [2-4]");
 		}
-		//Check CPR number
+		// Check CPR number
 		checkCpr(user.getCpr());
 
 	}
 
 	/**
 	 * check user for update specs
+	 * 
 	 * @param user
 	 * @throws DALException
 	 */
 	public void checkUpdatedUser(UserDTO user) throws DALException {
-		
-		//Check username
+
+		// Check username
 		if (user.getUserName().length() > 20 || user.getUserName().length() < 2)
 			throw new DALException("Username length must be between 2 and 20 characters");
 
 		/*
-		 * Check Initials
-		 * tempIni.matches(".*\\d+.*") ---------------------------- To explain:
-		 * .* means any character from 0 to infinite occurence, than the \\d+
-		 * (double backslash I think is just to escape the second backslash) and
-		 * \d+ means a digit from 1 time to infinite.
+		 * Check Initials tempIni.matches(".*\\d+.*")
+		 * ---------------------------- To explain: .* means any character from
+		 * 0 to infinite occurence, than the \\d+ (double backslash I think is
+		 * just to escape the second backslash) and \d+ means a digit from 1
+		 * time to infinite.
 		 */
 		if (user.getIni().matches(".*\\d+.*")) {
 			throw new DALException("Initials contains illegal characters");
@@ -146,11 +151,12 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		for (int i = 0; i < userDAO.getUserList().size(); i++) {
 			if (user.getIni().equals(userDAO.getUserList().get(i).getIni())) {
 				if (!(userDAO.getUserList().get(i).getUserID() == user.getUserID())) {
-					throw new DALException("Initials already taken"); }
+					throw new DALException("Initials already taken");
+				}
 			}
 		}
-		
-		//Check CPR number
+
+		// Check CPR number
 		checkCpr(user.getCpr());
 		for (int i = 0; i < userDAO.getUserList().size(); i++) {
 			if (!(user.getUserID() == userDAO.getUserList().get(i).getUserID())) {
@@ -159,8 +165,8 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 				}
 			}
 		}
-		
-		//check password
+
+		// check password
 		checkPassword(user.getPassword());
 
 	}
@@ -300,10 +306,10 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 
 	@Override
 	public void createRole(RoleDTO role) throws DALException {
-		if(role.getRoleID()<0 || role.getRoleID()>9)
+		if (role.getRoleID() < 0 || role.getRoleID() > 9)
 			throw new DALException("Invalid ID");
-		for(int i =0;i<roleDAO.getRoleList().size();i++){
-			if(roleDAO.getRole(i).getRoleID()==role.getRoleID()){
+		for (int i = 0; i < roleDAO.getRoleList().size(); i++) {
+			if (roleDAO.getRole(i).getRoleID() == role.getRoleID()) {
 				throw new DALException("ID already taken.");
 			}
 		}
@@ -315,144 +321,168 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 		roleDAO.updateRole(role);
 	}
 
-	public IngredientDTO getIngredient(int ingredientID) throws DALException{
+	public IngredientDTO getIngredient(int ingredientID) throws DALException {
 		return ingredientDAO.getIngredient(ingredientID);
 	}
-	public List<IngredientDTO> getIngredientList() throws DALException{
+
+	public List<IngredientDTO> getIngredientList() throws DALException {
 		return ingredientDAO.getIngredientList();
 	}
-	public void createIngredient(IngredientDTO ingredient) throws DALException{
-		if(ingredient.getIngredientID()<100 || ingredient.getIngredientID()>199){
-			throw new DALException("Invalid ID");
+
+	public void createIngredient(IngredientDTO ingredient) throws DALException {
+		if (ingredient.getIngredientID() < 100 || ingredient.getIngredientID() > 199) {
+			throw new DALException("Invalid ingredient ID");
 		}
-		for(int i=0;i<ingredientDAO.getIngredientList().size();i++){
-			if(ingredientDAO.getIngredientList().get(i).getIngredientID()==ingredient.getIngredientID()){
-				throw new DALException("ID already taken");
-			}else if(ingredientDAO.getIngredientList().get(i).getIngredientName().equals(ingredient.getIngredientName()) 
-					&& ingredientDAO.getIngredientList().get(i).getSupplier().equals(ingredient.getSupplier())){
+		for (int i = 0; i < ingredientDAO.getIngredientList().size(); i++) {
+			if (ingredientDAO.getIngredientList().get(i).getIngredientID() == ingredient.getIngredientID()) {
+				throw new DALException("Ingredient ID already taken");
+			} else if (ingredientDAO.getIngredientList().get(i).getIngredientName()
+					.equals(ingredient.getIngredientName())
+					&& ingredientDAO.getIngredientList().get(i).getSupplier().equals(ingredient.getSupplier())) {
 				throw new DALException("This combination of ingredient and Supplier already exists.");
 			}
 		}
 		ingredientDAO.createIngredient(ingredient);
 	}
-	public void updateIngredient(IngredientDTO ingredient) throws DALException{
-		for(int i=0;i<ingredientDAO.getIngredientList().size();i++){
-			if(ingredientDAO.getIngredientList().get(i).getIngredientName().equals(ingredient.getIngredientName()) 
-					&& ingredientDAO.getIngredientList().get(i).getSupplier().equals(ingredient.getSupplier())){
+
+	public void updateIngredient(IngredientDTO ingredient) throws DALException {
+		for (int i = 0; i < ingredientDAO.getIngredientList().size(); i++) {
+			if (ingredientDAO.getIngredientList().get(i).getIngredientName().equals(ingredient.getIngredientName())
+					&& ingredientDAO.getIngredientList().get(i).getSupplier().equals(ingredient.getSupplier())) {
 				throw new DALException("This combination of ingredient and Supplier already exists.");
 			}
 		}
 		ingredientDAO.updateIngredient(ingredient);
 	}
+
 	public ProductBatchComponentDTO getProductBatchComponent(int pbId, int ingrbatchId) throws DALException {
 		return productBatchComponentDAO.getProduktBatchComp(pbId, ingrbatchId);
 	}
-	
+
 	public List<ProductBatchComponentDTO> getProductBatchComponentList(int pbId) throws DALException {
 		return productBatchComponentDAO.getProductBatchComponentList(pbId);
 	}
-	
+
 	public List<ProductBatchComponentDTO> getProductBatchComponentList() throws DALException {
 		return productBatchComponentDAO.getProductBatchComponentList();
 	}
-	
+
 	public void updateProductBatchComponent(ProductBatchComponentDTO productbatchComponent) throws DALException {
 		productBatchComponentDAO.updateProductBatchComponent(productbatchComponent);
 	}
-	
+
 	public ProductBatchDTO getProductBatch(int pbId) throws DALException {
 		return productBatchDAO.getProductBatch(pbId);
 	}
-	
+
 	public List<ProductBatchDTO> getProductBatchList() throws DALException {
 		return productBatchDAO.getProductBatchList();
 	}
-	
+
 	public void createProductBatch(ProductBatchDTO productbatch) throws DALException {
-		for(int i=0;i<productBatchDAO.getProductBatchList().size();i++) {
-			if(productBatchDAO.getProductBatch(i).getProductBatchID()==productbatch.getProductBatchID()) {
+		for (int i = 0; i < productBatchDAO.getProductBatchList().size(); i++) {
+			if (productBatchDAO.getProductBatch(i).getProductBatchID() == productbatch.getProductBatchID()) {
 				throw new DALException("ID already taken.");
-			} 
+			}
 		}
-		
-		for(int i = 0; i<recipeDAO.getRecipe(productbatch.getRecipeID()).getComponents().size();i++){
+
+		for (int i = 0; i < recipeDAO.getRecipe(productbatch.getRecipeID()).getComponents().size(); i++) {
 			productbatch.addComponent(new ProductBatchComponentDTO(productbatch.getProductBatchID(),
 					recipeDAO.getRecipe(productbatch.getRecipeID()).getComponents().get(i).getIngredientID()));
 		}
 		productBatchDAO.createProductBatch(productbatch);
 	}
-	
+
 	public void updateProductBatch(ProductBatchDTO productbatch) throws DALException {
 		productBatchDAO.updateProductBatch(productbatch);
 	}
-	
+
 	public RecipeDTO getRecipe(int recipeID) throws DALException {
 		return recipeDAO.getRecipe(recipeID);
 	}
-	
+
 	public List<RecipeDTO> getRecipeList() throws DALException {
 		return recipeDAO.getRecipeList();
 	}
-	
+
 	public void createRecipe(RecipeDTO recipe) throws DALException {
-		for(int i=0;i<recipeDAO.getRecipeList().size();i++) {
-			if(recipeDAO.getRecipeList().get(i).getRecipeID()==recipe.getRecipeID()) {
-				throw new DALException("ID already taken.");
-			} 
+		for (int i = 0; i < recipeDAO.getRecipeList().size(); i++) {
+			if (recipeDAO.getRecipeList().get(i).getRecipeID() == recipe.getRecipeID()) {
+				throw new DALException("Recipe ID already taken.");
+			}
 		}
 		recipeDAO.createRecipe(recipe);
 	}
-	
+
 	public void updateRecipe(RecipeDTO recipe) throws DALException {
 		recipeDAO.updateRecipe(recipe);
 		//////////
 	}
-	
+
 	public List<RecipeComponentDTO> getRecipeComponentList() throws DALException {
 		return recipeComponentDAO.getRecipeComponentList();
 	}
-	
-	
+
 	public void updateRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
 		recipeComponentDAO.updateRecipeComponent(recipeComponent);
 		////////////
 	}
-	public IngredientBatchDTO getIngredientBatch(int ibId) throws DALException{
+
+	public IngredientBatchDTO getIngredientBatch(int ibId) throws DALException {
 		return ingredientBatchDAO.getIngredientBatch(ibId);
 	}
-	public List<IngredientBatchDTO> getIngredientBatchList() throws DALException{
+
+	public List<IngredientBatchDTO> getIngredientBatchList() throws DALException {
 		return ingredientBatchDAO.getIngredientBatchList();
 	}
-	public void createIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException{
-		for(int i =0; i< ingredientBatchDAO.getIngredientBatchList().size();i++){
-			if(ingredientBatchDAO.getIngredientBatchList().get(i).getIngredientBatchID()==ingredientBatch.getIngredientBatchID()){
+
+	public void createIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException {
+		for (int i = 0; i < ingredientBatchDAO.getIngredientBatchList().size(); i++) {
+			if (ingredientBatchDAO.getIngredientBatchList().get(i).getIngredientBatchID() == ingredientBatch
+					.getIngredientBatchID()) {
 				throw new DALException("IngredientBatch ID already exists.");
 			}
 		}
 		ingredientBatchDAO.createIngredientBatch(ingredientBatch);
 	}
+
 	public void updateIngredientBatch(IngredientBatchDTO ingredientBatch) throws DALException {
 		ingredientBatchDAO.updateIngredientBatch(ingredientBatch);
 	}
+
 	@Override
 	public void createRecipeComponent(RecipeComponentDTO recipeComponent) throws DALException {
-		for(int i=0;i<recipeComponentDAO.getRecipeComponentList().size(); i++) {
-			if(recipeComponentDAO.getRecipeComponentList().get(i).getRecipeID()==recipeComponent.getRecipeID()
-					&& recipeComponentDAO.getRecipeComponentList().get(i).getRecipeID()==recipeComponent.getIngredientID()) {
-				throw new DALException("Recipe "+recipeComponent.getRecipeID()+" already has ingredient "+recipeComponent.getIngredientID()+" in a component.");				
-			} 
+		boolean existed = false;
+		for (int i = 0; i < ingredientDAO.getIngredientList().size(); i++) {
+			if (ingredientDAO.getIngredientList().get(i).getIngredientID() == recipeComponent.getIngredientID()) {
+				existed = true;
+			}
+		}
+		if (!existed) {
+			throw new DALException("No ingredient exists with ingredient ID " + recipeComponent.getIngredientID()
+					+ ". Please enter an existing ingredient ID");
+		}
+
+		for (int i = 0; i < recipeComponentDAO.getRecipeComponentList().size(); i++) {
+			if (recipeComponentDAO.getRecipeComponentList().get(i).getRecipeID() == recipeComponent.getRecipeID()
+					&& recipeComponentDAO.getRecipeComponentList().get(i).getRecipeID() == recipeComponent
+							.getIngredientID()) {
+				throw new DALException("Recipe " + recipeComponent.getRecipeID() + " already has ingredient "
+						+ recipeComponent.getIngredientID() + " in a component.");
+			}
 		}
 
 		recipeComponentDAO.createRecipeComponent(recipeComponent);
 	}
+
 	@Override
 	public List<RecipeComponentDTO> getRecipeComponentList(int recipeID) throws DALException {
 		return recipeComponentDAO.getRecipeComponentList(recipeID);
 	}
+
 	@Override
 	public RecipeComponentDTO getRecipeComponent(int recipeID, int ingredientID) throws DALException {
 		return recipeComponentDAO.getRecipeComponent(recipeID, ingredientID);
 	}
-	
-}
 
+}
