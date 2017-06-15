@@ -202,21 +202,14 @@ input#tolerance0 {
 	height: 30px;
 }
 
-box11 {
-	width: 150px;
-	height: 30px;
-}
-box22 {
-	width: 150px;
-	height: 30px;
-}
-box33 {
-	width: 150px;
-	height: 30px;
-}
 
 container2 {
 	width: 550px;
 	height: 30px;
 	
+}
+
+.span3 {
+	width: 150px;
+	float: left;
 }
