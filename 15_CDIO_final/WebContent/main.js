@@ -50,6 +50,19 @@ $('#pbcButton').click(function() {
 	createProductBatchComponent();
 	return false;
 });
+$('#runASE').click(function(){
+	$.ajax({
+		type: 'GET',
+		url: rootURL + '/ASE/'+$('#ipadress').val(),
+		dataType: 'text',
+		success: function(data, textStatus, jqXHR) {
+			console.log(textStatus);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus);
+		}
+	});
+});
 getUsers();
 getIngredients();
 getIngredientbs();
