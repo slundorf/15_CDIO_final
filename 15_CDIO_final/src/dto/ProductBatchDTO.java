@@ -68,6 +68,9 @@ public class ProductBatchDTO implements Serializable{
 	 * @param component adds a component to the current list of components
 	 */
 	public void addComponent(ProductBatchComponentDTO component){
+		if(components==null) {
+			components = new ArrayList<ProductBatchComponentDTO>();
+		}
 		components.add(component);
 	}
 	/**
