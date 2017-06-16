@@ -97,7 +97,7 @@ public class ProcedureController {
 		productBatches.updateProductBatch(productBatch);
 		connection.displayMsg("Productbatch complete");
 		
-		//clean the 
+		//clean the scale
 		connection.removeProductBatchID();
 		connection.removeOperatorInitials();
 

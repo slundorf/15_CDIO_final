@@ -105,7 +105,7 @@ public class InitializingDATA {
 		
 		IRoleDAO roleDAO = new SerRoleDAO();
 		
-		RoleDTO role1 = new RoleDTO(1, "Administator");
+		RoleDTO role1 = new RoleDTO(1, "Administrator");
 		RoleDTO role2 = new RoleDTO(2, "Pharmacist");
 		RoleDTO role3 = new RoleDTO(3, "Foreman");
 		RoleDTO role4 = new RoleDTO(4, "Operator");
