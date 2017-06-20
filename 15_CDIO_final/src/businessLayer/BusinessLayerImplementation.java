@@ -25,15 +25,15 @@ import interfaces.IRoleDAO;
 import interfaces.IUserDAO;
 
 public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
-	private final String uLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private final String lLetter = "abcdefghijklmnopqrstuvwxyz";
-	private final String number = "0123456789";
-	private final String sChars = "!@#$%^&*_=+-/";
-	private final int noOfLetters = 1;
-	private final int noOfNumbers = 1;
-	private final int noOfSChars = 1;
-	private final int min = 9;
-	private final int max = 12;
+	private final String ULetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Upper case
+	static private final String Lletter = "abcdefghijklmnopqrstuvwxyz"; // Lower case
+	static private final String Number = "0123456789";
+	static private final String SChars = "!@#$%^&*_=+-/";
+	static private final int noOfBLetter = 1; // How many Uppercase letters
+	static private final int noOfNumbers = 1; // How many numbers
+	static private final int noOfSChars = 1; // How many special chars
+	static private final int min = 9; // Min lenght
+	static private final int max = 12; // Max lenght
 
 	private IUserDAO userDAO;
 	private IRoleDAO roleDAO;
@@ -179,41 +179,33 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 	 */
 	private String createPassword() throws DALException {
 		Random random = new Random();
-		int length = random.nextInt(max - min + 1) + min;
-		char[] password = new char[length];
+		int lenght = random.nextInt(max - min + 1) + min;
+		char[] password = new char[lenght];
 		int index = 0;
-		boolean con= true;
-		String finalPassword = "";
-		while (true) {
-			for (int i = 0; i < noOfLetters; i++) {
-				index = getNI(random, length, password);
-				password[index] = uLetter.charAt(random.nextInt(uLetter.length()));
-			}
-			for (int i = 0; i < noOfNumbers; i++) {
-				index = getNI(random, length, password);
-				password[index] = number.charAt(random.nextInt(number.length()));
-			}
-			for (int i = 0; i < noOfSChars; i++) {
-				index = getNI(random, length, password);
-				password[index] = sChars.charAt(random.nextInt(sChars.length()));
-			}
-			for (int i = 0; i < noOfNumbers; i++) {
-				if (password[i] == 0) {
-					password[i] = lLetter.charAt(random.nextInt(lLetter.length()));
-				}
-			}
-			for (int i = 0; i < password.length; i++) {
-				finalPassword += password[i];
-			}
-			try {
-				checkPassword(finalPassword);
-				con=false;
-				break;
-			} catch (Exception e) {
-				con=true;
+		
+		for (int i = 0; i < noOfBLetter; i++) {
+			index = getNI(random, lenght, password);
+			password[index] = ULetter.charAt(random.nextInt(ULetter.length()));
+		}
+		for (int i = 0; i < noOfNumbers; i++) {
+			index = getNI(random, lenght, password);
+			password[index] = Number.charAt(random.nextInt(Number.length()));
+		}
+		for (int i = 0; i < noOfSChars; i++) {
+			index = getNI(random, lenght, password);
+			password[index] = SChars.charAt(random.nextInt(SChars.length()));
+		}
+		for (int i = 0; i < lenght; i++) {
+			if (password[i] == 0) {
+				password[i] = Lletter.charAt(random.nextInt(Lletter.length()));
 			}
 		}
-		return finalPassword;
+		String returnString = "";
+		for (int i = 0; i < password.length; i++) {
+			returnString += password[i];
+		}
+		return returnString;
+
 	}
 
 	/**
@@ -257,8 +249,8 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 				noSChars++;
 			}
 		}
-		if (noCAPS < noOfLetters) {
-			throw new DALException("Password must contain at least " + noOfLetters + " upper case characters.");
+		if (noCAPS < noOfBLetter) {
+			throw new DALException("Password must contain at least " + noOfBLetter + " upper case characters.");
 		}
 		if (noSChars < noOfSChars) {
 			throw new DALException(
