@@ -28,9 +28,11 @@ public class InitializingDATA {
 		IngredientDTO I1 = new IngredientDTO(101, "Salt", "supplier1");
 		IngredientDTO I2 = new IngredientDTO(102, "Water", "supplier2");
 		IngredientDTO I3 = new IngredientDTO(103, "Lemon", "supplier3");
+		IngredientDTO I4 = new IngredientDTO(125,"Gin","Hendrick's");
 		ingredientDAO.createIngredient(I1);
 		ingredientDAO.createIngredient(I2);
 		ingredientDAO.createIngredient(I3);
+		ingredientDAO.createIngredient(I4);
 
 		IIngredientBatchDAO ingredientBatchDAO = new SerIngredientBatchDAO();
 
@@ -38,11 +40,13 @@ public class InitializingDATA {
 		IngredientBatchDTO IB2 = new IngredientBatchDTO(201, 102, 50);
 		IngredientBatchDTO IB3 = new IngredientBatchDTO(202, 102, 60);
 		IngredientBatchDTO IB4 = new IngredientBatchDTO(203, 103, 10);
+		IngredientBatchDTO IB5 = new IngredientBatchDTO(225,125,0.5);
 
 		ingredientBatchDAO.createIngredientBatch(IB1);
 		ingredientBatchDAO.createIngredientBatch(IB2);
 		ingredientBatchDAO.createIngredientBatch(IB3);
 		ingredientBatchDAO.createIngredientBatch(IB4);
+		ingredientBatchDAO.createIngredientBatch(IB5);
 		
 		IRecipeDAO recipeDAO = new SerRecipeDAO();
 		RecipeDTO R1 = new RecipeDTO(301, "SaltWater");
