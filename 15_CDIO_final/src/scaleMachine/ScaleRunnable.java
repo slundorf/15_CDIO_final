@@ -21,7 +21,7 @@ public class ScaleRunnable implements Runnable{
 		p = new ProcedureController(sc, false);
 		try {
 			p.startScaleProcess();
-		} catch (DALException | IOException | scaleConnectionException e) {
+		} catch (DALException | scaleConnectionException e) {
 			e.printStackTrace();
 		}
 	}
