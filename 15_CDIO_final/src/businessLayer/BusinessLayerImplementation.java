@@ -397,7 +397,7 @@ public class BusinessLayerImplementation implements IBusinessLayer, IRoleDAO {
 
 	public void createProductBatch(ProductBatchDTO productbatch) throws DALException {
 		for (int i = 0; i < productBatchDAO.getProductBatchList().size(); i++) {
-			if (productBatchDAO.getProductBatch(i).getProductBatchID() == productbatch.getProductBatchID()) {
+			if (productBatchDAO.getProductBatchList().get(i).getProductBatchID() == productbatch.getProductBatchID()) {
 				throw new DALException("ID already taken.");
 			}
 		}
